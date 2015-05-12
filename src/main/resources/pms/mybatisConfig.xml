@@ -10,6 +10,6 @@
 		<plugin interceptor="com.fanqie.dc.support.interceptor.PaginationInterceptor"/>
 	</plugins>
 	<mappers>
-		<mapper resource="pms/mapper/IPMap.xml"></mapper>
+		<mapper resource="pms/mapper/InnPmsActiveMapper.xml"></mapper>
 	</mappers>
 </configuration>
