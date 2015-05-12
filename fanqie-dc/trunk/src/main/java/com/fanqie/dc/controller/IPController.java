@@ -2,9 +2,9 @@ package com.fanqie.dc.controller;
 
 
 import com.fanqie.dc.common.Param;
-import com.fanqie.dc.domain.IPEntity;
+import com.fanqie.dc.domain.InnActive;
 import com.fanqie.dc.domain.UserBean;
-import com.fanqie.dc.service.IIPService;
+import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IUserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,38 +24,25 @@ import java.util.Map;
  * @version: v1.0.0
  */
 @Controller
-@RequestMapping("/test")
+@RequestMapping("/inn")
 public class IPController {
     private static Logger logger = LoggerFactory.getLogger(IPController.class);
-    @Autowired
-    private IIPService ipService;
-    @Autowired
-    private IUserService userService;
 
-    @RequestMapping("/test")
+    @Autowired
+    private IInnActiveService innActiveService;
+
+    @RequestMapping("/active")
     @ResponseBody
     public Object validateIp(){
       final   Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        List<IPEntity> validIp = ipService.findValidIp(null, null);
+        String from = "2015-05-05 00:00:00";
+        String to = "2015-05-05 23:59:59";
 
-        for (IPEntity ipEntity:validIp){
-            UserBean userBean = new UserBean();
-            userBean.setId(ipEntity.getId());
-            userBean.setName(ipEntity.getIp());
-            userService.save(userBean);
-        }
+        List<InnActive> innActive = innActiveService.findDayInnActive(from, to);
+        innActiveService.saveInnActive(innActive);
 
         return param;
     }
 
-
-    @RequestMapping("/obt")
-    @ResponseBody
-    public Object obtIp(){
-        Map<String,Object> param = new HashMap<String, Object>();
-        List<UserBean> list = userService.findAll();
-        param.put("list",list);
-        return    param;
-    }
 }

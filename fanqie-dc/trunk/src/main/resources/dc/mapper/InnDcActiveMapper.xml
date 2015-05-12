@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.domain.InnActive">
+   <resultMap id="mapId" type="com.fanqie.dc.domain.InnActive">
+        <result column="id" property="id"/>
+        <result column="innId" property="inn_id"/>
+        <result column="innName" property="inn_name"/>
+        <result column="status" property="status"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="check_in_num" property="checkInNum"/>
+        <result column="check_out_num" property="checkOutMum"/>
+        <result column="msg_num" property="msgNum"/>
+        <result column="operate_num" property="operateNum"/>
+        <result column="create_date" property="createDate"/>
+   </resultMap>
+
+    <insert id="saveInnActive" parameterType="java.util.Map">
+        insert into inn_active(id,inn_id,inn_name,mobile,create_date,order_num,check_in_num,check_out_num,msg_num,operate_num)
+        values
+        <if test="list.size() > 0">
+            <foreach collection="list" item="v" separator=","  >
+                ( '${v.id}','${v.innId}','${v.innName}','${v.mobile}',#{now},#{v.orderNum},#{v.checkInNum},#{v.checkOutNum},#{v.msgNum},#{v.operateNum})
+            </foreach>
+        </if>
+    </insert>
+
+
+</mapper>
