@@ -11,5 +11,6 @@
 	</plugins>
 	<mappers>
 		<mapper resource="pms/mapper/InnPmsActiveMapper.xml"></mapper>
+		<mapper resource="pms/mapper/OperateTrendPmsMapper.xml"></mapper>
 	</mappers>
 </configuration>
