@@ -1,11 +1,10 @@
-package com.fanqie.dc.controller;
+package com.fanqie.dc.controller.pms;
 
 
 import com.fanqie.dc.common.Param;
 import com.fanqie.dc.domain.InnActive;
-import com.fanqie.dc.domain.UserBean;
 import com.fanqie.dc.service.IInnActiveService;
-import com.fanqie.dc.service.IUserService;
+import com.fanqie.util.DateUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,15 +17,15 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * DESC : ip库Controller
+ * DESC : 活跃客栈
  * @author : 番茄木-ZLin
  * @data : 2015/4/22
  * @version: v1.0.0
  */
 @Controller
 @RequestMapping("/inn")
-public class IPController {
-    private static Logger logger = LoggerFactory.getLogger(IPController.class);
+public class InnActiveController {
+    private static Logger logger = LoggerFactory.getLogger(InnActiveController.class);
 
     @Autowired
     private IInnActiveService innActiveService;
@@ -38,7 +37,8 @@ public class IPController {
         param.put("result", Param.SUCCESS);
         String from = "2015-05-05 00:00:00";
         String to = "2015-05-05 23:59:59";
-
+        from = DateUtil.fromDate(-1);
+        to = DateUtil.toDate(-1);
         List<InnActive> innActive = innActiveService.findDayInnActive(from, to);
         innActiveService.saveInnActive(innActive);
 
