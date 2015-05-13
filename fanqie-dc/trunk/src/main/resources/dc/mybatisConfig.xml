@@ -11,5 +11,6 @@
 	</plugins>
 	<mappers>
 		<mapper resource="dc/mapper/InnDcActiveMapper.xml"></mapper>
+		<mapper resource="dc/mapper/OperateTrendDcMapper.xml"></mapper>
 	</mappers>
 </configuration>
