@@ -5,12 +5,13 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 <mapper namespace="com.fanqie.dc.domain.InnActive">
    <resultMap id="mapId" type="com.fanqie.dc.domain.InnActive">
         <result column="id" property="id"/>
-        <result column="innId" property="inn_id"/>
-        <result column="innName" property="inn_name"/>
+        <result column="inn_id" property="innId"/>
+        <result column="inn_name" property="innName"/>
+        <result column="mobile" property="mobile"/>
         <result column="status" property="status"/>
         <result column="order_num" property="orderNum"/>
         <result column="check_in_num" property="checkInNum"/>
-        <result column="check_out_num" property="checkOutMum"/>
+        <result column="check_out_num" property="checkOutNum"/>
         <result column="msg_num" property="msgNum"/>
         <result column="operate_num" property="operateNum"/>
         <result column="create_date" property="createDate"/>
@@ -18,12 +19,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <select id="findDayInnActive" parameterType="java.util.Map" resultMap="mapId">
         SELECT
-        SUM (T .orders) AS orderNum,
-        SUM (T .checkIns) AS checkInNum,
-        SUM (T .checkOuts) AS checkOutNum,
-        SUM (T .msgNum) AS msgNum,
-        SUM (T .opNum) AS operateNum,
-        inn_id
+        SUM (T .orders) AS order_num,
+        SUM (T .checkIns) AS check_in_num,
+        SUM (T .checkOuts) AS check_out_num,
+        SUM (T .msgNum) AS msg_num,
+        SUM (T .opNum) AS operate_num,
+        inn_id,inn.name as inn_name,inn.contact as mobile
         FROM
         (
         SELECT
@@ -37,10 +38,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         tomato_inn_room_main_order M
         INNER JOIN tomato_inn_room_order o ON M . ID = o.main_id
         INNER JOIN tomato_inn_room r ON r. ID = o.room_id
-        WHERE
-        M .ordered_at  BETWEEN '2015-05-05 00:00:00'  AND  '2015-05-05 23:59:59'
-        GROUP BY
-        inn_id
+        WHERE M .ordered_at  BETWEEN '2015-05-05 00:00:00'  AND  '2015-05-05 23:59:59'
+        GROUP BY inn_id
         UNION ALL
         SELECT
         0 AS orders,
@@ -53,10 +52,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         tomato_inn_room_main_check_in M
         INNER JOIN tomato_inn_room_check_in o ON M . ID = o.main_id
         INNER JOIN tomato_inn_room r ON r. ID = o.room_id
-        WHERE
-        M .created_at BETWEEN '2015-05-05 00:00:00' AND '2015-05-05 23:59:59'
-        GROUP BY
-        inn_id
+        WHERE M .created_at BETWEEN '2015-05-05 00:00:00' AND '2015-05-05 23:59:59'
+        GROUP BY  inn_id
         UNION ALL
         SELECT
         0 AS orders,
@@ -71,8 +68,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INNER JOIN tomato_inn_room r ON r. ID = o.room_id
         WHERE
         M .created_at BETWEEN '2015-05-05 00:00:00' AND  '2015-05-05 23:59:59'
-        GROUP BY
-        inn_id
+        GROUP BY inn_id
         UNION ALL
         SELECT
         0 AS orders,
@@ -85,10 +81,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         tomato_inn_room_main_check_out M
         INNER JOIN tomato_inn_room_check_out o ON M . ID = o.main_id
         INNER JOIN tomato_inn_room r ON r. ID = o.room_id
-        WHERE
-        M .created_at BETWEEN '2015-05-05 00:00:00' AND  '2015-05-05 23:59:59'
-        GROUP BY
-        inn_id
+        WHERE M .created_at BETWEEN '2015-05-05 00:00:00' AND  '2015-05-05 23:59:59'
+        GROUP BY inn_id
         UNION ALL
         SELECT
         0 AS orders,
@@ -101,8 +95,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         tomato_msg_log l
         WHERE
         l.send_time BETWEEN '2015-05-05 00:00:00'  AND  '2015-05-05 23:59:59'
-        GROUP BY
-        inn_id
+        GROUP BY inn_id
         UNION ALL
         SELECT
         0 AS orders,
@@ -118,7 +111,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         GROUP BY
         inn_id
         ) T
-        GROUP BY inn_id;
+        LEFT JOIN tomato_inn inn ON inn.id = T.inn_id
+        GROUP BY inn_id,inn.name,inn.contact;
     </select>
 
     <insert id="saveInnActive" parameterType="java.util.Map">
