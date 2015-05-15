@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.dao.IOrderSourceDcDao">
+   <resultMap id="mapId" type="com.fanqie.dc.domain.OrderSource">
+       <result column="id" property="id"/>
+       <result column="inn_id" property="innId"/>
+       <result column="live_num" property="liveNum"/>
+       <result column="from_name" property="fromName"/>
+       <result column="from_id" property="fromId"/>
+       <result column="income" property="income"/>
+       <result column="create_date" property="createDate"/>
+       <result column="order_num" property="orderNum"/>
+   </resultMap>
+
+    <insert id="saveOrderSource" parameterType="java.util.Map" >
+        insert into order_source(id,inn_id,from_name,live_num,income,order_num,from_id,create_date)
+        values
+        <if test="list.size() > 0">
+            <foreach collection="list" item="v" separator=","  >
+                ( '${v.id}','${v.innId}','${v.fromName}',#{v.liveNum},#{v.income},#{v.orderNum},#{v.fromId},#{date})
+            </foreach>
+        </if>
+    </insert>
+
+</mapper>

@@ -10,8 +10,8 @@ import org.apache.commons.lang3.StringUtils;
  * @data : 2015/5/15
  * @version: v1.0.0
  */
-public class DcUtil {
-    private DcUtil(){}
+public class CustomerUtil {
+    private CustomerUtil(){}
 
     public static void innCustomerCityAndProvince(InnCustomer customer){
         if (StringUtils.isEmpty(customer.getProvince())){
