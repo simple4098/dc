@@ -3,16 +3,12 @@ package com.fanqie.dc.service.impl;
 import com.fanqie.dc.dao.IInnCustomerPmsDao;
 import com.fanqie.dc.dao.impl.InnCustomerDcDao;
 import com.fanqie.dc.domain.InnCustomer;
-import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IInnCustomerService;
-import com.fanqie.dc.support.util.DcUtil;
+import com.fanqie.dc.support.util.CustomerUtil;
 import org.apache.commons.collections.CollectionUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 /**
@@ -37,7 +33,7 @@ public class InnCustomerService implements IInnCustomerService {
     public void saveInnCustomer(List<InnCustomer> list) {
         if (!CollectionUtils.isEmpty(list)){
             for (InnCustomer customer:list){
-                DcUtil.innCustomerCityAndProvince(customer);
+                CustomerUtil.innCustomerCityAndProvince(customer);
             }
             innCustomerDcDao.saveInnCustomer(list);
         }
