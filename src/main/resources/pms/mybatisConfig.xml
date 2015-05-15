@@ -12,5 +12,6 @@
 	<mappers>
 		<mapper resource="pms/mapper/InnPmsActiveMapper.xml"></mapper>
 		<mapper resource="pms/mapper/OperateTrendPmsMapper.xml"></mapper>
+		<mapper resource="pms/mapper/InnCustomerPmsMapper.xml"></mapper>
 	</mappers>
 </configuration>
