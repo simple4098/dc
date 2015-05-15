@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.dao.IInnCustomerDcDao">
+   <resultMap id="mapId" type="com.fanqie.dc.domain.InnCustomer">
+       <result column="id" property="id"/>
+       <result column="inn_id" property="innId"/>
+       <result column="num" property="num"/>
+       <result column="province" property="province"/>
+       <result column="city" property="city"/>
+       <result column="create_date" property="createDate"/>
+   </resultMap>
+
+    <insert id="saveInnCustomer" parameterType="java.util.Map" >
+        insert into inn_customer(id,inn_id,num,province,city,create_date)
+        values
+        <if test="list.size() > 0">
+            <foreach collection="list" item="v" separator=","  >
+                ( '${v.id}','${v.innId}','${v.num}',#{v.province},#{v.city},#{v.createdDate})
+            </foreach>
+        </if>
+    </insert>
+
+</mapper>
