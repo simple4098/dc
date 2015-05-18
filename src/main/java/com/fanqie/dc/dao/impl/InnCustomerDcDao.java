@@ -3,6 +3,9 @@ package com.fanqie.dc.dao.impl;
 import com.fanqie.dc.dao.IInnCustomerDcDao;
 import com.fanqie.dc.dao.base.BaseDcDaoImpl;
 import com.fanqie.dc.domain.InnCustomer;
+import com.fanqie.dc.dto.InnCustomerDto;
+import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.util.Pagination;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -25,5 +28,13 @@ public class InnCustomerDcDao extends BaseDcDaoImpl<InnCustomer> implements IInn
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("list",list);
         this.templateDc.insert(NA.concat("saveInnCustomer"),param);
+    }
+
+    public Map<String, Object> queryInnCustomerByPage(ParamDto paramDto, Pagination page) {
+        return queryByPage(paramDto,page,NA.concat("queryInnCustomerByPage"));
+    }
+
+    public InnCustomerDto findInnCustomerNumAndCityNum(ParamDto paramDto) {
+        return templateDc.selectOne(NA.concat("findInnCustomerNumAndCityNum"),paramDto);
     }
 }
