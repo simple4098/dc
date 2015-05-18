@@ -1,10 +1,14 @@
 package com.fanqie.dc.dao.base;
 
 
+import com.fanqie.util.Pagination;
+import org.apache.ibatis.session.RowBounds;
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @param <T>
@@ -28,6 +32,48 @@ public class BaseDcDaoImpl<T> implements IBaseDcDao<T> {
 
 	public Integer deleteByIds(T o) {
 		return templateDc.delete(getNameSpace(o) + ".deleteByIds", o);
+	}
+
+
+	@Override
+	public Map<String, Object> queryByPage(T o, Pagination page) {
+		return queryByPage(o, page, getNameSpace(o) + ".query");
+	}
+
+	@Override
+	public Map<String, Object> queryByPage(Object o, Pagination page, String queryName) {
+		List<T> list = null;
+		handlePage(o, page, queryName);
+		if (page.isPaging()) {
+			list = templateDc.selectList(queryName, o, getRowBounds(page));
+		} else {
+			list = templateDc.selectList(queryName, o);
+		}
+		Map<String, Object> map = getResultMap(list, page);
+		return map;
+	}
+
+	public RowBounds getRowBounds(Pagination page) {
+		return new RowBounds(page.getOffset(), page.getRows());
+	}
+
+	public Pagination handlePage(Object o, Pagination page, String queryName) {
+		// 查询行数
+		Integer rowsCount = null;
+		try {
+			rowsCount = templateDc.selectOne(queryName + "Count", o);
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new RuntimeException("handlePage错误,参数："+o.toString());
+		}
+		page.calcPage(rowsCount);
+		return page;
+	}
+	private Map<String, Object> getResultMap(List<T> list, Pagination page) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list);
+		map.put("page", page);
+		return map;
 	}
 
 	protected String getNameSpace(T o) {

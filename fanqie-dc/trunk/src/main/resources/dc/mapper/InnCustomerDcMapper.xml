@@ -12,6 +12,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        <result column="create_date" property="createDate"/>
    </resultMap>
 
+    <resultMap id="innCustomerMapId" type="com.fanqie.dc.dto.InnCustomerDto">
+        <result column="num" property="totalNum"/>
+        <result column="cityNum" property="totalCityNun"/>
+    </resultMap>
+
     <insert id="saveInnCustomer" parameterType="java.util.Map" >
         insert into inn_customer(id,inn_id,num,province,city,create_date)
         values
@@ -21,5 +26,69 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </foreach>
         </if>
     </insert>
+
+    <select id="findInnCustomerNumAndCityNum" resultType="com.fanqie.dc.dto.ParamDto" resultMap="innCustomerMapId">
+              SELECT sum(tt.num) as num ,count(tt.*) as cityNum from (
+
+					SELECT sum(oo.num) as num, oo.city from (
+					SELECT o.num,o.city  from inn_customer o LEFT JOIN bang_inn b ON b.inn_id = o.inn_id
+					LEFT JOIN user_info u ON u.id = b.user_id
+					LEFT JOIN inn_label lab ON lab.id = b.inn_label_id
+					where 1=1
+					and o.create_date BETWEEN '2015-04-03 00:00:00' AND '2015-04-03 23:59:59'
+                        <if test="!dataPermission">
+                            and b.user_id = '${userId}'
+                        </if>
+                        <if test="dataPermission">
+                            and b.company_id='${companyId}'
+                        </if>
+                        <if test="tagId!=null and tagId!=''">
+                            AND b.inn_label_id ='${tagId}'
+                        </if>
+					) oo
+					GROUP BY oo.city
+        ) tt
+    </select>
+
+    <select id="queryInnCustomerByPage" resultMap="mapId" parameterType="com.fanqie.dc.dto.ParamDto">
+        SELECT sum(oo.num) as num, oo.city from (
+        SELECT o.num,o.city  from inn_customer o LEFT JOIN bang_inn b ON b.inn_id = o.inn_id
+        LEFT JOIN user_info u ON u.id = b.user_id
+        LEFT JOIN inn_label lab ON lab.id = b.inn_label_id
+        where 1=1
+        and o.create_date BETWEEN '2015-04-03 00:00:00' AND '2015-04-03 23:59:59'
+        <if test="!dataPermission">
+            and b.user_id = '${userId}'
+        </if>
+        <if test="dataPermission">
+            and b.company_id='${companyId}'
+        </if>
+        <if test="tagId!=null and tagId!=''">
+            AND b.inn_label_id ='${tagId}'
+        </if>
+        ) oo
+        GROUP BY oo.city  ORDER BY num desc
+    </select>
+
+    <select id="queryInnCustomerByPageCount" resultType="java.lang.Integer" parameterType="com.fanqie.dc.dto.ParamDto">
+        SELECT count(tt.*) from
+        (SELECT oo.city from (
+        SELECT o.num,o.city  from inn_customer o LEFT JOIN bang_inn b ON b.inn_id = o.inn_id
+        LEFT JOIN user_info u ON u.id = b.user_id
+        LEFT JOIN inn_label lab ON lab.id = b.inn_label_id
+        where 1=1
+        and o.create_date BETWEEN '2015-04-03 00:00:00' AND '2015-04-03 23:59:59'
+        <if test="!dataPermission">
+            and b.user_id = '${userId}'
+        </if>
+        <if test="dataPermission">
+            and b.company_id='${companyId}'
+        </if>
+        <if test="tagId!=null and tagId!=''">
+            AND b.inn_label_id ='${tagId}'
+        </if>
+        ) oo
+        GROUP BY oo.city  ) tt
+    </select>
 
 </mapper>
