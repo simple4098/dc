@@ -1,6 +1,8 @@
 package com.fanqie.dc.service;
 
 import com.fanqie.dc.domain.OperateTrend;
+import com.fanqie.dc.dto.OperateTrendDto;
+import com.fanqie.dc.dto.ParamDto;
 
 import java.util.List;
 
@@ -23,4 +25,9 @@ public interface IOperateTrendService {
      * 把客栈一天的运营数据保存在数据中心
      */
     void saveOperateTrend(List<OperateTrend> list);
+
+    /**
+     * 运营情况的大致内容
+     */
+    OperateTrend obtGeneralOperateTrend(ParamDto paramDto);
 }

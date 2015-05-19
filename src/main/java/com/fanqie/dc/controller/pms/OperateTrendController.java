@@ -36,17 +36,17 @@ public class OperateTrendController {
     public Object validateIp(String start){
       final   Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        /*String from = "2015-05-05 00:00:00";
+        String from = "2015-05-05 00:00:00";
         String to = "2015-05-05 23:59:59";
         to = DateUtil.toDate(-1);
-        for (int i=1; i<10;i++){
-            from = DateUtil.fromDate(-i);
+        for (int i=1; i<50;i++){
+            from = DateUtil.fromDate(-(i+30));
             List<OperateTrend> trendService = operateTrendService.findOperateTrendService(from);
             operateTrendService.saveOperateTrend(trendService);
-        }*/
-        String  startDate = DateUtil.fromDate(-1);
+        }
+       /* String  startDate = DateUtil.fromDate(-1);
         List<OperateTrend> trendService = operateTrendService.findOperateTrendService(startDate);
-        operateTrendService.saveOperateTrend(trendService);
+        operateTrendService.saveOperateTrend(trendService);*/
         return param;
     }
 
