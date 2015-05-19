@@ -3,6 +3,8 @@ package com.fanqie.dc.dao;
 import com.fanqie.dc.dao.base.IBaseDcDao;
 import com.fanqie.dc.dao.base.IBasePmsDao;
 import com.fanqie.dc.domain.OperateTrend;
+import com.fanqie.dc.dto.OperateTrendDto;
+import com.fanqie.dc.dto.ParamDto;
 
 import java.util.List;
 
@@ -19,4 +21,5 @@ public interface IOperateTrendDcDao extends IBaseDcDao<OperateTrend> {
      */
     void saveOperateTrend(List<OperateTrend> list);
 
+    OperateTrend obtGeneralOperateTrend(ParamDto paramDto);
 }

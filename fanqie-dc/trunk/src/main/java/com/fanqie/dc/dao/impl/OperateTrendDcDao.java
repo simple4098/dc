@@ -3,6 +3,8 @@ package com.fanqie.dc.dao.impl;
 import com.fanqie.dc.dao.IOperateTrendDcDao;
 import com.fanqie.dc.dao.base.BaseDcDaoImpl;
 import com.fanqie.dc.domain.OperateTrend;
+import com.fanqie.dc.dto.OperateTrendDto;
+import com.fanqie.dc.dto.ParamDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -26,5 +28,10 @@ public class OperateTrendDcDao extends BaseDcDaoImpl<OperateTrend> implements IO
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("list",list);
         this.templateDc.insert(NA.concat("saveOperateTrend"),param);
+    }
+
+    @Override
+    public OperateTrend obtGeneralOperateTrend(ParamDto paramDto) {
+        return (OperateTrend)templateDc.selectOne(NA.concat("obtGeneralOperateTrend"),paramDto);
     }
 }
