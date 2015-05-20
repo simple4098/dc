@@ -3,6 +3,7 @@ package com.fanqie.dc.controller.dc;
 import com.fanqie.dc.domain.InnCustomer;
 import com.fanqie.dc.domain.OperateTrend;
 import com.fanqie.dc.dto.InnCustomerDto;
+import com.fanqie.dc.dto.OperateTrendDto;
 import com.fanqie.dc.dto.ParamDto;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
@@ -93,6 +94,26 @@ public class TomsApiController {
         paramDto.setTagId("d51c1bad-56a4-420b-aea2-fcace22af546");
         OperateTrend operateTrend = operateTrendService.obtGeneralOperateTrend(paramDto);
         return operateTrend;
+    }
+    /**
+     * 第三系统运营详情数据
+     * @param paramDto 查询条件
+     */
+    @RequestMapping("/opeDetail")
+    @ResponseBody
+    public Object operateDetail(ParamDto paramDto){
+        JsonModel jsonModel = new JsonModel();
+        paramDto.setStartDate("2015-04-01 00:00:00");
+        paramDto.setEndDate("2015-04-03 23:59:00");
+        paramDto.setTagId("1");
+        paramDto.setUserId("2df7667a-6cf4-4320-8449-6483c643ea62");
+        paramDto.setInnId(12087);
+        paramDto.setDataPermission(false);
+        paramDto.setCompanyId("d0392bc8-131c-48a4-846e-c81c66097781");
+        paramDto.setTagId("d51c1bad-56a4-420b-aea2-fcace22af546");
+        OperateTrendDto operateTrendDto = operateTrendService.obtOpeDetail(paramDto);
+        jsonModel.setObj(operateTrendDto);
+        return jsonModel;
     }
 
 

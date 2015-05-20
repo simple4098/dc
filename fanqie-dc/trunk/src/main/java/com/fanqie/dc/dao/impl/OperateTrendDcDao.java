@@ -34,4 +34,9 @@ public class OperateTrendDcDao extends BaseDcDaoImpl<OperateTrend> implements IO
     public OperateTrend obtGeneralOperateTrend(ParamDto paramDto) {
         return (OperateTrend)templateDc.selectOne(NA.concat("obtGeneralOperateTrend"),paramDto);
     }
+
+    @Override
+    public List<OperateTrend> obtOpeDetail(ParamDto paramDto) {
+        return templateDc.selectList(NA.concat("obtOpeDetail"),paramDto);
+    }
 }

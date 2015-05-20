@@ -30,4 +30,10 @@ public interface IOperateTrendService {
      * 运营情况的大致内容
      */
     OperateTrend obtGeneralOperateTrend(ParamDto paramDto);
+
+    /**
+     * 运营情况详情数据
+     * @param paramDto 查询参数
+     */
+    OperateTrendDto obtOpeDetail(ParamDto paramDto);
 }
