@@ -22,4 +22,6 @@ public interface IOperateTrendDcDao extends IBaseDcDao<OperateTrend> {
     void saveOperateTrend(List<OperateTrend> list);
 
     OperateTrend obtGeneralOperateTrend(ParamDto paramDto);
+
+    List<OperateTrend> obtOpeDetail(ParamDto paramDto);
 }
