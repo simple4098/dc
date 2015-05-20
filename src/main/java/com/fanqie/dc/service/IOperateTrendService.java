@@ -5,6 +5,7 @@ import com.fanqie.dc.dto.OperateTrendDto;
 import com.fanqie.dc.dto.ParamDto;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * DESC :
@@ -35,5 +36,5 @@ public interface IOperateTrendService {
      * 运营情况详情数据
      * @param paramDto 查询参数
      */
-    OperateTrendDto obtOpeDetail(ParamDto paramDto);
+    Map<String,Object> obtOpeDetail(ParamDto paramDto);
 }
