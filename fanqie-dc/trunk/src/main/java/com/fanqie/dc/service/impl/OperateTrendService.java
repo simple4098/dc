@@ -13,9 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 /**
  * DESC :
@@ -61,14 +59,13 @@ public class OperateTrendService implements IOperateTrendService{
     }
 
     @Override
-    public OperateTrendDto obtOpeDetail(ParamDto paramDto) {
+    public Map<String,Object> obtOpeDetail(ParamDto paramDto) {
         List<OperateTrend> list = operateTrendDcDao.obtOpeDetail(paramDto);
         List<String>  date = new ArrayList<String>();
         List<BigDecimal>  income = new ArrayList<BigDecimal>();
         List<Integer>  roomDays = new ArrayList<Integer>();
         List<BigDecimal>  livePercentList = new ArrayList<BigDecimal>();
         List<BigDecimal>  avgPriceList = new ArrayList<BigDecimal>();
-        OperateTrendDto operateTrendDto = new OperateTrendDto();
         for (OperateTrend operateTrend:list){
             date.add(DateUtil.formatDateToString(operateTrend.getCreatedDate()));
             income.add(operateTrend.getTotalIncome());
@@ -77,11 +74,12 @@ public class OperateTrendService implements IOperateTrendService{
             avgPriceList.add(DcUtil.format(operateTrend.getAvgPrice(), 2));
 
         }
-        operateTrendDto.setDate(date);
-        operateTrendDto.setRoomDays(roomDays);
-        operateTrendDto.setAvgPriceList(avgPriceList);
-        operateTrendDto.setLivePercentList(livePercentList);
-        operateTrendDto.setIncome(income);
-        return operateTrendDto;
+        Map<String,Object> param = new HashMap<String, Object>();
+        param.put("date",date);
+        param.put("roomDays",roomDays);
+        param.put("livePercentList",livePercentList);
+        param.put("avgPriceList",avgPriceList);
+        param.put("income",income);
+        return param;
     }
 }

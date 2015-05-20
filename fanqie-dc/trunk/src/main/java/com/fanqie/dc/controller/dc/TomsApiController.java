@@ -3,7 +3,6 @@ package com.fanqie.dc.controller.dc;
 import com.fanqie.dc.domain.InnCustomer;
 import com.fanqie.dc.domain.OperateTrend;
 import com.fanqie.dc.dto.InnCustomerDto;
-import com.fanqie.dc.dto.OperateTrendDto;
 import com.fanqie.dc.dto.ParamDto;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
@@ -11,7 +10,6 @@ import com.fanqie.util.JsonModel;
 import com.fanqie.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -111,8 +109,8 @@ public class TomsApiController {
         paramDto.setDataPermission(false);
         paramDto.setCompanyId("d0392bc8-131c-48a4-846e-c81c66097781");
         paramDto.setTagId("d51c1bad-56a4-420b-aea2-fcace22af546");
-        OperateTrendDto operateTrendDto = operateTrendService.obtOpeDetail(paramDto);
-        jsonModel.setObj(operateTrendDto);
+        Map<String,Object> operateTrendDto = operateTrendService.obtOpeDetail(paramDto);
+        jsonModel.setResult(operateTrendDto);
         return jsonModel;
     }
 
