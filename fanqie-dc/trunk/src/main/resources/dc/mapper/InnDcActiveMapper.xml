@@ -26,5 +26,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
     </insert>
 
+    <select id="findActiveInn" parameterType="com.fanqie.dc.dto.ParamDto" >
+        SELECT inn_id,string_agg(CAST(create_date as VARCHAR),',') as create_date,
+        string_agg(CAST(order_num as VARCHAR),',') as order_nums,
+        string_agg(CAST(check_in_num as VARCHAR),',') as check_in_nums,
+        string_agg(CAST(check_out_num as VARCHAR),',') as check_out_nums,
+        string_agg(CAST(operate_num as VARCHAR),',') as operate_nums
+        from inn_active
+        where create_date BETWEEN '2015-03-31' AND '2015-05-19 23:59:59'
+        and inn_id in(25822,25743,25742,25803,19220)
+        <if test="innIds != null">
+            and inn_id in
+            <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+
+        GROUP BY inn_id ORDER BY inn_id
+    </select>
+
 
 </mapper>
