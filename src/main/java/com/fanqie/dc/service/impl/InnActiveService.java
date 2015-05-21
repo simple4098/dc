@@ -5,6 +5,7 @@ import com.fanqie.dc.dao.IInnPmsActiveDao;
 import com.fanqie.dc.domain.InnActive;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.util.DateUtil;
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +31,12 @@ public class InnActiveService implements IInnActiveService {
     }
 
     @Override
-    public void saveInnActive(List<InnActive> innActive) {
-        Date now = DateUtil.addDay(new Date(), -1);
-        innDcActiveDao.saveInnActive(innActive,now);
+    public void saveInnActive(List<InnActive> innActive,String from) {
+        if (!CollectionUtils.isEmpty(innActive)){
+           // Date now = DateUtil.addDay(new Date(), -1);
+            Date date = DateUtil.parseDate(from);
+            innDcActiveDao.saveInnActive(innActive,date);
+        }
+
     }
 }

@@ -14,5 +14,5 @@ import java.util.List;
 public interface IInnActiveService {
     List<InnActive> findDayInnActive(String startDate,String endDate);
 
-    void saveInnActive(List<InnActive> innActive);
+    void saveInnActive(List<InnActive> innActive,String form);
 }

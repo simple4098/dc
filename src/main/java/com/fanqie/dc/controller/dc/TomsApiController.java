@@ -4,6 +4,7 @@ import com.fanqie.dc.domain.InnCustomer;
 import com.fanqie.dc.domain.OperateTrend;
 import com.fanqie.dc.dto.InnCustomerDto;
 import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.util.JsonModel;
@@ -30,6 +31,8 @@ public class TomsApiController {
     private IInnCustomerService innCustomerService;
     @Autowired
     private IOperateTrendService operateTrendService;
+    @Autowired
+    private IInnActiveService innActiveService;
 
 
     /**
@@ -113,6 +116,20 @@ public class TomsApiController {
         jsonModel.setResult(operateTrendDto);
         return jsonModel;
     }
+    /**
+     * 活跃报表接口
+     * @param paramDto 查询条件
+     */
+    @RequestMapping("/innActive")
+    @ResponseBody
+    public Object innActive(ParamDto paramDto){
+        JsonModel jsonModel = new JsonModel();
+
+
+        return jsonModel;
+    }
+
+
 
 
 }

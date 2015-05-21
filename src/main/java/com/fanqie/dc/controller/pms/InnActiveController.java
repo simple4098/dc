@@ -32,15 +32,17 @@ public class InnActiveController {
 
     @RequestMapping("/active")
     @ResponseBody
-    public Object validateIp(){
-      final   Map<String,Object> param = new HashMap<String, Object>();
+    public Object innActive(){
+        Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
         String from = "2015-05-05 00:00:00";
         String to = "2015-05-05 23:59:59";
-        from = DateUtil.fromDate(-1);
-        to = DateUtil.toDate(-1);
-        List<InnActive> innActive = innActiveService.findDayInnActive(from, to);
-        innActiveService.saveInnActive(innActive);
+        for (int i=35;i<51;i++){
+            from = DateUtil.fromDate(-i);
+            to = DateUtil.toDate(-i);
+            List<InnActive> innActive = innActiveService.findDayInnActive(from, to);
+            innActiveService.saveInnActive(innActive,from);
+        }
 
         return param;
     }
