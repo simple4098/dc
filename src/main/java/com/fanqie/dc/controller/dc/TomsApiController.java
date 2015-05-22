@@ -1,12 +1,16 @@
 package com.fanqie.dc.controller.dc;
 
+import com.fanqie.dc.domain.InnActive;
 import com.fanqie.dc.domain.InnCustomer;
 import com.fanqie.dc.domain.OperateTrend;
+import com.fanqie.dc.dto.InnActiveDto;
 import com.fanqie.dc.dto.InnCustomerDto;
 import com.fanqie.dc.dto.ParamDto;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
+import com.fanqie.util.DateUtil;
+import com.fanqie.util.DcUtil;
 import com.fanqie.util.JsonModel;
 import com.fanqie.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -124,8 +128,9 @@ public class TomsApiController {
     @ResponseBody
     public Object innActive(ParamDto paramDto){
         JsonModel jsonModel = new JsonModel();
-
-
+        paramDto.setStartDate("2015-05");
+        List<InnActiveDto> list = innActiveService.findDcInnActive(paramDto);
+        jsonModel.setRows(list);
         return jsonModel;
     }
 

@@ -16,6 +16,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="create_date" property="createDate"/>
    </resultMap>
 
+    <resultMap id="innActiveId" type="com.fanqie.dc.dto.InnActiveDto">
+        <result column="innId" property="inn_id"/>
+        <result column="inn_name" property="innName"/>
+        <result column="order_nums" property="orderNumList"/>
+        <result column="check_in_nums" property="checkInNumList"/>
+        <result column="check_out_nums" property="checkOutNumList"/>
+        <result column="operate_nums" property="operateNumList"/>
+        <result column="create_dates" property="createDates"/>
+    </resultMap>
+
     <insert id="saveInnActive" parameterType="java.util.Map">
         insert into inn_active(id,inn_id,inn_name,mobile,create_date,order_num,check_in_num,check_out_num,msg_num,operate_num)
         values
@@ -26,8 +36,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
     </insert>
 
-    <select id="findActiveInn" parameterType="com.fanqie.dc.dto.ParamDto" >
-        SELECT inn_id,string_agg(CAST(create_date as VARCHAR),',') as create_date,
+    <select id="findDcInnActive" parameterType="com.fanqie.dc.dto.ParamDto" resultMap="innActiveId" >
+        SELECT inn_id,inn_name,string_agg(CAST(create_date as VARCHAR),',') as create_dates,
         string_agg(CAST(order_num as VARCHAR),',') as order_nums,
         string_agg(CAST(check_in_num as VARCHAR),',') as check_in_nums,
         string_agg(CAST(check_out_num as VARCHAR),',') as check_out_nums,
@@ -41,8 +51,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 #{item}
             </foreach>
         </if>
-
-        GROUP BY inn_id ORDER BY inn_id
+        GROUP BY inn_id,inn_name ORDER BY inn_id
     </select>
 
 

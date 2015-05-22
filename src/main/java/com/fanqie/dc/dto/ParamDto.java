@@ -1,5 +1,7 @@
 package com.fanqie.dc.dto;
 
+import java.util.List;
+
 /**
  * DESC :
  *
@@ -20,8 +22,16 @@ public class ParamDto {
     private boolean dataPermission;
     //公司id
     private String companyId;
-
     private String userId;
+    private List<Integer> innIds;
+
+    public List<Integer> getInnIds() {
+        return innIds;
+    }
+
+    public void setInnIds(List<Integer> innIds) {
+        this.innIds = innIds;
+    }
 
     public String getUserId() {
         return userId;
