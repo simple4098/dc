@@ -5,6 +5,8 @@ import com.fanqie.dc.dao.IInnPmsActiveDao;
 import com.fanqie.dc.dao.base.BaseDcDaoImpl;
 import com.fanqie.dc.dao.base.BasePmsDaoImpl;
 import com.fanqie.dc.domain.InnActive;
+import com.fanqie.dc.dto.InnActiveDto;
+import com.fanqie.dc.dto.ParamDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -28,5 +30,12 @@ public class InnDcActiveDao extends BaseDcDaoImpl<InnActive> implements IInnDcAc
         param.put("list",list);
         param.put("now",now);
         templateDc.insert(NA.concat("saveInnActive"),param);
+    }
+
+    @Override
+    public List<InnActiveDto> findDcInnActive(ParamDto paramDto) {
+
+        return templateDc.selectList(NA.concat("findDcInnActive"), paramDto);
+
     }
 }
