@@ -8,8 +8,12 @@ package com.fanqie.dc.common;
  */
 public interface Param {
      final static  String  SUCCESS = "success";
-     final static  String  FAIL = "fail";
-     final static  String  QUNAR = "http://user.qunar.com/passport/loginx.jsp";
-     final static  String  CTRIP = "http://ebooking.ctrip.com/hotel-supplier-ebookinglogin/EbookingLogin.aspx";
-     final static  int    THREAD_MAX = 999;
+     //入住订单
+     final static  Integer RU_ZHU=3;
+     //创建订单
+     final static  Integer CREATE_ORDER=2;
+     //操作记录
+     final static  Integer OPERATE=1;
+     //未操作记录
+     final static  Integer NO_OPERATE=0;
 }
