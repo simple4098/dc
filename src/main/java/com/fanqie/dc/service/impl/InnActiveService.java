@@ -1,5 +1,6 @@
 package com.fanqie.dc.service.impl;
 
+import com.fanqie.dc.common.Param;
 import com.fanqie.dc.dao.IInnDcActiveDao;
 import com.fanqie.dc.dao.IInnPmsActiveDao;
 import com.fanqie.dc.domain.InnActive;
@@ -69,20 +70,20 @@ public class InnActiveService implements IInnActiveService {
                                 String orderNum = orderNumList[i];
                                 String operateNum = operateNumList[i];
                                 if (Integer.valueOf(checkInNum)>0){
-                                    valueList.add(3);
+                                    valueList.add(Param.RU_ZHU);
                                     continue;
                                 }else if (Integer.valueOf(orderNum)>0){
-                                    valueList.add(2);
+                                    valueList.add(Param.CREATE_ORDER);
                                     continue;
                                 }else if (Integer.valueOf(operateNum)>0){
-                                    valueList.add(1);
+                                    valueList.add(Param.OPERATE);
                                     continue;
                                 }else {
-                                    valueList.add(0);
+                                    valueList.add(Param.NO_OPERATE);
                                     continue;
                                 }
                             }else {
-                                valueList.add(0);
+                                valueList.add(Param.NO_OPERATE);
                             }
                         }
                     }
