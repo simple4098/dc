@@ -22,7 +22,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         values
         <if test="list.size() > 0">
             <foreach collection="list" item="v" separator=","  >
-                ( '${v.id}','${v.innId}','${v.num}',#{v.province},#{v.city},#{v.createdDate})
+                ( '${v.uuid}','${v.innId}','${v.num}',#{v.province},#{v.city},#{v.createdDate})
             </foreach>
         </if>
     </insert>

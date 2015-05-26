@@ -126,7 +126,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         values
         <if test="list.size() > 0">
             <foreach collection="list" item="v" separator=","  >
-                ( '${v.id}','${v.innId}','${v.mobile}','${v.createDate}',#{v.orderNum},#{v.checkInNum},#{v.checkOutNum},#{v.msgNum},#{v.operateNum})
+                ( '${v.uuid}','${v.innId}','${v.mobile}','${v.createDate}',#{v.orderNum},#{v.checkInNum},#{v.checkOutNum},#{v.msgNum},#{v.operateNum})
             </foreach>
         </if>
     </insert>

@@ -11,19 +11,24 @@ import java.util.List;
  */
 public class ParamDto {
 
+    //查询开始时间
     private String startDate;
-
+    //查询结束时间
     private String endDate;
-
+   //分类id
     private String tagId;
-
+    //客栈id
     private Integer innId;
     //数据权限
     private boolean dataPermission;
     //公司id
     private String companyId;
+    //用户id
     private String userId;
+    //此用户所有管理的客栈集合
     private List<Integer> innIds;
+
+
 
     public List<Integer> getInnIds() {
         return innIds;

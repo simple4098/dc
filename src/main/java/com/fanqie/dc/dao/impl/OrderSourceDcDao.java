@@ -3,6 +3,8 @@ package com.fanqie.dc.dao.impl;
 import com.fanqie.dc.dao.IOrderSourceDcDao;
 import com.fanqie.dc.dao.base.BaseDcDaoImpl;
 import com.fanqie.dc.domain.OrderSource;
+import com.fanqie.dc.dto.OrderSourceDto;
+import com.fanqie.dc.dto.ParamDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -28,5 +30,15 @@ public class OrderSourceDcDao extends BaseDcDaoImpl<OrderSource> implements IOrd
         param.put("list",list);
         param.put("date",date);
         templateDc.insert(NA.concat("saveOrderSource"),param);
+    }
+
+    @Override
+    public List<OrderSource> findDcOrderSource(ParamDto paramDto) {
+        return templateDc.selectList(NA.concat("findDcOrderSource"),paramDto);
+    }
+
+    @Override
+    public OrderSourceDto findDcOrderSourceNum(ParamDto paramDto) {
+        return templateDc.selectOne(NA.concat("findOrderSourceNum"),paramDto);
     }
 }
