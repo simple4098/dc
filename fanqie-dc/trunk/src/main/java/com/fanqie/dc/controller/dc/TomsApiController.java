@@ -1,6 +1,5 @@
 package com.fanqie.dc.controller.dc;
 
-import com.fanqie.dc.domain.InnActive;
 import com.fanqie.dc.domain.InnCustomer;
 import com.fanqie.dc.domain.OperateTrend;
 import com.fanqie.dc.domain.OrderSource;
@@ -12,17 +11,15 @@ import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.dc.service.IOrderSourceService;
-import com.fanqie.util.DateUtil;
-import com.fanqie.util.DcUtil;
 import com.fanqie.util.JsonModel;
 import com.fanqie.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.HashMap;
+import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -50,7 +47,7 @@ public class TomsApiController {
      * @param paramDto 查询对象
      * @param pagination 分页对象
      */
-    @RequestMapping("/customer")
+    @RequestMapping(value = "/customer",method = RequestMethod.POST)
     @ResponseBody
     public JsonModel operate(ParamDto paramDto,Pagination pagination){
         paramDto.setStartDate("2015-04-03 00:00:00");
@@ -74,16 +71,11 @@ public class TomsApiController {
      * @param paramDto
      * @return
      */
-    @RequestMapping("/obtCustomerNum")
+    @RequestMapping(value = "/obtCustomerNum",method = RequestMethod.POST)
     @ResponseBody
     public Object customerNum(ParamDto paramDto){
         paramDto.setUserId("2df7667a-6cf4-4320-8449-6483c643ea62");
         InnCustomerDto customerDto = innCustomerService.findInnCustomerNumAndCityNum(paramDto);
-        Map<String,Object> map = new HashMap<String, Object>();
-        map.put("num",customerDto.getTotalNum());
-        map.put("cityName",customerDto.getTotalCityNun());
-        JsonModel jsonModel = new JsonModel();
-        jsonModel.setResult(map);
         return customerDto;
     }
 
@@ -92,7 +84,7 @@ public class TomsApiController {
      * @param paramDto 查询条件
      * @return
      */
-    @RequestMapping("/operate")
+    @RequestMapping(value = "/operate",method = RequestMethod.POST)
     @ResponseBody
     public Object operateTrend(ParamDto paramDto){
         paramDto.setStartDate("2015-04-01 00:00:00");
