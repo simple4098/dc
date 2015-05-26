@@ -34,7 +34,7 @@ public class OrderSourceController {
 
     @RequestMapping("/source")
     @ResponseBody
-    public Object validateIp(){
+    public Object order(){
       final   Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
         String from = "2014-04-05 00:00:00";

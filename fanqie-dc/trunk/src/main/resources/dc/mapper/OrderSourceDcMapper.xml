@@ -10,8 +10,16 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        <result column="from_name" property="fromName"/>
        <result column="from_id" property="fromId"/>
        <result column="income" property="income"/>
-       <result column="create_date" property="createDate"/>
+       <result column="create_date" property="createdDate"/>
        <result column="order_num" property="orderNum"/>
+   </resultMap>
+
+    <resultMap id="mapDtoId" type="com.fanqie.dc.dto.OrderSourceDto">
+       <result column="live_num" property="liveNum"/>
+       <result column="income" property="income"/>
+       <result column="order_num" property="orderNum"/>
+       <result column="total_room_num" property="totalRoomNum"/>
+       <result column="empty_room_num" property="emptyRoomNum"/>
    </resultMap>
 
     <insert id="saveOrderSource" parameterType="java.util.Map" >
@@ -19,9 +27,25 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         values
         <if test="list.size() > 0">
             <foreach collection="list" item="v" separator=","  >
-                ( '${v.id}','${v.innId}','${v.fromName}',#{v.liveNum},#{v.income},#{v.orderNum},#{v.fromId},#{date})
+                ( '${v.uuid}','${v.innId}','${v.fromName}',#{v.liveNum},#{v.income},#{v.orderNum},#{v.fromId},#{date})
             </foreach>
         </if>
     </insert>
+
+    <select id="findDcOrderSource" parameterType="com.fanqie.dc.dto.ParamDto" resultMap="mapId">
+        SELECT o.* from order_source o
+        where o.inn_id=${innId} and o.create_date BETWEEN  '${startDate}' AND '${endDate}'
+    </select>
+
+    <select id="findOrderSourceNum" parameterType="com.fanqie.dc.dto.ParamDto" resultMap="mapDtoId">
+        SELECT sum(o.income) as income, sum(o.live_num) as live_num , sum(o.order_num) as order_num ,opt.empty_room_num,opt.total_room_num
+        from order_source o
+        LEFT JOIN
+        ( SELECT o.empty_room_num,o.total_room_num,o.inn_id from operate_trend o where inn_id=#{innId} ORDER BY o.create_date desc LIMIT 1 ) opt ON opt.inn_id = o.inn_id
+        LEFT JOIN bang_inn bi ON bi.inn_id = o.inn_id
+        where o.inn_id=#{innId} and o.create_date BETWEEN  '${startDate}' AND '${endDate}'
+        and bi.user_id ='${userId}'
+        GROUP  BY o.inn_id ,opt.empty_room_num,opt.total_room_num
+    </select>
 
 </mapper>

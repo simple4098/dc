@@ -3,6 +3,8 @@ package com.fanqie.dc.service.impl;
 import com.fanqie.dc.dao.IOrderSourceDcDao;
 import com.fanqie.dc.dao.IOrderSourcePmsDao;
 import com.fanqie.dc.domain.OrderSource;
+import com.fanqie.dc.dto.OrderSourceDto;
+import com.fanqie.dc.dto.ParamDto;
 import com.fanqie.dc.service.IOrderSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,5 +35,15 @@ public class OrderSourceService implements IOrderSourceService {
     @Override
     public void saveOrderSource(List<OrderSource> list,Date date) {
         orderSourceDcDao.saveOrderSource(list,date);
+    }
+
+    @Override
+    public List<OrderSource> findDcOrderSource(ParamDto paramDto) {
+        return orderSourceDcDao.findDcOrderSource(paramDto);
+    }
+
+    @Override
+    public OrderSourceDto findDcOrderSourceNum(ParamDto paramDto) {
+        return orderSourceDcDao.findDcOrderSourceNum(paramDto);
     }
 }

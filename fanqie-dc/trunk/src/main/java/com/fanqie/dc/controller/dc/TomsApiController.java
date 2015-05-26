@@ -3,18 +3,22 @@ package com.fanqie.dc.controller.dc;
 import com.fanqie.dc.domain.InnActive;
 import com.fanqie.dc.domain.InnCustomer;
 import com.fanqie.dc.domain.OperateTrend;
+import com.fanqie.dc.domain.OrderSource;
 import com.fanqie.dc.dto.InnActiveDto;
 import com.fanqie.dc.dto.InnCustomerDto;
+import com.fanqie.dc.dto.OrderSourceDto;
 import com.fanqie.dc.dto.ParamDto;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
+import com.fanqie.dc.service.IOrderSourceService;
 import com.fanqie.util.DateUtil;
 import com.fanqie.util.DcUtil;
 import com.fanqie.util.JsonModel;
 import com.fanqie.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -37,6 +41,8 @@ public class TomsApiController {
     private IOperateTrendService operateTrendService;
     @Autowired
     private IInnActiveService innActiveService;
+    @Autowired
+    private IOrderSourceService orderSourceService;
 
 
     /**
@@ -133,6 +139,24 @@ public class TomsApiController {
         jsonModel.setRows(list);
         return jsonModel;
     }
+    /**
+     * 订单来源接口
+     * @param paramDto 查询条件
+     */
+    @RequestMapping("/order")
+    @ResponseBody
+    public Object order(ParamDto paramDto){
+        JsonModel jsonModel = new JsonModel();
+        paramDto.setStartDate("2015-05-23");
+        paramDto.setEndDate("2015-05-23 23:59:59");
+        paramDto.setInnId(753);
+        paramDto.setUserId("3");
+        List<OrderSource> list = orderSourceService.findDcOrderSource(paramDto);
+        OrderSourceDto orderSource = orderSourceService.findDcOrderSourceNum(paramDto);
+        jsonModel.setRows(list);
+        return jsonModel;
+    }
+
 
 
 
