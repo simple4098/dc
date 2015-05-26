@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
     <resultMap id="innCustomerMapId" type="com.fanqie.dc.dto.InnCustomerDto">
         <result column="num" property="totalNum"/>
-        <result column="cityNum" property="totalCityNun"/>
+        <result column="cityNum" property="totalCityNum"/>
     </resultMap>
 
     <insert id="saveInnCustomer" parameterType="java.util.Map" >

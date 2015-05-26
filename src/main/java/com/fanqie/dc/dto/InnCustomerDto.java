@@ -11,7 +11,7 @@ public class InnCustomerDto {
 
     private int totalNum;
 
-    private int  totalCityNun;
+    private int  totalCityNum;
 
     public int getTotalNum() {
         return totalNum;
@@ -21,11 +21,11 @@ public class InnCustomerDto {
         this.totalNum = totalNum;
     }
 
-    public int getTotalCityNun() {
-        return totalCityNun;
+    public int getTotalCityNum() {
+        return totalCityNum;
     }
 
-    public void setTotalCityNun(int totalCityNun) {
-        this.totalCityNun = totalCityNun;
+    public void setTotalCityNum(int totalCityNum) {
+        this.totalCityNum = totalCityNum;
     }
 }
