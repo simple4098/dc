@@ -1,16 +1,17 @@
 package com.fanqie.dc.controller.dc;
 
-import com.fanqie.dc.domain.InnCustomer;
-import com.fanqie.dc.domain.OperateTrend;
-import com.fanqie.dc.domain.OrderSource;
-import com.fanqie.dc.dto.InnActiveDto;
-import com.fanqie.dc.dto.InnCustomerDto;
-import com.fanqie.dc.dto.OrderSourceDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.InnCustomer;
+import com.fanqie.core.domain.OperateTrend;
+import com.fanqie.core.domain.OrderSource;
+import com.fanqie.core.dto.InnActiveDto;
+import com.fanqie.core.dto.InnCustomerDto;
+import com.fanqie.core.dto.OrderSourceDto;
+import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.dc.service.IOrderSourceService;
+import com.fanqie.util.JacksonUtil;
 import com.fanqie.util.JsonModel;
 import com.fanqie.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Map;
 
@@ -139,12 +139,11 @@ public class TomsApiController {
     @ResponseBody
     public Object order(ParamDto paramDto){
         JsonModel jsonModel = new JsonModel();
-        paramDto.setStartDate("2015-05-23");
-        paramDto.setEndDate("2015-05-23 23:59:59");
-        paramDto.setInnId(753);
-        paramDto.setUserId("3");
         List<OrderSource> list = orderSourceService.findDcOrderSource(paramDto);
         OrderSourceDto orderSource = orderSourceService.findDcOrderSourceNum(paramDto);
+        String s = JacksonUtil.obj2json(orderSource);
+        Map<String, Object> map = JacksonUtil.json2map(s);
+        jsonModel.setResult(map);
         jsonModel.setRows(list);
         return jsonModel;
     }

@@ -6,9 +6,9 @@
 	<properties>
 		<property name="dialect" value="POSTGRESQL"/>
 	</properties>
-	<plugins>
+	<!--<plugins>
 		<plugin interceptor="com.fanqie.dc.support.interceptor.PaginationInterceptor"/>
-	</plugins>
+	</plugins>-->
 	<mappers>
 		<mapper resource="dc/mapper/InnDcActiveMapper.xml"></mapper>
 		<mapper resource="dc/mapper/OperateTrendDcMapper.xml"></mapper>

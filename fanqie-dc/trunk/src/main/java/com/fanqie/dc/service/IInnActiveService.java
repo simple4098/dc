@@ -1,8 +1,8 @@
 package com.fanqie.dc.service;
 
-import com.fanqie.dc.domain.InnActive;
-import com.fanqie.dc.dto.InnActiveDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.InnActive;
+import com.fanqie.core.dto.InnActiveDto;
+import com.fanqie.core.dto.ParamDto;
 
 import java.util.List;
 

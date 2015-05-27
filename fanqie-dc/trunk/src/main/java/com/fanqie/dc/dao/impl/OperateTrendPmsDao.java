@@ -2,7 +2,7 @@ package com.fanqie.dc.dao.impl;
 
 import com.fanqie.dc.dao.IOperateTrendPmsDao;
 import com.fanqie.dc.dao.base.BasePmsDaoImpl;
-import com.fanqie.dc.domain.OperateTrend;
+import com.fanqie.core.domain.OperateTrend;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

@@ -2,9 +2,9 @@ package com.fanqie.dc.service.impl;
 
 import com.fanqie.dc.dao.IInnCustomerPmsDao;
 import com.fanqie.dc.dao.impl.InnCustomerDcDao;
-import com.fanqie.dc.domain.InnCustomer;
-import com.fanqie.dc.dto.InnCustomerDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.InnCustomer;
+import com.fanqie.core.dto.InnCustomerDto;
+import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.support.util.CustomerUtil;
 import com.fanqie.util.Constants;

@@ -1,6 +1,6 @@
 package com.fanqie.dc.support.util;
 
-import com.fanqie.dc.domain.InnCustomer;
+import com.fanqie.core.domain.InnCustomer;
 import org.apache.commons.lang3.StringUtils;
 
 /**

@@ -2,7 +2,7 @@ package com.fanqie.dc.dao.impl;
 
 import com.fanqie.dc.dao.IOrderSourcePmsDao;
 import com.fanqie.dc.dao.base.BasePmsDaoImpl;
-import com.fanqie.dc.domain.OrderSource;
+import com.fanqie.core.domain.OrderSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

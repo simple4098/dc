@@ -4,9 +4,9 @@ import com.fanqie.dc.dao.IInnDcActiveDao;
 import com.fanqie.dc.dao.IInnPmsActiveDao;
 import com.fanqie.dc.dao.base.BaseDcDaoImpl;
 import com.fanqie.dc.dao.base.BasePmsDaoImpl;
-import com.fanqie.dc.domain.InnActive;
-import com.fanqie.dc.dto.InnActiveDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.InnActive;
+import com.fanqie.core.dto.InnActiveDto;
+import com.fanqie.core.dto.ParamDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;

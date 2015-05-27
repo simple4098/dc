@@ -2,9 +2,9 @@ package com.fanqie.dc.dao.impl;
 
 import com.fanqie.dc.dao.IOperateTrendDcDao;
 import com.fanqie.dc.dao.base.BaseDcDaoImpl;
-import com.fanqie.dc.domain.OperateTrend;
-import com.fanqie.dc.dto.OperateTrendDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.OperateTrend;
+import com.fanqie.core.dto.OperateTrendDto;
+import com.fanqie.core.dto.ParamDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

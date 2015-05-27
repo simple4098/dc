@@ -2,9 +2,9 @@ package com.fanqie.dc.dao.impl;
 
 import com.fanqie.dc.dao.IInnCustomerDcDao;
 import com.fanqie.dc.dao.base.BaseDcDaoImpl;
-import com.fanqie.dc.domain.InnCustomer;
-import com.fanqie.dc.dto.InnCustomerDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.InnCustomer;
+import com.fanqie.core.dto.InnCustomerDto;
+import com.fanqie.core.dto.ParamDto;
 import com.fanqie.util.Pagination;
 import org.springframework.stereotype.Repository;
 

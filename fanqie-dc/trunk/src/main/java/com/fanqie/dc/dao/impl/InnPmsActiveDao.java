@@ -2,7 +2,7 @@ package com.fanqie.dc.dao.impl;
 
 import com.fanqie.dc.dao.IInnPmsActiveDao;
 import com.fanqie.dc.dao.base.BasePmsDaoImpl;
-import com.fanqie.dc.domain.InnActive;
+import com.fanqie.core.domain.InnActive;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;

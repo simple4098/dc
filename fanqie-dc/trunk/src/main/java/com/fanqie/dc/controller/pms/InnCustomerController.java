@@ -2,8 +2,8 @@ package com.fanqie.dc.controller.pms;
 
 
 import com.fanqie.dc.common.Param;
-import com.fanqie.dc.domain.InnCustomer;
-import com.fanqie.dc.domain.OperateTrend;
+import com.fanqie.core.domain.InnCustomer;
+import com.fanqie.core.domain.OperateTrend;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.util.DateUtil;

@@ -1,7 +1,7 @@
 package com.fanqie.dc.dao;
 
 import com.fanqie.dc.dao.base.IBasePmsDao;
-import com.fanqie.dc.domain.OrderSource;
+import com.fanqie.core.domain.OrderSource;
 
 import java.util.List;
 
