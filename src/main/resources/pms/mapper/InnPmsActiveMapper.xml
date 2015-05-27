@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fanqie.dc.domain.InnActive">
-   <resultMap id="mapId" type="com.fanqie.dc.domain.InnActive">
+   <resultMap id="mapId" type="com.fanqie.core.domain.InnActive">
         <result column="id" property="id"/>
         <result column="inn_id" property="innId"/>
         <result column="inn_name" property="innName"/>

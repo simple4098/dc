@@ -2,9 +2,9 @@ package com.fanqie.dc.dao.impl;
 
 import com.fanqie.dc.dao.IOrderSourceDcDao;
 import com.fanqie.dc.dao.base.BaseDcDaoImpl;
-import com.fanqie.dc.domain.OrderSource;
-import com.fanqie.dc.dto.OrderSourceDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.OrderSource;
+import com.fanqie.core.dto.OrderSourceDto;
+import com.fanqie.core.dto.ParamDto;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;

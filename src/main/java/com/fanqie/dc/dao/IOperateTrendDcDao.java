@@ -1,10 +1,8 @@
 package com.fanqie.dc.dao;
 
+import com.fanqie.core.domain.OperateTrend;
+import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.dao.base.IBaseDcDao;
-import com.fanqie.dc.dao.base.IBasePmsDao;
-import com.fanqie.dc.domain.OperateTrend;
-import com.fanqie.dc.dto.OperateTrendDto;
-import com.fanqie.dc.dto.ParamDto;
 
 import java.util.List;
 

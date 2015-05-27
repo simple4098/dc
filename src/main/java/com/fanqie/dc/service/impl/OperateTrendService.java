@@ -2,9 +2,9 @@ package com.fanqie.dc.service.impl;
 
 import com.fanqie.dc.dao.IOperateTrendDcDao;
 import com.fanqie.dc.dao.IOperateTrendPmsDao;
-import com.fanqie.dc.domain.OperateTrend;
-import com.fanqie.dc.dto.OperateTrendDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.OperateTrend;
+import com.fanqie.core.dto.OperateTrendDto;
+import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.util.DateUtil;
 import com.fanqie.util.DcUtil;

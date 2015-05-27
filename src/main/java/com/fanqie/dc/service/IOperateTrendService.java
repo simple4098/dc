@@ -1,8 +1,8 @@
 package com.fanqie.dc.service;
 
-import com.fanqie.dc.domain.OperateTrend;
-import com.fanqie.dc.dto.OperateTrendDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.OperateTrend;
+import com.fanqie.core.dto.OperateTrendDto;
+import com.fanqie.core.dto.ParamDto;
 
 import java.util.List;
 import java.util.Map;

@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fanqie.dc.dao.IOrderSourceDcDao">
-   <resultMap id="mapId" type="com.fanqie.dc.domain.OrderSource">
+   <resultMap id="mapId" type="com.fanqie.core.domain.OrderSource">
        <result column="id" property="id"/>
        <result column="inn_id" property="innId"/>
        <result column="live_num" property="liveNum"/>
@@ -14,7 +14,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        <result column="order_num" property="orderNum"/>
    </resultMap>
 
-    <resultMap id="mapDtoId" type="com.fanqie.dc.dto.OrderSourceDto">
+    <resultMap id="mapDtoId" type="com.fanqie.core.dto.OrderSourceDto">
        <result column="live_num" property="liveNum"/>
        <result column="income" property="income"/>
        <result column="order_num" property="orderNum"/>
@@ -32,12 +32,12 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
     </insert>
 
-    <select id="findDcOrderSource" parameterType="com.fanqie.dc.dto.ParamDto" resultMap="mapId">
+    <select id="findDcOrderSource" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapId">
         SELECT o.* from order_source o
         where o.inn_id=${innId} and o.create_date BETWEEN  '${startDate}' AND '${endDate}'
     </select>
 
-    <select id="findOrderSourceNum" parameterType="com.fanqie.dc.dto.ParamDto" resultMap="mapDtoId">
+    <select id="findOrderSourceNum" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapDtoId">
         SELECT sum(o.income) as income, sum(o.live_num) as live_num , sum(o.order_num) as order_num ,opt.empty_room_num,opt.total_room_num
         from order_source o
         LEFT JOIN

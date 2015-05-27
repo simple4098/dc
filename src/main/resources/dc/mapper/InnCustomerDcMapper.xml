@@ -3,7 +3,7 @@
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.fanqie.dc.dao.IInnCustomerDcDao">
-   <resultMap id="mapId" type="com.fanqie.dc.domain.InnCustomer">
+   <resultMap id="mapId" type="com.fanqie.core.domain.InnCustomer">
        <result column="id" property="id"/>
        <result column="inn_id" property="innId"/>
        <result column="num" property="num"/>
@@ -12,7 +12,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
        <result column="create_date" property="createDate"/>
    </resultMap>
 
-    <resultMap id="innCustomerMapId" type="com.fanqie.dc.dto.InnCustomerDto">
+    <resultMap id="innCustomerMapId" type="com.fanqie.core.dto.InnCustomerDto">
         <result column="num" property="totalNum"/>
         <result column="cityNum" property="totalCityNum"/>
     </resultMap>
@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
     </insert>
 
-    <select id="findInnCustomerNumAndCityNum" resultType="com.fanqie.dc.dto.ParamDto" resultMap="innCustomerMapId">
+    <select id="findInnCustomerNumAndCityNum" resultType="com.fanqie.core.dto.ParamDto" resultMap="innCustomerMapId">
               SELECT sum(tt.num) as num ,count(tt.*) as cityNum from (
 
 					SELECT sum(oo.num) as num, oo.city from (
@@ -50,7 +50,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ) tt
     </select>
 
-    <select id="queryInnCustomerByPage" resultMap="mapId" parameterType="com.fanqie.dc.dto.ParamDto">
+    <select id="queryInnCustomerByPage" resultMap="mapId" parameterType="com.fanqie.core.dto.ParamDto">
         SELECT sum(oo.num) as num, oo.city from (
         SELECT o.num,o.city  from inn_customer o LEFT JOIN bang_inn b ON b.inn_id = o.inn_id
         LEFT JOIN user_info u ON u.id = b.user_id
@@ -70,7 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         GROUP BY oo.city  ORDER BY num desc
     </select>
 
-    <select id="queryInnCustomerByPageCount" resultType="java.lang.Integer" parameterType="com.fanqie.dc.dto.ParamDto">
+    <select id="queryInnCustomerByPageCount" resultType="java.lang.Integer" parameterType="com.fanqie.core.dto.ParamDto">
         SELECT count(tt.*) from
         (SELECT oo.city from (
         SELECT o.num,o.city  from inn_customer o LEFT JOIN bang_inn b ON b.inn_id = o.inn_id

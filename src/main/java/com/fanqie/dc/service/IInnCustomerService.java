@@ -1,12 +1,11 @@
 package com.fanqie.dc.service;
 
-import com.fanqie.dc.domain.InnCustomer;
-import com.fanqie.dc.dto.InnCustomerDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.InnCustomer;
+import com.fanqie.core.dto.InnCustomerDto;
+import com.fanqie.core.dto.ParamDto;
 import com.fanqie.util.Pagination;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * DESC :

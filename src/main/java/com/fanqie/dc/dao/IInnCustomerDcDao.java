@@ -2,7 +2,7 @@ package com.fanqie.dc.dao;
 
 import com.fanqie.dc.dao.base.IBaseDcDao;
 import com.fanqie.dc.dao.base.IBasePmsDao;
-import com.fanqie.dc.domain.InnCustomer;
+import com.fanqie.core.domain.InnCustomer;
 
 import java.util.List;
 

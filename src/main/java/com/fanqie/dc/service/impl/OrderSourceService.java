@@ -2,9 +2,9 @@ package com.fanqie.dc.service.impl;
 
 import com.fanqie.dc.dao.IOrderSourceDcDao;
 import com.fanqie.dc.dao.IOrderSourcePmsDao;
-import com.fanqie.dc.domain.OrderSource;
-import com.fanqie.dc.dto.OrderSourceDto;
-import com.fanqie.dc.dto.ParamDto;
+import com.fanqie.core.domain.OrderSource;
+import com.fanqie.core.dto.OrderSourceDto;
+import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.service.IOrderSourceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

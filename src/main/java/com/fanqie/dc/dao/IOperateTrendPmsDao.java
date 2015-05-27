@@ -1,7 +1,7 @@
 package com.fanqie.dc.dao;
 
 import com.fanqie.dc.dao.base.IBasePmsDao;
-import com.fanqie.dc.domain.OperateTrend;
+import com.fanqie.core.domain.OperateTrend;
 
 import java.util.List;
 
