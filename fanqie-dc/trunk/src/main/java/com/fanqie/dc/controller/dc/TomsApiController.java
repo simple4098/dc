@@ -11,7 +11,6 @@ import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.dc.service.IOrderSourceService;
-import com.fanqie.util.JacksonUtil;
 import com.fanqie.util.JsonModel;
 import com.fanqie.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,9 +59,8 @@ public class TomsApiController {
         paramDto.setTagId("d51c1bad-56a4-420b-aea2-fcace22af546");
         JsonModel model = new JsonModel();
         List<InnCustomer> innCustomerByPage = innCustomerService.findInnCustomerByPage(paramDto, pagination);
-        model.setTotal(pagination.getRowsCount());
         model.setRows(innCustomerByPage);
-        model.setPage(pagination.getPage());
+        model.setPagination(pagination);
         return model;
     }
 
@@ -141,10 +139,8 @@ public class TomsApiController {
         JsonModel jsonModel = new JsonModel();
         List<OrderSource> list = orderSourceService.findDcOrderSource(paramDto);
         OrderSourceDto orderSource = orderSourceService.findDcOrderSourceNum(paramDto);
-        String s = JacksonUtil.obj2json(orderSource);
-        Map<String, Object> map = JacksonUtil.json2map(s);
-        jsonModel.setResult(map);
         jsonModel.setRows(list);
+        jsonModel.setObj(orderSource);
         return jsonModel;
     }
 

@@ -63,23 +63,28 @@ public class OperateTrendService implements IOperateTrendService{
         List<OperateTrend> list = operateTrendDcDao.obtOpeDetail(paramDto);
         List<String>  date = new ArrayList<String>();
         List<BigDecimal>  income = new ArrayList<BigDecimal>();
-        List<Integer>  roomDays = new ArrayList<Integer>();
+        List<Integer>  realLiveNum = new ArrayList<Integer>();
+        List<Integer>  totalRooms = new ArrayList<Integer>();
+        List<Integer>  emptyRooms = new ArrayList<Integer>();
         List<BigDecimal>  livePercentList = new ArrayList<BigDecimal>();
         List<BigDecimal>  avgPriceList = new ArrayList<BigDecimal>();
         for (OperateTrend operateTrend:list){
             date.add(DateUtil.formatDateToString(operateTrend.getCreatedDate()));
             income.add(operateTrend.getTotalIncome());
-            roomDays.add(operateTrend.getTotalRoomNum());
-            livePercentList.add(DcUtil.format(operateTrend.getLivePercent(), 3));
+            realLiveNum.add(operateTrend.getRealLiveNum());
+            livePercentList.add(DcUtil.format(operateTrend.getLivePercent(), 3).multiply(new BigDecimal(100)));
             avgPriceList.add(DcUtil.format(operateTrend.getAvgPrice(), 2));
-
+            totalRooms.add(operateTrend.getTotalRoomNum());
+            emptyRooms.add(operateTrend.getEmptyRoomNum());
         }
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("date",date);
-        param.put("roomDays",roomDays);
+        param.put("realLiveNum",realLiveNum);
         param.put("livePercentList",livePercentList);
         param.put("avgPriceList",avgPriceList);
         param.put("income",income);
+        param.put("totalRooms",totalRooms);
+        param.put("emptyRooms",emptyRooms);
         return param;
     }
 }
