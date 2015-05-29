@@ -16,6 +16,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -60,7 +61,7 @@ public class InnCustomerService implements IInnCustomerService {
             if (StringUtils.isEmpty(innCustomer.getCity())){
                 innCustomer.setCity(StringUtil.getString(Constants.OTHER_CITY));
             }
-            innCustomer.setPercent(DcUtil.divide(innCustomer.getNum(),totalNum));
+            innCustomer.setPercent(DcUtil.multiply(DcUtil.divide(innCustomer.getNum(),totalNum),new BigDecimal(100)));
         }
         return  list;
 
