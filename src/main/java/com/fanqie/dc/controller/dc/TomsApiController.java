@@ -49,14 +49,7 @@ public class TomsApiController {
     @RequestMapping(value = "/customer",method = RequestMethod.POST)
     @ResponseBody
     public JsonModel operate(ParamDto paramDto,Pagination pagination){
-        paramDto.setStartDate("2015-04-03 00:00:00");
-        paramDto.setEndDate("2015-04-03 23:59:00");
-        paramDto.setTagId("1");
-        paramDto.setUserId("2df7667a-6cf4-4320-8449-6483c643ea62");
-        paramDto.setInnId(12087);
-        paramDto.setDataPermission(false);
-        paramDto.setCompanyId("d0392bc8-131c-48a4-846e-c81c66097781");
-        paramDto.setTagId("d51c1bad-56a4-420b-aea2-fcace22af546");
+
         JsonModel model = new JsonModel();
         List<InnCustomer> innCustomerByPage = innCustomerService.findInnCustomerByPage(paramDto, pagination);
         model.setRows(innCustomerByPage);
@@ -72,7 +65,6 @@ public class TomsApiController {
     @RequestMapping(value = "/obtCustomerNum",method = RequestMethod.POST)
     @ResponseBody
     public Object customerNum(ParamDto paramDto){
-        paramDto.setUserId("2df7667a-6cf4-4320-8449-6483c643ea62");
         InnCustomerDto customerDto = innCustomerService.findInnCustomerNumAndCityNum(paramDto);
         return customerDto;
     }
