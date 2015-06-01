@@ -37,14 +37,32 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <select id="findDcInnActive" parameterType="com.fanqie.core.dto.ParamDto" resultMap="innActiveId" >
-        SELECT inn_id,inn_name,string_agg(CAST(create_date as VARCHAR),',') as create_dates,
-        string_agg(CAST(order_num as VARCHAR),',') as order_nums,
-        string_agg(CAST(check_in_num as VARCHAR),',') as check_in_nums,
-        string_agg(CAST(check_out_num as VARCHAR),',') as check_out_nums,
-        string_agg(CAST(operate_num as VARCHAR),',') as operate_nums
+        SELECT 	oo.inn_id,
+        oo.inn_name,
+        string_agg ( CAST (oo.create_date AS VARCHAR), ',' ) AS create_dates,
+        string_agg ( CAST (oo.order_num AS VARCHAR), ',' ) AS order_nums,
+        string_agg ( CAST (oo.check_in_num AS VARCHAR), ',' ) AS check_in_nums,
+        string_agg ( CAST (oo.check_out_num AS VARCHAR), ',' ) AS check_out_nums,
+        string_agg ( CAST (oo.operate_num AS VARCHAR), ','  ) AS operate_nums
+        from (
+          SELECT inn_id, inn_name,create_date,order_num,check_in_num,check_out_num,operate_num from inn_active
+          WHERE create_date BETWEEN '2015-04-01 00:00:00' AND '2015-04-30 23:59:59'
+          <if test="innIds != null">
+            and inn_id in
+            <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+          </if>
+          ORDER BY inn_id, create_date ASC
+        ) oo  GROUP BY oo.inn_id, oo.inn_name ;
+    </select>
+
+    <select id="findDcInnActiveCount" resultType="java.lang.Integer" parameterType="com.fanqie.core.dto.ParamDto" >
+        SELECT count(oo.inn_id)  from (
+        SELECT inn_id
         from inn_active
-        where create_date BETWEEN '2015-03-31' AND '2015-05-19 23:59:59'
-        and inn_id in(25822,25743,25742,25803,19220)
+        where create_date BETWEEN '${startDate}' AND '${endDate}'
+
         <if test="innIds != null">
             and inn_id in
             <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
@@ -52,6 +70,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </foreach>
         </if>
         GROUP BY inn_id,inn_name ORDER BY inn_id
+        ) oo
     </select>
 
 
