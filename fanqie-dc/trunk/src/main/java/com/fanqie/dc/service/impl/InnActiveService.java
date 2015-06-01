@@ -1,5 +1,6 @@
 package com.fanqie.dc.service.impl;
 
+import com.fanqie.core.domain.InnCustomer;
 import com.fanqie.dc.common.Param;
 import com.fanqie.dc.dao.IInnDcActiveDao;
 import com.fanqie.dc.dao.IInnPmsActiveDao;
@@ -8,6 +9,7 @@ import com.fanqie.core.dto.InnActiveDto;
 import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.util.DateUtil;
+import com.fanqie.util.Pagination;
 import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * DESC :
@@ -45,16 +48,19 @@ public class InnActiveService implements IInnActiveService {
     }
 
     @Override
-    public List<InnActiveDto> findDcInnActive(ParamDto paramDto) {
+    public List<InnActiveDto> findDcInnActive(ParamDto paramDto,Pagination page) {
         List<Date> dates = DateUtil.mouthDays(paramDto.getStartDate());
-        List<InnActiveDto> list = innDcActiveDao.findDcInnActive(paramDto);
+        String startDate1 = DateUtil.formatDateToString(dates.get(0), "yyyy-MM-dd 00:00:00");
+        String endDate1 = DateUtil.formatDateToString(dates.get(dates.size()-1),"yyyy-MM-dd 23:59:59");
+        paramDto.setStartDate(startDate1);
+        paramDto.setEndDate(endDate1);
+        Map<String, Object> objectMap = innDcActiveDao.findDcInnActivePage(paramDto, page);
+       /* Pagination pagination = (Pagination)objectMap.get("page");*/
+        //page.setRowsCount(pagination.getRowsCount());
+        List<InnActiveDto> list  =  (List<InnActiveDto>)objectMap.get("list");
         if (!CollectionUtils.isEmpty(dates)){
-            String startDate = DateUtil.formatDateToString(dates.get(0), "yyyy-MM-dd 00:00:00");
-            String endDate = DateUtil.formatDateToString(dates.get(dates.size()-1),"yyyy-MM-dd 23:59:59");
-            paramDto.setStartDate(startDate);
-            paramDto.setEndDate(endDate);
             if (!CollectionUtils.isEmpty(list)){
-                List<Integer> valueList = null;
+                List<Integer>  valueList =null;
                 for (InnActiveDto activeDto:list){
                     valueList = new ArrayList<Integer>();
                     String createDates = activeDto.getCreateDates();
@@ -62,29 +68,29 @@ public class InnActiveService implements IInnActiveService {
                     String[] checkInNumList = activeDto.getCheckInNumList().split(",");
                     String[] operateNumList = activeDto.getOperateNumList().split(",");
                     String[] orderNumList = activeDto.getOrderNumList().split(",");
-                    for (Date date:dates){
+                    //for (Date date:dates){
+                    for (int i=0;i<dates.size();i++){
+                        Date date = dates.get(i);
                         String d = DateUtil.formatDateToString(date, "yyyy-MM-dd");
-                        for (int i=0;i<dateCreate.length;i++){
-                            if (d.equals(dateCreate[i])){
-                                String checkInNum = checkInNumList[i];
-                                String orderNum = orderNumList[i];
-                                String operateNum = operateNumList[i];
-                                if (Integer.valueOf(checkInNum)>0){
-                                    valueList.add(Param.RU_ZHU);
-                                    continue;
-                                }else if (Integer.valueOf(orderNum)>0){
-                                    valueList.add(Param.CREATE_ORDER);
-                                    continue;
-                                }else if (Integer.valueOf(operateNum)>0){
-                                    valueList.add(Param.OPERATE);
-                                    continue;
-                                }else {
-                                    valueList.add(Param.NO_OPERATE);
-                                    continue;
-                                }
+                        if (dateCreate.length>i && d.equals(dateCreate[i])){
+                            String checkInNum = checkInNumList[i];
+                            String orderNum = orderNumList[i];
+                            String operateNum = operateNumList[i];
+                            if (Integer.valueOf(checkInNum)>0){
+                                valueList.add(Param.RU_ZHU);
+                                continue;
+                            }else if (Integer.valueOf(orderNum)>0){
+                                valueList.add(Param.CREATE_ORDER);
+                                continue;
+                            }else if (Integer.valueOf(operateNum)>0){
+                                valueList.add(Param.OPERATE);
+                                continue;
                             }else {
                                 valueList.add(Param.NO_OPERATE);
+                                continue;
                             }
+                        }else {
+                            valueList.add(Param.NO_OPERATE);
                         }
                     }
                     activeDto.setActiveList(valueList);

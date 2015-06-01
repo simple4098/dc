@@ -114,11 +114,12 @@ public class TomsApiController {
      */
     @RequestMapping("/innActive")
     @ResponseBody
-    public Object innActive(ParamDto paramDto){
+    public Object innActive(ParamDto paramDto,Pagination pagination){
         JsonModel jsonModel = new JsonModel();
-        paramDto.setStartDate("2015-05");
-        List<InnActiveDto> list = innActiveService.findDcInnActive(paramDto);
+        paramDto.setStartDate("2015-04");
+        List<InnActiveDto> list = innActiveService.findDcInnActive(paramDto,pagination);
         jsonModel.setRows(list);
+        jsonModel.setPagination(pagination);
         return jsonModel;
     }
     /**
@@ -129,6 +130,10 @@ public class TomsApiController {
     @ResponseBody
     public Object order(ParamDto paramDto){
         JsonModel jsonModel = new JsonModel();
+        paramDto.setStartDate("2015-05-23");
+        paramDto.setEndDate("2015-05-23 23:59:59");
+        paramDto.setInnId(753);
+
         List<OrderSource> list = orderSourceService.findDcOrderSource(paramDto);
         OrderSourceDto orderSource = orderSourceService.findDcOrderSourceNum(paramDto);
         jsonModel.setRows(list);

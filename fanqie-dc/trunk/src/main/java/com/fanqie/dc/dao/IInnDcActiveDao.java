@@ -4,9 +4,11 @@ import com.fanqie.dc.dao.base.IBaseDcDao;
 import com.fanqie.core.domain.InnActive;
 import com.fanqie.core.dto.InnActiveDto;
 import com.fanqie.core.dto.ParamDto;
+import com.fanqie.util.Pagination;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * DESC :
@@ -18,5 +20,5 @@ import java.util.List;
 public interface IInnDcActiveDao extends IBaseDcDao<InnActive> {
     void saveInnActive(List<InnActive> list,Date now);
 
-    List<InnActiveDto> findDcInnActive(ParamDto paramDto);
+    Map<String, Object> findDcInnActivePage(ParamDto paramDto,Pagination pagination);
 }

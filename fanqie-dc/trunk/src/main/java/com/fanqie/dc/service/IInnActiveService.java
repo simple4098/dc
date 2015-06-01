@@ -3,6 +3,7 @@ package com.fanqie.dc.service;
 import com.fanqie.core.domain.InnActive;
 import com.fanqie.core.dto.InnActiveDto;
 import com.fanqie.core.dto.ParamDto;
+import com.fanqie.util.Pagination;
 
 import java.util.List;
 
@@ -21,5 +22,5 @@ public interface IInnActiveService {
      * 第三方系统 客栈活跃报表
      * @param paramDto 查询查询
      */
-    List<InnActiveDto> findDcInnActive(ParamDto paramDto);
+    List<InnActiveDto> findDcInnActive(ParamDto paramDto,Pagination pagination);
 }

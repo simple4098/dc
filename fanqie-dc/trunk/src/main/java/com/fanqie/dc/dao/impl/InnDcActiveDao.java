@@ -7,6 +7,7 @@ import com.fanqie.dc.dao.base.BasePmsDaoImpl;
 import com.fanqie.core.domain.InnActive;
 import com.fanqie.core.dto.InnActiveDto;
 import com.fanqie.core.dto.ParamDto;
+import com.fanqie.util.Pagination;
 import org.springframework.stereotype.Repository;
 
 import java.util.Date;
@@ -33,9 +34,9 @@ public class InnDcActiveDao extends BaseDcDaoImpl<InnActive> implements IInnDcAc
     }
 
     @Override
-    public List<InnActiveDto> findDcInnActive(ParamDto paramDto) {
-
-        return templateDc.selectList(NA.concat("findDcInnActive"), paramDto);
+    public  Map<String, Object> findDcInnActivePage(ParamDto paramDto,Pagination pagination) {
+        Map<String, Object> map = queryByPage(paramDto, pagination, NA.concat("findDcInnActive"));
+        return map;
 
     }
 }
