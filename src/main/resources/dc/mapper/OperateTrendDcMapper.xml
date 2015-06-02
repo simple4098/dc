@@ -42,7 +42,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
      LEFT JOIN user_info u ON u.id = b.user_id
      LEFT JOIN inn_label lab ON lab.id = b.inn_label_id
      where 1=1
-     and o.create_date BETWEEN '2015-04-01 00:00:00' AND '2015-04-07 23:59:59'
+     and o.create_date BETWEEN '${startDate}' AND '${endDate}'
         <if test="!dataPermission">
             and b.user_id = '${userId}'
         </if>
@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LEFT JOIN bang_inn b ON b.inn_id = o.inn_id
         LEFT JOIN user_info u ON u.id = b.user_id
         LEFT JOIN inn_label lab ON lab.id = b.inn_label_id
-        where 1=1 and o.create_date BETWEEN '2015-04-01 00:00:00' AND '2015-05-13 23:59:59'
+        where 1=1 and o.create_date BETWEEN '${startDate}' AND '${endDate}'
         <if test="!dataPermission">
             and b.user_id = '${userId}'
         </if>
