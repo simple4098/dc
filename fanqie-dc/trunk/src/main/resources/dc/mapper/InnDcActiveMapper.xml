@@ -46,12 +46,15 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         string_agg ( CAST (oo.operate_num AS VARCHAR), ','  ) AS operate_nums
         from (
           SELECT inn_id, inn_name,create_date,order_num,check_in_num,check_out_num,operate_num from inn_active
-          WHERE create_date BETWEEN '2015-04-01 00:00:00' AND '2015-04-30 23:59:59'
+          WHERE create_date BETWEEN '${startDate}' AND '${endDate}'
           <if test="innIds != null">
             and inn_id in
             <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
                 #{item}
             </foreach>
+          </if>
+          <if test="innId != null">
+            and inn_id = #{innId}
           </if>
           ORDER BY inn_id, create_date ASC
         ) oo  GROUP BY oo.inn_id, oo.inn_name ;
@@ -68,6 +71,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
                 #{item}
             </foreach>
+        </if>
+        <if test="innId != null">
+            and inn_id = #{innId}
         </if>
         GROUP BY inn_id,inn_name ORDER BY inn_id
         ) oo
