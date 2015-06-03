@@ -53,8 +53,8 @@ public class InnCustomerService implements IInnCustomerService {
     public List<InnCustomer> findInnCustomerByPage(ParamDto paramDto, Pagination page) {
         Map<String,Object> map = innCustomerDcDao.queryInnCustomerByPage(paramDto,page);
         InnCustomerDto customerDto = innCustomerDcDao.findInnCustomerNumAndCityNum(paramDto);
-        Pagination pagination = (Pagination)map.get("page");
-        page.setRowsCount(pagination.getRowsCount());
+      /*  Pagination pagination = (Pagination)map.get("page");
+        page.setRowsCount(pagination.getRowsCount());*/
         List<InnCustomer> list =  (List<InnCustomer>)map.get("list");
         int totalNum = customerDto.getTotalNum();
         for (InnCustomer innCustomer:list){
