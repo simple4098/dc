@@ -44,7 +44,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ( SELECT o.empty_room_num,o.total_room_num,o.inn_id from operate_trend o where inn_id=#{innId} ORDER BY o.create_date desc LIMIT 1 ) opt ON opt.inn_id = o.inn_id
         LEFT JOIN bang_inn bi ON bi.inn_id = o.inn_id
         where o.inn_id=#{innId} and o.create_date BETWEEN  '${startDate}' AND '${endDate}'
-        and bi.user_id ='${userId}'
         GROUP  BY o.inn_id ,opt.empty_room_num,opt.total_room_num
     </select>
 
