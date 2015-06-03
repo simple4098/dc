@@ -49,7 +49,6 @@ public class TomsApiController {
     @RequestMapping(value = "/customer",method = RequestMethod.POST)
     @ResponseBody
     public JsonModel operate(ParamDto paramDto,Pagination pagination){
-
         JsonModel model = new JsonModel();
         List<InnCustomer> innCustomerByPage = innCustomerService.findInnCustomerByPage(paramDto, pagination);
         model.setRows(innCustomerByPage);
@@ -62,11 +61,10 @@ public class TomsApiController {
      * @param paramDto
      * @return
      */
-    @RequestMapping(value = "/obtCustomerNum",method = RequestMethod.POST)
+    @RequestMapping(value = "/obtCustomerNum")
     @ResponseBody
     public Object customerNum(ParamDto paramDto){
-        InnCustomerDto customerDto = innCustomerService.findInnCustomerNumAndCityNum(paramDto);
-        return customerDto;
+        return innCustomerService.findInnCustomerNumAndCityNum(paramDto);
     }
 
     /**
@@ -77,14 +75,6 @@ public class TomsApiController {
     @RequestMapping(value = "/operate",method = RequestMethod.POST)
     @ResponseBody
     public Object operateTrend(ParamDto paramDto){
-        paramDto.setStartDate("2015-04-01 00:00:00");
-        paramDto.setEndDate("2015-04-03 23:59:00");
-        paramDto.setTagId("1");
-        paramDto.setUserId("2df7667a-6cf4-4320-8449-6483c643ea62");
-        paramDto.setInnId(12087);
-        paramDto.setDataPermission(false);
-        paramDto.setCompanyId("d0392bc8-131c-48a4-846e-c81c66097781");
-        paramDto.setTagId("d51c1bad-56a4-420b-aea2-fcace22af546");
         OperateTrend operateTrend = operateTrendService.obtGeneralOperateTrend(paramDto);
         return operateTrend;
     }
@@ -92,18 +82,10 @@ public class TomsApiController {
      * 第三系统运营详情数据
      * @param paramDto 查询条件
      */
-    @RequestMapping("/opeDetail")
+    @RequestMapping(value = "/opeDetail",method = RequestMethod.POST)
     @ResponseBody
     public Object operateDetail(ParamDto paramDto){
         JsonModel jsonModel = new JsonModel();
-        paramDto.setStartDate("2015-04-01 00:00:00");
-        paramDto.setEndDate("2015-04-03 23:59:00");
-        paramDto.setTagId("1");
-        paramDto.setUserId("2df7667a-6cf4-4320-8449-6483c643ea62");
-        paramDto.setInnId(12087);
-        paramDto.setDataPermission(false);
-        paramDto.setCompanyId("d0392bc8-131c-48a4-846e-c81c66097781");
-        paramDto.setTagId("d51c1bad-56a4-420b-aea2-fcace22af546");
         Map<String,Object> operateTrendDto = operateTrendService.obtOpeDetail(paramDto);
         jsonModel.setResult(operateTrendDto);
         return jsonModel;
@@ -112,7 +94,7 @@ public class TomsApiController {
      * 活跃报表接口
      * @param paramDto 查询条件
      */
-    @RequestMapping("/innActive")
+    @RequestMapping(value = "/innActive",method = RequestMethod.POST)
     @ResponseBody
     public Object innActive(ParamDto paramDto,Pagination pagination){
         JsonModel jsonModel = new JsonModel();
@@ -126,14 +108,10 @@ public class TomsApiController {
      * 订单来源接口
      * @param paramDto 查询条件
      */
-    @RequestMapping("/order")
+    @RequestMapping(value = "/order",method = RequestMethod.POST)
     @ResponseBody
     public Object order(ParamDto paramDto){
         JsonModel jsonModel = new JsonModel();
-        paramDto.setStartDate("2015-05-23");
-        paramDto.setEndDate("2015-05-23 23:59:59");
-        paramDto.setInnId(753);
-
         List<OrderSource> list = orderSourceService.findDcOrderSource(paramDto);
         OrderSourceDto orderSource = orderSourceService.findDcOrderSourceNum(paramDto);
         jsonModel.setRows(list);
