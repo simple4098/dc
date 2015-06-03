@@ -98,7 +98,7 @@ public class TomsApiController {
     @ResponseBody
     public Object innActive(ParamDto paramDto,Pagination pagination){
         JsonModel jsonModel = new JsonModel();
-        paramDto.setStartDate("2015-04");
+       // paramDto.setStartDate("2015-04");
         List<InnActiveDto> list = innActiveService.findDcInnActive(paramDto,pagination);
         jsonModel.setRows(list);
         jsonModel.setPagination(pagination);
