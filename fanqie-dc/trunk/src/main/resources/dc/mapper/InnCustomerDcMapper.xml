@@ -66,6 +66,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <if test="tagId!=null and tagId!=''">
             AND b.inn_label_id ='${tagId}'
         </if>
+        <if test="innId!=null and innId!=''">
+            AND  b.inn_id=#{innId}
+        </if>
         ) oo
         GROUP BY oo.city  ORDER BY num desc
     </select>
@@ -86,6 +89,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         </if>
         <if test="tagId!=null and tagId!=''">
             AND b.inn_label_id ='${tagId}'
+        </if>
+        <if test="innId!=null and innId!=''">
+            AND  b.inn_id=#{innId}
         </if>
         ) oo
         GROUP BY oo.city  ) tt
