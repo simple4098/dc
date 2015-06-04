@@ -4,7 +4,6 @@ import com.fanqie.core.domain.InnCustomer;
 import com.fanqie.core.domain.OperateTrend;
 import com.fanqie.core.domain.OrderSource;
 import com.fanqie.core.dto.InnActiveDto;
-import com.fanqie.core.dto.InnCustomerDto;
 import com.fanqie.core.dto.OrderSourceDto;
 import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.service.IInnActiveService;
@@ -16,7 +15,6 @@ import com.fanqie.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
@@ -46,7 +44,7 @@ public class TomsApiController {
      * @param paramDto 查询对象
      * @param pagination 分页对象
      */
-    @RequestMapping(value = "/customer",method = RequestMethod.POST)
+    @RequestMapping(value = "/customer")
     @ResponseBody
     public JsonModel operate(ParamDto paramDto,Pagination pagination){
         JsonModel model = new JsonModel();
@@ -72,7 +70,7 @@ public class TomsApiController {
      * @param paramDto 查询条件
      * @return
      */
-    @RequestMapping(value = "/operate",method = RequestMethod.POST)
+    @RequestMapping(value = "/operate")
     @ResponseBody
     public Object operateTrend(ParamDto paramDto){
         OperateTrend operateTrend = operateTrendService.obtGeneralOperateTrend(paramDto);
@@ -82,7 +80,7 @@ public class TomsApiController {
      * 第三系统运营详情数据
      * @param paramDto 查询条件
      */
-    @RequestMapping(value = "/opeDetail",method = RequestMethod.POST)
+    @RequestMapping(value = "/opeDetail" )
     @ResponseBody
     public Object operateDetail(ParamDto paramDto){
         JsonModel jsonModel = new JsonModel();
@@ -94,7 +92,7 @@ public class TomsApiController {
      * 活跃报表接口
      * @param paramDto 查询条件
      */
-    @RequestMapping(value = "/innActive",method = RequestMethod.POST)
+    @RequestMapping(value = "/innActive" )
     @ResponseBody
     public Object innActive(ParamDto paramDto,Pagination pagination){
         JsonModel jsonModel = new JsonModel();
@@ -108,7 +106,7 @@ public class TomsApiController {
      * 订单来源接口
      * @param paramDto 查询条件
      */
-    @RequestMapping(value = "/order",method = RequestMethod.POST)
+    @RequestMapping(value = "/order" )
     @ResponseBody
     public Object order(ParamDto paramDto){
         JsonModel jsonModel = new JsonModel();
