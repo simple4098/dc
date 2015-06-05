@@ -47,7 +47,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from (
           SELECT inn_id, inn_name,create_date,order_num,check_in_num,check_out_num,operate_num from inn_active
           WHERE create_date BETWEEN '${startDate}' AND '${endDate}'
-          <if test="innIds != null">
+          <if test="innIds != null and innId == null">
             and inn_id in
             <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
                 #{item}
@@ -66,7 +66,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from inn_active
         where create_date BETWEEN '${startDate}' AND '${endDate}'
 
-        <if test="innIds != null">
+        <if test="innIds != null and innId == null">
             and inn_id in
             <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
                 #{item}
