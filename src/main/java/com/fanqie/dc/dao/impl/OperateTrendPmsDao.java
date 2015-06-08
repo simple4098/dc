@@ -22,9 +22,10 @@ public class OperateTrendPmsDao extends BasePmsDaoImpl<OperateTrend> implements 
     private static  final  String NA = "com.fanqie.dc.dao.IOperateTrendPmsDao.";
 
     @Override
-    public List<OperateTrend> findOperateDataByDate(String toDate) {
+    public List<OperateTrend> findOperateDataByDate(String from,String to) {
         Map<String,Object> param = new HashMap<String, Object>();
-        param.put("toDate",toDate);
-        return this.templatePms.selectList(NA.concat("findOperateDataByDate"),toDate);
+        param.put("from",from);
+        param.put("to",to);
+        return this.templatePms.selectList(NA.concat("findOperateDataByDate"),param);
     }
 }

@@ -42,7 +42,9 @@ public class InnActiveService implements IInnActiveService {
         if (!CollectionUtils.isEmpty(innActive)){
            // Date now = DateUtil.addDay(new Date(), -1);
             Date date = DateUtil.parseDate(from);
-            innDcActiveDao.saveInnActive(innActive,date);
+            for (InnActive active:innActive){
+                innDcActiveDao.saveInnActive(active,date);
+            }
         }
 
     }

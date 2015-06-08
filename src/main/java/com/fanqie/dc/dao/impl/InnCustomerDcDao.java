@@ -27,7 +27,11 @@ public class InnCustomerDcDao extends BaseDcDaoImpl<InnCustomer> implements IInn
     public void saveInnCustomer(List<InnCustomer> list) {
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("list",list);
-        this.templateDc.insert(NA.concat("saveInnCustomer"),param);
+        this.templateDc.insert(NA.concat("saveInnCustomerList"),param);
+    }
+    @Override
+    public void saveInnCustomer(InnCustomer innCustomer) {
+        this.templateDc.insert(NA.concat("saveInnCustomer"),innCustomer);
     }
 
     public Map<String, Object> queryInnCustomerByPage(ParamDto paramDto, Pagination page) {

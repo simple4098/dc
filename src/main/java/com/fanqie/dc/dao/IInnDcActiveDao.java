@@ -19,6 +19,7 @@ import java.util.Map;
  */
 public interface IInnDcActiveDao extends IBaseDcDao<InnActive> {
     void saveInnActive(List<InnActive> list,Date now);
+    void saveInnActive(InnActive list,Date now);
 
     Map<String, Object> findDcInnActivePage(ParamDto paramDto,Pagination pagination);
 }

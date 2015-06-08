@@ -30,8 +30,8 @@ public class OperateTrendService implements IOperateTrendService{
     private IOperateTrendDcDao operateTrendDcDao;
 
     @Override
-    public List<OperateTrend> findOperateTrendService(String date) {
-        return operateTrendPmsDao.findOperateDataByDate(date);
+    public List<OperateTrend> findOperateTrendService(String from,String to) {
+        return operateTrendPmsDao.findOperateDataByDate(from, to);
     }
 
     @Override

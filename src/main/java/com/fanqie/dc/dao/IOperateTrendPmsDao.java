@@ -13,6 +13,6 @@ import java.util.List;
  */
 public interface IOperateTrendPmsDao extends IBasePmsDao<OperateTrend> {
 
-    List<OperateTrend> findOperateDataByDate(String toDate);
+    List<OperateTrend> findOperateDataByDate(String from,String to);
 
 }

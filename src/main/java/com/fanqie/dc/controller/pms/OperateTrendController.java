@@ -7,6 +7,7 @@ import com.fanqie.core.domain.OperateTrend;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,20 +34,18 @@ public class OperateTrendController {
 
     @RequestMapping("/data")
     @ResponseBody
-    public Object validateIp(String start){
+    public Object validateIp(String from,String to){
       final   Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        String from = "2015-05-05 00:00:00";
-        String to = "2015-05-05 23:59:59";
-        to = DateUtil.toDate(-1);
-        for (int i=1; i<50;i++){
-            from = DateUtil.fromDate(-(i+30));
-            List<OperateTrend> trendService = operateTrendService.findOperateTrendService(from);
-            operateTrendService.saveOperateTrend(trendService);
+        if (StringUtils.isEmpty(from)){
+            from = DateUtil.fromDate(-1);
         }
-       /* String  startDate = DateUtil.fromDate(-1);
-        List<OperateTrend> trendService = operateTrendService.findOperateTrendService(startDate);
-        operateTrendService.saveOperateTrend(trendService);*/
+        if (StringUtils.isEmpty(to)){
+            to =  DateUtil.toDate(-1);
+        }
+        List<OperateTrend> trendService = operateTrendService.findOperateTrendService(from,to);
+        operateTrendService.saveOperateTrend(trendService);
+
         return param;
     }
 

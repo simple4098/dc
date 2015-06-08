@@ -27,7 +27,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         INNER JOIN tomato_inn_main_order m ON m.id = t.main_id
         INNER JOIN tomato_inn_room r ON r.id = t.room_id
         LEFT  JOIN tomato_inn_customer_from cf ON cf.id = m.customer_from_id
-        WHERE 1=1 AND m.order_status >3 AND  m.check_out_at  BETWEEN '${from}' AND '${to}'
+        WHERE 1=1 AND m.order_status >1 AND  m.check_out_at  BETWEEN '${from}' AND '${to}'
         GROUP BY m.customer_from_id,t.inn_id,cf.name
     </select>
 
