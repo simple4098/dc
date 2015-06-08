@@ -17,7 +17,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="cityNum" property="totalCityNum"/>
     </resultMap>
 
-    <insert id="saveInnCustomer" parameterType="java.util.Map" >
+    <insert id="saveInnCustomer" parameterType="com.fanqie.core.domain.InnCustomer" >
+        insert into inn_customer(id,inn_id,num,province,city,create_date)
+        values ( '${uuid}','${innId}','${num}',#{province},#{city},#{createdDate})
+    </insert>
+    <insert id="saveInnCustomerList" parameterType="java.util.Map" >
         insert into inn_customer(id,inn_id,num,province,city,create_date)
         values
         <if test="list.size() > 0">

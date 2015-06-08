@@ -5,6 +5,7 @@ import com.fanqie.dc.common.Param;
 import com.fanqie.core.domain.InnActive;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,18 +33,17 @@ public class InnActiveController {
 
     @RequestMapping("/active")
     @ResponseBody
-    public Object innActive(){
+    public Object innActive(String from,String to){
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        String from = "2015-05-05 00:00:00";
-        String to = "2015-05-05 23:59:59";
-        for (int i=35;i<51;i++){
-            from = DateUtil.fromDate(-i);
-            to = DateUtil.toDate(-i);
-            List<InnActive> innActive = innActiveService.findDayInnActive(from, to);
-            innActiveService.saveInnActive(innActive,from);
+        if (StringUtils.isEmpty(from)){
+            from = DateUtil.fromDate(-1);
         }
-
+        if (StringUtils.isEmpty(to)){
+            to =  DateUtil.toDate(-1);
+        }
+        List<InnActive> innActive = innActiveService.findDayInnActive(from, to);
+        innActiveService.saveInnActive(innActive,from);
         return param;
     }
 

@@ -7,6 +7,7 @@ import com.fanqie.core.domain.OperateTrend;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,11 +34,15 @@ public class InnCustomerController {
 
     @RequestMapping("/customer")
     @ResponseBody
-    public Object validateIp(String start){
+    public Object validateIp(String from,String to){
       final   Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        String from ="2015-04-03 00:00:00";// DateUtil.fromDate(-1);
-        String to ="2015-04-03 23:59:59";// DateUtil.toDate(-1);
+        if (StringUtils.isEmpty(from)){
+            from = DateUtil.fromDate(-1);
+        }
+        if (StringUtils.isEmpty(to)){
+            to =  DateUtil.toDate(-1);
+        }
         List<InnCustomer> date = innCustomerService.findInnCustomerByDate(from, to);
 
         innCustomerService.saveInnCustomer(date);

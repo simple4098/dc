@@ -18,9 +18,10 @@ public interface IOperateTrendService {
 
     /**
      * 查询pms 运营数据
-     * @param date 要查询的日期
+     * @param form 开始时间
+     * @param to 结束时间
      */
-    List<OperateTrend> findOperateTrendService(String date);
+    List<OperateTrend> findOperateTrendService(String form,String to);
 
     /**
      * 把客栈一天的运营数据保存在数据中心

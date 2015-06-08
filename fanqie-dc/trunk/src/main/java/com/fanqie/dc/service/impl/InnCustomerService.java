@@ -43,8 +43,9 @@ public class InnCustomerService implements IInnCustomerService {
         if (!CollectionUtils.isEmpty(list)){
             for (InnCustomer customer:list){
                 CustomerUtil.innCustomerCityAndProvince(customer);
+                innCustomerDcDao.saveInnCustomer(customer);
             }
-            innCustomerDcDao.saveInnCustomer(list);
+            //innCustomerDcDao.saveInnCustomer(list);
         }
 
     }

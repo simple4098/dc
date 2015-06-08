@@ -26,14 +26,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="create_dates" property="createDates"/>
     </resultMap>
 
-    <insert id="saveInnActive" parameterType="java.util.Map">
+    <insert id="saveInnActiveList" parameterType="java.util.Map">
         insert into inn_active(id,inn_id,inn_name,mobile,create_date,order_num,check_in_num,check_out_num,msg_num,operate_num)
         values
         <if test="list.size() > 0">
             <foreach collection="list" item="v" separator=","  >
-                ( '${v.uuid}','${v.innId}','${v.innName}','${v.mobile}',#{now},#{v.orderNum},#{v.checkInNum},#{v.checkOutNum},#{v.msgNum},#{v.operateNum})
+                ( '${v.uuid}','${v.innId}',#{v.innName},'${v.mobile}',#{now},#{v.orderNum},#{v.checkInNum},#{v.checkOutNum},#{v.msgNum},#{v.operateNum})
             </foreach>
         </if>
+    </insert>
+    <insert id="saveInnActive" parameterType="com.fanqie.core.domain.InnActive">
+        insert into inn_active(id,inn_id,inn_name,mobile,create_date,order_num,check_in_num,check_out_num,msg_num,operate_num)
+        values ( '${uuid}','${innId}',#{innName},'${mobile}',now(),#{orderNum},#{checkInNum},#{checkOutNum},#{msgNum},#{operateNum})
     </insert>
 
     <select id="findDcInnActive" parameterType="com.fanqie.core.dto.ParamDto" resultMap="innActiveId" >

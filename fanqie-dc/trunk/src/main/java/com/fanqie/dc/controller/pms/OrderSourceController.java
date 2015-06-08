@@ -5,6 +5,7 @@ import com.fanqie.dc.common.Param;
 import com.fanqie.core.domain.OrderSource;
 import com.fanqie.dc.service.IOrderSourceService;
 import com.fanqie.util.DateUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,14 +35,15 @@ public class OrderSourceController {
 
     @RequestMapping("/source")
     @ResponseBody
-    public Object order(){
+    public Object order(String from,String to){
       final   Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        String from = "2014-04-05 00:00:00";
-        String to = "2014-04-05 23:59:59";
-       /* from = DateUtil.fromDate(-1);
-        to = DateUtil.toDate(-1);*/
-
+        if (StringUtils.isEmpty(from)){
+            from = DateUtil.fromDate(-1);
+        }
+        if (StringUtils.isEmpty(to)){
+            to =  DateUtil.toDate(-1);
+        }
         List<OrderSource> orderSource = orderSourceService.findOrderSource(from, to);
         DateTime dateTime = DateUtil.addDate(-1);
         Date date = DateUtil.dateTimeToDate(dateTime);

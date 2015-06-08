@@ -16,4 +16,6 @@ import java.util.List;
 public interface IInnCustomerDcDao extends IBaseDcDao<InnCustomer> {
 
     void saveInnCustomer(List<InnCustomer> list);
+
+    void saveInnCustomer(InnCustomer list);
 }
