@@ -33,8 +33,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <select id="findDcOrderSource" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapId">
-        SELECT o.* from order_source o
-        where o.inn_id=${innId} and o.create_date BETWEEN  '${startDate}' AND '${endDate}'
+        SELECT sum(o.income) income , sum(o.order_num) order_num,o.from_name,sum(o.live_num) live_num
+        from order_source o where o.inn_id=${innId}
+        and o.create_date   BETWEEN  '${startDate}' AND '${endDate}' GROUP BY o.from_id ,o.from_name;
     </select>
 
     <select id="findOrderSourceNum" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapDtoId">
@@ -42,7 +43,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         from order_source o
         LEFT JOIN
         ( SELECT o.empty_room_num,o.total_room_num,o.inn_id from operate_trend o where inn_id=#{innId} ORDER BY o.create_date desc LIMIT 1 ) opt ON opt.inn_id = o.inn_id
-        LEFT JOIN bang_inn bi ON bi.inn_id = o.inn_id
         where o.inn_id=#{innId} and o.create_date BETWEEN  '${startDate}' AND '${endDate}'
         GROUP  BY o.inn_id ,opt.empty_room_num,opt.total_room_num
     </select>

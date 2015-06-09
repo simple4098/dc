@@ -6,6 +6,7 @@ import com.fanqie.core.domain.OrderSource;
 import com.fanqie.core.dto.OrderSourceDto;
 import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.service.IOrderSourceService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,7 +40,13 @@ public class OrderSourceService implements IOrderSourceService {
 
     @Override
     public List<OrderSource> findDcOrderSource(ParamDto paramDto) {
-        return orderSourceDcDao.findDcOrderSource(paramDto);
+        List<OrderSource> list = orderSourceDcDao.findDcOrderSource(paramDto);
+        for (OrderSource orderSource:list){
+            if (orderSource!=null && StringUtils.isEmpty(orderSource.getFromName())){
+                 orderSource.setFromName("未选择");
+            }
+        }
+        return list;
     }
 
     @Override
