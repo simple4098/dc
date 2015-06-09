@@ -18,7 +18,7 @@ public interface IOrderSourceService {
 
     List<OrderSource> findOrderSource(String from,String to);
 
-    void  saveOrderSource(List<OrderSource> list,Date date);
+    void  saveOrderSource(List<OrderSource> list);
 
     /**
      * 给第三方提供某一个客栈的订单情况接口

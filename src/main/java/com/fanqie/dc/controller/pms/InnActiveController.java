@@ -5,6 +5,7 @@ import com.fanqie.dc.common.Param;
 import com.fanqie.core.domain.InnActive;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.util.DateUtil;
+import com.fanqie.util.DcUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,8 +44,19 @@ public class InnActiveController {
         if (StringUtils.isEmpty(to)){
             to =  DateUtil.toDate(-1);
         }
-        List<InnActive> innActive = innActiveService.findDayInnActive(from, to);
-        innActiveService.saveInnActive(innActive,from);
+        int day = (int)DateUtil.subDay(from, to);
+        if (day>0){
+            for (int i=0;i<day;i++){
+               String from1 = DateUtil.fromDate(i,from);
+               String to1 = DateUtil.toDate(from);
+               List<InnActive> innActive = innActiveService.findDayInnActive(from1, to1);
+               innActiveService.saveInnActive(innActive,from1);
+            }
+        }else {
+            List<InnActive> innActive = innActiveService.findDayInnActive(from, to);
+            innActiveService.saveInnActive(innActive,from);
+        }
+
         return param;
     }
 

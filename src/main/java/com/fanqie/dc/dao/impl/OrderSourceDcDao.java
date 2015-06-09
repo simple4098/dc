@@ -25,11 +25,11 @@ public class OrderSourceDcDao extends BaseDcDaoImpl<OrderSource> implements IOrd
 
 
     @Override
-    public void saveOrderSource(List<OrderSource> list,Date date) {
-        Map<String,Object> param = new HashMap<String, Object>();
+    public void saveOrderSource(List<OrderSource> list) {
+       /* Map<String,Object> param = new HashMap<String, Object>();
         param.put("list",list);
-        param.put("date",date);
-        templateDc.insert(NA.concat("saveOrderSource"),param);
+        param.put("date",date);*/
+        templateDc.insert(NA.concat("saveOrderSource"),list);
     }
 
     @Override
