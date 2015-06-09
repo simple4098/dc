@@ -57,8 +57,6 @@ public class InnActiveService implements IInnActiveService {
         paramDto.setStartDate(startDate1);
         paramDto.setEndDate(endDate1);
         Map<String, Object> objectMap = innDcActiveDao.findDcInnActivePage(paramDto, page);
-       /* Pagination pagination = (Pagination)objectMap.get("page");*/
-        //page.setRowsCount(pagination.getRowsCount());
         List<InnActiveDto> list  =  (List<InnActiveDto>)objectMap.get("list");
         if (!CollectionUtils.isEmpty(dates)){
             if (!CollectionUtils.isEmpty(list)){

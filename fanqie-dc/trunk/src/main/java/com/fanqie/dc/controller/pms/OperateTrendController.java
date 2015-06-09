@@ -34,7 +34,7 @@ public class OperateTrendController {
 
     @RequestMapping("/data")
     @ResponseBody
-    public Object validateIp(String from,String to){
+    public Object operate(String from,String to){
       final   Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
         if (StringUtils.isEmpty(from)){

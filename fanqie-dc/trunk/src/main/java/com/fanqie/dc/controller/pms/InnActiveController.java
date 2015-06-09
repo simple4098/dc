@@ -48,7 +48,7 @@ public class InnActiveController {
         if (day>0){
             for (int i=0;i<day;i++){
                String from1 = DateUtil.fromDate(i,from);
-               String to1 = DateUtil.toDate(from);
+               String to1 = DateUtil.toDate(from1);
                List<InnActive> innActive = innActiveService.findDayInnActive(from1, to1);
                innActiveService.saveInnActive(innActive,from1);
             }

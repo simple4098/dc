@@ -34,7 +34,7 @@ public class InnCustomerController {
 
     @RequestMapping("/customer")
     @ResponseBody
-    public Object validateIp(String from,String to){
+    public Object customer(String from,String to){
       final   Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
         if (StringUtils.isEmpty(from)){
