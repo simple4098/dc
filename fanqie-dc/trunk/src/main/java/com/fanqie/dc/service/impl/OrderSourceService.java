@@ -33,8 +33,8 @@ public class OrderSourceService implements IOrderSourceService {
     }
 
     @Override
-    public void saveOrderSource(List<OrderSource> list,Date date) {
-        orderSourceDcDao.saveOrderSource(list,date);
+    public void saveOrderSource(List<OrderSource> list) {
+        orderSourceDcDao.saveOrderSource(list);
     }
 
     @Override

@@ -45,9 +45,7 @@ public class OrderSourceController {
             to =  DateUtil.toDate(-1);
         }
         List<OrderSource> orderSource = orderSourceService.findOrderSource(from, to);
-        DateTime dateTime = DateUtil.addDate(-1);
-        Date date = DateUtil.dateTimeToDate(dateTime);
-        orderSourceService.saveOrderSource(orderSource,date);
+        orderSourceService.saveOrderSource(orderSource);
 
         return param;
     }

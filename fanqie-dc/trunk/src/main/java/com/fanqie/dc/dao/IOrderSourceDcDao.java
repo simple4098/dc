@@ -16,7 +16,7 @@ import java.util.List;
 public interface IOrderSourceDcDao extends IBaseDcDao<OrderSource> {
 
 
-   void  saveOrderSource(List<OrderSource> list,Date date);
+   void  saveOrderSource(List<OrderSource> list);
 
    List<OrderSource> findDcOrderSource(ParamDto paramDto);
 
