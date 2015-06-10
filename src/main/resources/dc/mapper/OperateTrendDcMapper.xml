@@ -69,10 +69,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         LEFT JOIN user_info u ON u.id = b.user_id
         LEFT JOIN inn_label lab ON lab.id = b.inn_label_id
         where 1=1 and o.create_date BETWEEN '${startDate}' AND '${endDate}'
-        <if test="!dataPermission">
+        <if test="dataPermission==0">
             and b.user_id = '${userId}'
         </if>
-        <if test="dataPermission">
+        <if test="dataPermission==1">
             and b.company_id='${companyId}'
         </if>
         <if test="tagId!=null and tagId!=''">
