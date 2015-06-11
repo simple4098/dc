@@ -37,7 +37,7 @@ public class InnDcActiveDao extends BaseDcDaoImpl<InnActive> implements IInnDcAc
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("o",active);
         param.put("now",now);
-        templateDc.insert(NA.concat("saveInnActive"),active);
+        templateDc.insert(NA.concat("saveInnActive"),param);
     }
 
     @Override

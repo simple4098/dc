@@ -10,7 +10,7 @@ public interface Param {
      final static  String  SUCCESS = "success";
      //入住订单
      final static  Integer RU_ZHU=3;
-     //创建订单
+     //创建预定订单
      final static  Integer CREATE_ORDER=2;
      //操作记录
      final static  Integer OPERATE=1;

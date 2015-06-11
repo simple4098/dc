@@ -24,6 +24,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         <result column="check_out_nums" property="checkOutNumList"/>
         <result column="operate_nums" property="operateNumList"/>
         <result column="create_dates" property="createDates"/>
+        <result column="mobile" property="mobile"/>
     </resultMap>
 
     <insert id="saveInnActiveList" parameterType="java.util.Map">
@@ -37,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
     <insert id="saveInnActive" parameterType="com.fanqie.core.domain.InnActive">
         insert into inn_active(id,inn_id,inn_name,mobile,create_date,order_num,check_in_num,check_out_num,msg_num,operate_num)
-        values ( '${uuid}','${innId}',#{innName},'${mobile}',now(),#{orderNum},#{checkInNum},#{checkOutNum},#{msgNum},#{operateNum})
+        values ( '${o.uuid}','${o.innId}',#{o.innName},'${o.mobile}',#{now},#{o.orderNum},#{o.checkInNum},#{o.checkOutNum},#{o.msgNum},#{o.operateNum})
     </insert>
 
     <select id="findDcInnActive" parameterType="com.fanqie.core.dto.ParamDto" resultMap="innActiveId" >
@@ -47,39 +48,49 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         string_agg ( CAST (oo.order_num AS VARCHAR), ',' ) AS order_nums,
         string_agg ( CAST (oo.check_in_num AS VARCHAR), ',' ) AS check_in_nums,
         string_agg ( CAST (oo.check_out_num AS VARCHAR), ',' ) AS check_out_nums,
-        string_agg ( CAST (oo.operate_num AS VARCHAR), ','  ) AS operate_nums
+        string_agg ( CAST (oo.operate_num AS VARCHAR), ','  ) AS operate_nums,
+        max(oo.mobile) mobile
         from (
-          SELECT inn_id, inn_name,create_date,order_num,check_in_num,check_out_num,operate_num from inn_active
-          WHERE create_date BETWEEN '${startDate}' AND '${endDate}'
+          SELECT o.inn_id, o.inn_name, o.create_date, o.order_num, o.check_in_num,
+          o.check_out_num, o.operate_num, bi.mobile mobile
+          from inn_active o
+          LEFT JOIN bang_inn bi ON bi.inn_id = o.inn_id
+          WHERE o.create_date BETWEEN '${startDate}' AND '${endDate}'
           <if test="innIds != null and innId == null">
-            and inn_id in
+            and o.inn_id in
             <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
                 #{item}
             </foreach>
           </if>
           <if test="innId != null">
-            and inn_id = #{innId}
+            and o.inn_id = #{innId}
           </if>
-          ORDER BY inn_id, create_date ASC
+        <if test="tagId!=null and tagId!=''">
+            AND bi.inn_label_id ='${tagId}'
+        </if>
+          ORDER BY o.inn_id, o.create_date ASC
         ) oo  GROUP BY oo.inn_id, oo.inn_name ;
     </select>
 
     <select id="findDcInnActiveCount" resultType="java.lang.Integer" parameterType="com.fanqie.core.dto.ParamDto" >
         SELECT count(oo.inn_id)  from (
-        SELECT inn_id
-        from inn_active
-        where create_date BETWEEN '${startDate}' AND '${endDate}'
-
+        SELECT o.inn_id
+        from inn_active o
+        LEFT JOIN bang_inn bi ON bi.inn_id = o.inn_id
+        WHERE o.create_date BETWEEN '${startDate}' AND '${endDate}'
         <if test="innIds != null and innId == null">
-            and inn_id in
+            and o.inn_id in
             <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
                 #{item}
             </foreach>
         </if>
         <if test="innId != null">
-            and inn_id = #{innId}
+            and o.inn_id = #{innId}
         </if>
-        GROUP BY inn_id,inn_name ORDER BY inn_id
+        <if test="tagId!=null and tagId!=''">
+            AND bi.inn_label_id ='${tagId}'
+        </if>
+        GROUP BY o.inn_id,o.inn_name ORDER BY o.inn_id
         ) oo
     </select>
 
