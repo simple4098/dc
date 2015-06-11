@@ -1,12 +1,11 @@
 package com.fanqie.dc.service.impl;
 
-import com.fanqie.core.domain.InnCustomer;
-import com.fanqie.dc.common.Param;
-import com.fanqie.dc.dao.IInnDcActiveDao;
-import com.fanqie.dc.dao.IInnPmsActiveDao;
 import com.fanqie.core.domain.InnActive;
 import com.fanqie.core.dto.InnActiveDto;
 import com.fanqie.core.dto.ParamDto;
+import com.fanqie.dc.common.Param;
+import com.fanqie.dc.dao.IInnDcActiveDao;
+import com.fanqie.dc.dao.IInnPmsActiveDao;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.util.DateUtil;
 import com.fanqie.util.Pagination;
@@ -14,10 +13,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * DESC :
@@ -66,6 +62,7 @@ public class InnActiveService implements IInnActiveService {
                     valueList = new ArrayList<Integer>();
                     String createDates = activeDto.getCreateDates();
                     String[] dateCreate = createDates.split(",");
+                    List<String> dateCreateList = Arrays.asList(dateCreate);
                     String[] checkInNumList = activeDto.getCheckInNumList().split(",");
                     String[] operateNumList = activeDto.getOperateNumList().split(",");
                     String[] orderNumList = activeDto.getOrderNumList().split(",");
@@ -73,10 +70,11 @@ public class InnActiveService implements IInnActiveService {
                     for (int i=0;i<dates.size();i++){
                         Date date = dates.get(i);
                         String d = DateUtil.formatDateToString(date, "yyyy-MM-dd");
-                        if (dateCreate.length>i && d.equals(dateCreate[i])){
-                            String checkInNum = checkInNumList[i];
-                            String orderNum = orderNumList[i];
-                            String operateNum = operateNumList[i];
+                        if (dateCreate.length>i && dateCreateList.contains(d)){
+                            int y = dateCreateList.indexOf(d);
+                            String checkInNum = checkInNumList[y];
+                            String orderNum = orderNumList[y];
+                            String operateNum = operateNumList[y];
                             if (Integer.valueOf(checkInNum)>0){
                                 valueList.add(Param.RU_ZHU);
                                 continue;
