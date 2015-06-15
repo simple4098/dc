@@ -115,8 +115,8 @@
 		</bean>
 	</beans>
 	<beans profile="production">
-		<jee:jndi-lookup id="dataSource-dc" jndi-name="java:comp/env/jdbc/dc"/>
-		<jee:jndi-lookup id="dataSource-pms" jndi-name="java:comp/env/jdbc/pms"/>
+		<jee:jndi-lookup id="dataSource-dc" jndi-name="java:comp/env/jdbc/tomato-toms"/>
+		<jee:jndi-lookup id="dataSource-pms" jndi-name="java:comp/env/jdbc/tomato-pms"/>
 	</beans>
 
 </beans>
