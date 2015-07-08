@@ -55,7 +55,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
           o.check_out_num, o.operate_num, bi.mobile mobile
           from inn_active o
           LEFT JOIN bang_inn bi ON bi.inn_id = o.inn_id
-          WHERE o.create_date BETWEEN '${startDate}' AND '${endDate}'
+          WHERE bi.deleted = 0 and o.create_date BETWEEN '${startDate}' AND '${endDate}'
           <if test="innIds != null and innId == null">
             and o.inn_id in
             <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
@@ -77,7 +77,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT o.inn_id
         from inn_active o
         LEFT JOIN bang_inn bi ON bi.inn_id = o.inn_id
-        WHERE o.create_date BETWEEN '${startDate}' AND '${endDate}'
+        WHERE bi.deleted = 0 and o.create_date BETWEEN '${startDate}' AND '${endDate}'
         <if test="innIds != null and innId == null">
             and o.inn_id in
             <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
