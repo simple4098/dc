@@ -35,7 +35,8 @@ public class OperateTrendController {
     @RequestMapping("/data")
     @ResponseBody
     public Object operate(String from,String to){
-      final   Map<String,Object> param = new HashMap<String, Object>();
+      logger.debug("====客栈操作数据 start =====");
+        Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
         if (StringUtils.isEmpty(from)){
             from = DateUtil.fromDate(-1);
@@ -44,6 +45,7 @@ public class OperateTrendController {
             to =  DateUtil.toDate(-1);
         }
         List<OperateTrend> trendService = operateTrendService.findOperateTrendService(from,to);
+        logger.debug("form:"+from+" to:"+to);
         operateTrendService.saveOperateTrend(trendService);
 
         return param;
