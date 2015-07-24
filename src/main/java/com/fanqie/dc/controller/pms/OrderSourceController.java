@@ -1,6 +1,7 @@
 package com.fanqie.dc.controller.pms;
 
 
+import com.fanqie.core.domain.OperateTrend;
 import com.fanqie.dc.common.Param;
 import com.fanqie.core.domain.OrderSource;
 import com.fanqie.dc.service.IOrderSourceService;
@@ -35,20 +36,28 @@ public class OrderSourceController {
 
     @RequestMapping("/source")
     @ResponseBody
-    public Object order(String from,String to){
-        logger.debug("====订单来源 start =====");
-      final   Map<String,Object> param = new HashMap<String, Object>();
+    public Object order(final String from,final String to){
+        logger.info("====订单来源 start =====");
+        Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        if (StringUtils.isEmpty(from)){
-            from = DateUtil.fromDate(-1);
-        }
-        if (StringUtils.isEmpty(to)){
-            to =  DateUtil.toDate(-1);
-        }
-        logger.debug("form:"+from+" to:"+to);
-        List<OrderSource> orderSource = orderSourceService.findOrderSource(from, to);
-        orderSourceService.saveOrderSource(orderSource);
-
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                List<OrderSource> orderSource = null;
+                if (StringUtils.isEmpty(from) || StringUtils.isEmpty(to)){
+                    String from = DateUtil.fromDate(-1);
+                    String to   = DateUtil.toDate(-1);
+                    logger.debug("form:"+from+" to:"+to);
+                    orderSource = orderSourceService.findOrderSource(from, to);
+                }else {
+                    orderSource = orderSourceService.findOrderSource(from, to);
+                    logger.debug("form:"+from+" to:"+to);
+                }
+                orderSourceService.saveOrderSource(orderSource);
+            }
+        };
+        Thread t = new Thread(runnable);
+        t.start();
         return param;
     }
 

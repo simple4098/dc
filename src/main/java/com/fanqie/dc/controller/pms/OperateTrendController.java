@@ -34,20 +34,29 @@ public class OperateTrendController {
 
     @RequestMapping("/data")
     @ResponseBody
-    public Object operate(String from,String to){
+    public Object operate(final String from,final String to){
       logger.debug("====客栈操作数据 start =====");
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        if (StringUtils.isEmpty(from)){
-            from = DateUtil.fromDate(-1);
-        }
-        if (StringUtils.isEmpty(to)){
-            to =  DateUtil.toDate(-1);
-        }
-        List<OperateTrend> trendService = operateTrendService.findOperateTrendService(from,to);
-        logger.debug("form:"+from+" to:"+to);
-        operateTrendService.saveOperateTrend(trendService);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                List<OperateTrend> trendService =null;
+                if (StringUtils.isEmpty(from) || StringUtils.isEmpty(to)) {
+                    String from = DateUtil.fromDate(-1);
+                    String to   = DateUtil.toDate(-1);
+                    trendService = operateTrendService.findOperateTrendService(from, to);
+                    logger.debug("form:"+from+" to:"+to);
+                }else {
+                    logger.debug("form:"+from+" to:"+to);
+                    trendService = operateTrendService.findOperateTrendService(from, to);
+                }
 
+                operateTrendService.saveOperateTrend(trendService);
+            }
+        };
+        Thread t = new Thread(runnable);
+        t.start();
         return param;
     }
 
