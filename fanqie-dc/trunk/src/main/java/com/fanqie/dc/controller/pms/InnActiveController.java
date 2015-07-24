@@ -1,6 +1,7 @@
 package com.fanqie.dc.controller.pms;
 
 
+import com.fanqie.core.domain.OperateTrend;
 import com.fanqie.dc.common.Param;
 import com.fanqie.core.domain.InnActive;
 import com.fanqie.dc.service.IInnActiveService;
@@ -35,30 +36,40 @@ public class InnActiveController {
 
     @RequestMapping("/active")
     @ResponseBody
-    public Object innActive(String from,String to){
-        logger.debug("====活跃客栈 start =====");
+    public Object innActive(final  String from,final  String to){
+        logger.info("====活跃客栈 start =====");
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        if (StringUtils.isEmpty(from)){
-            from = DateUtil.fromDate(-1);
-        }
-        if (StringUtils.isEmpty(to)){
-            to =  DateUtil.toDate(-1);
-        }
-        int day = (int)DateUtil.subDay(from, to);
-        logger.debug("form:"+from+" to:"+to);
-        if (day>0){
-            for (int i=0;i<day;i++){
-               String from1 = DateUtil.fromDate(i,from);
-               String to1 = DateUtil.toDate(from1);
-               List<InnActive> innActive = innActiveService.findDayInnActive(from1, to1);
-               innActiveService.saveInnActive(innActive,from1);
-            }
-        }else {
-            List<InnActive> innActive = innActiveService.findDayInnActive(from, to);
-            innActiveService.saveInnActive(innActive,from);
-        }
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                int day = 0;
+                if (StringUtils.isEmpty(from) || StringUtils.isEmpty(to)){
+                    String from = DateUtil.fromDate(-1);
+                    String to   = DateUtil.toDate(-1);
+                    day = (int)DateUtil.subDay(from,to);
+                    for (int i=0;i<day;i++){
+                        String from1 = DateUtil.fromDate(i,from);
+                        String to1 = DateUtil.toDate(from1);
+                        List<InnActive> innActive = innActiveService.findDayInnActive(from1, to1);
+                        innActiveService.saveInnActive(innActive,from1);
+                    }
+                    logger.info("form:" + from + " to:" + to);
+                }else {
+                    day = (int)DateUtil.subDay( from, to);
+                    for (int i=0;i<day;i++){
+                        String from1 = DateUtil.fromDate(i,from);
+                        String to1 = DateUtil.toDate(from1);
+                        List<InnActive> innActive = innActiveService.findDayInnActive(from1, to1);
+                        innActiveService.saveInnActive(innActive,from1);
+                    }
+                    logger.info("form:" + from + " to:" + to);
+                }
 
+            }
+        };
+        Thread t = new Thread(runnable);
+        t.start();
         return param;
     }
 

@@ -50,7 +50,7 @@ public class TomsApiController {
     @RequestMapping(value = "/customer")
     @ResponseBody
     public JsonModel operate(ParamDto paramDto,Pagination pagination){
-        logger.debug("客户资料接口 start");
+        logger.info("客户资料接口 start");
         JsonModel model = new JsonModel();
         List<InnCustomer> innCustomerByPage = innCustomerService.findInnCustomerByPage(paramDto, pagination);
         model.setRows(innCustomerByPage);
@@ -66,7 +66,7 @@ public class TomsApiController {
     @RequestMapping(value = "/obtCustomerNum")
     @ResponseBody
     public Object customerNum(ParamDto paramDto){
-        logger.debug("第三系统 查询一段时间接待多少客人 start");
+        logger.info("第三系统 查询一段时间接待多少客人 start");
         return innCustomerService.findInnCustomerNumAndCityNum(paramDto);
     }
 
@@ -78,7 +78,7 @@ public class TomsApiController {
     @RequestMapping(value = "/operate")
     @ResponseBody
     public Object operateTrend(ParamDto paramDto){
-        logger.debug("第三系统运营概况数据 start");
+        logger.info("第三系统运营概况数据 start");
         OperateTrend operateTrend = operateTrendService.obtGeneralOperateTrend(paramDto);
         return operateTrend;
     }
@@ -89,7 +89,7 @@ public class TomsApiController {
     @RequestMapping(value = "/opeDetail" )
     @ResponseBody
     public Object operateDetail(ParamDto paramDto){
-        logger.debug("第三系统运营概况数据-详情 start");
+        logger.info("第三系统运营概况数据-详情 start");
         JsonModel jsonModel = new JsonModel();
         Map<String,Object> operateTrendDto = operateTrendService.obtOpeDetail(paramDto);
         jsonModel.setResult(operateTrendDto);
@@ -102,7 +102,7 @@ public class TomsApiController {
     @RequestMapping(value = "/innActive" )
     @ResponseBody
     public Object innActive(ParamDto paramDto,Pagination pagination){
-        logger.debug("活跃报表接口 start");
+        logger.info("活跃报表接口 start");
         JsonModel jsonModel = new JsonModel();
        // paramDto.setStartDate("2015-04");
         List<InnActiveDto> list = innActiveService.findDcInnActive(paramDto,pagination);
@@ -117,7 +117,7 @@ public class TomsApiController {
     @RequestMapping(value = "/order" )
     @ResponseBody
     public Object order(ParamDto paramDto){
-        logger.debug("订单来源接口 start");
+        logger.info("订单来源接口 start");
         JsonModel jsonModel = new JsonModel();
         List<OrderSource> list = orderSourceService.findDcOrderSource(paramDto);
         OrderSourceDto orderSource = orderSourceService.findDcOrderSourceNum(paramDto);
@@ -125,9 +125,4 @@ public class TomsApiController {
         jsonModel.setObj(orderSource);
         return jsonModel;
     }
-
-
-
-
-
 }

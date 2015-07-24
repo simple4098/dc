@@ -1,6 +1,7 @@
 package com.fanqie.dc.controller.pms;
 
 
+import com.fanqie.core.domain.InnActive;
 import com.fanqie.dc.common.Param;
 import com.fanqie.core.domain.InnCustomer;
 import com.fanqie.core.domain.OperateTrend;
@@ -34,19 +35,29 @@ public class InnCustomerController {
 
     @RequestMapping("/customer")
     @ResponseBody
-    public Object customer(String from,String to){
-        logger.debug("====客栈用户统计 start =====");
+    public Object customer(final  String from,final  String to){
+        logger.info("====客栈用户统计 start =====");
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
-        if (StringUtils.isEmpty(from)){
-            from = DateUtil.fromDate(-1);
-        }
-        if (StringUtils.isEmpty(to)){
-            to =  DateUtil.toDate(-1);
-        }
-        logger.debug("form:"+from+" to:"+to);
-        List<InnCustomer> date = innCustomerService.findInnCustomerByDate(from, to);
-        innCustomerService.saveInnCustomer(date);
+        Runnable runnable = new Runnable() {
+            @Override
+            public void run() {
+                List<InnCustomer> date = null;
+                if (StringUtils.isEmpty(from) || StringUtils.isEmpty(to)){
+                    String from = DateUtil.fromDate(-1);
+                    String to   = DateUtil.toDate(-1);
+                    date = innCustomerService.findInnCustomerByDate(from,to);
+                    logger.debug("form:"+from+" to:"+from);
+                }else {
+                    date = innCustomerService.findInnCustomerByDate(from, to);
+                    logger.debug("form:"+from+" to:"+to);
+                }
+                innCustomerService.saveInnCustomer(date);
+            }
+        };
+        Thread t = new Thread(runnable);
+        t.start();
+
 
         return param;
     }
