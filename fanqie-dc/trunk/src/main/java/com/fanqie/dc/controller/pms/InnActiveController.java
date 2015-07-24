@@ -36,6 +36,7 @@ public class InnActiveController {
     @RequestMapping("/active")
     @ResponseBody
     public Object innActive(String from,String to){
+        logger.debug("====活跃客栈 start =====");
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
         if (StringUtils.isEmpty(from)){
@@ -45,6 +46,7 @@ public class InnActiveController {
             to =  DateUtil.toDate(-1);
         }
         int day = (int)DateUtil.subDay(from, to);
+        logger.debug("form:"+from+" to:"+to);
         if (day>0){
             for (int i=0;i<day;i++){
                String from1 = DateUtil.fromDate(i,from);

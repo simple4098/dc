@@ -40,6 +40,9 @@ public class OrderSourceService implements IOrderSourceService {
 
     @Override
     public List<OrderSource> findDcOrderSource(ParamDto paramDto) {
+        if (paramDto.getInnId()==null){
+            paramDto.setInnId(0);
+        }
         List<OrderSource> list = orderSourceDcDao.findDcOrderSource(paramDto);
         for (OrderSource orderSource:list){
             if (orderSource!=null && StringUtils.isEmpty(orderSource.getFromName())){

@@ -36,6 +36,7 @@ public class OrderSourceController {
     @RequestMapping("/source")
     @ResponseBody
     public Object order(String from,String to){
+        logger.debug("====订单来源 start =====");
       final   Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
         if (StringUtils.isEmpty(from)){
@@ -44,6 +45,7 @@ public class OrderSourceController {
         if (StringUtils.isEmpty(to)){
             to =  DateUtil.toDate(-1);
         }
+        logger.debug("form:"+from+" to:"+to);
         List<OrderSource> orderSource = orderSourceService.findOrderSource(from, to);
         orderSourceService.saveOrderSource(orderSource);
 

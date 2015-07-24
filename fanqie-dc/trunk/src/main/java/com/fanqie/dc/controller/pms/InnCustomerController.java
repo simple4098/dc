@@ -35,7 +35,8 @@ public class InnCustomerController {
     @RequestMapping("/customer")
     @ResponseBody
     public Object customer(String from,String to){
-      final   Map<String,Object> param = new HashMap<String, Object>();
+        logger.debug("====客栈用户统计 start =====");
+        Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
         if (StringUtils.isEmpty(from)){
             from = DateUtil.fromDate(-1);
@@ -43,8 +44,8 @@ public class InnCustomerController {
         if (StringUtils.isEmpty(to)){
             to =  DateUtil.toDate(-1);
         }
+        logger.debug("form:"+from+" to:"+to);
         List<InnCustomer> date = innCustomerService.findInnCustomerByDate(from, to);
-
         innCustomerService.saveInnCustomer(date);
 
         return param;
