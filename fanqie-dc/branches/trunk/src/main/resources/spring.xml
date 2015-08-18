@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<!-- 自动扫描组件，这里要把controler下面的 controller去除，
+	他们是在spring3-servlet.xml中配置的，如果不去除会影响事务管理的。   -->
+	<context:component-scan base-package="com.fanqie.dc" >
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<bean id="mybatisSessionFactory-dc" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource-dc" />
+		<property name="configLocation" value="classpath:dc/mybatisConfig.xml" />
+	</bean>
+	<bean id="mybatisSessionFactory-pms" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSource-pms" />
+		<property name="configLocation" value="classpath:pms/mybatisConfig.xml" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="templateDc">
+		<constructor-arg index="0" ref="mybatisSessionFactory-dc" />
+	</bean>
+	<bean class="org.mybatis.spring.SqlSessionTemplate" id="templatePms">
+		<constructor-arg index="0" ref="mybatisSessionFactory-pms" />
+	</bean>
+	<!-- 配置事务管理器 -->
+<!--	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager"
+		  p:dataSource-ref="dataSource-pms" />
+
+	&lt;!&ndash; 启用事务注解 &ndash;&gt;
+	<tx:annotation-driven transaction-manager="txManager"/>-->
+
+	<!-- transaction manager, use DataSourceTransactionManager -->
+	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dataSource-dc" />
+	</bean>
+	<!-- spring declarative transaction management -->
+	<aop:config>
+		<aop:pointcut id="fooServiceMethods"
+					  expression="execution(* com.fanqie.*.service.impl.*.*(..))"/>
+		<aop:advisor advice-ref="txAdvice" pointcut-ref="fooServiceMethods"/>
+	</aop:config>
+	<tx:advice id="txAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="find*" read-only="true"/>
+			<tx:method name="load*" read-only="true"/>
+			<tx:method name="obt*" read-only="true"/>
+			<tx:method name="*" rollback-for="CustomException"/>
+		</tx:attributes>
+	</tx:advice>
+	<!--加入数据源配置-->
+	<beans profile="dev">
+		<bean id="dataSource-pms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+			<property name="driverClassName" value="org.postgresql.Driver"/>
+			<property name="url" value="jdbc:postgresql://192.168.1.158:5432/tomato_db"/>
+			<property name="username" value="ota"/>
+			<property name="password" value="ota"/>
+			<property name="maxWait" value="1000" />
+			<property name="initialSize" value="5" />
+			<property name="maxActive" value="20" />
+			<property name="testWhileIdle" value="false" />
+			<property name="timeBetweenEvictionRunsMillis" value="15000" />
+			<property name="removeAbandoned" value="true" />
+			<property name="removeAbandonedTimeout" value="1800" />
+			<property name="validationQuery" value="select 1"/>
+		</bean>
+		<bean id="dataSource-dc" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+			<property name="driverClassName" value="org.postgresql.Driver"/>
+			<property name="url" value="jdbc:postgresql://192.168.1.158:5432/dc"/>
+			<property name="username" value="ota"/>
+			<property name="password" value="ota"/>
+			<property name="maxWait" value="1000" />
+			<property name="initialSize" value="5" />
+			<property name="maxActive" value="20" />
+			<property name="testWhileIdle" value="false" />
+			<property name="timeBetweenEvictionRunsMillis" value="15000" />
+			<property name="removeAbandoned" value="true" />
+			<property name="removeAbandonedTimeout" value="1800" />
+			<property name="validationQuery" value="select 1"/>
+		</bean>
+	</beans>
+	<beans profile="staging">
+		<bean id="dataSource-pms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+			<property name="driverClassName" value="org.postgresql.Driver"/>
+			<property name="url" value="jdbc:postgresql://10.163.227.13:9999/tomato_db"/>
+			<property name="username" value="ota"/>
+			<property name="password" value="ota@fanqie.COM888"/>
+			<property name="maxWait" value="1000" />
+			<property name="initialSize" value="5" />
+			<property name="maxActive" value="20" />
+			<property name="testWhileIdle" value="false" />
+			<property name="timeBetweenEvictionRunsMillis" value="15000" />
+			<property name="removeAbandoned" value="true" />
+			<property name="removeAbandonedTimeout" value="1800" />
+			<property name="validationQuery" value="select 1"/>
+		</bean>
+		<bean id="dataSource-dc" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
+			<property name="driverClassName" value="org.postgresql.Driver"/>
+			<property name="url"  value="jdbc:postgresql://10.163.227.13:9999/oms_db"/>
+			<property name="username" value="ota"/>
+			<property name="password" value="ota@fanqie.COM888"/>
+			<property name="maxWait" value="1000" />
+			<property name="initialSize" value="5" />
+			<property name="maxActive" value="20" />
+			<property name="testWhileIdle" value="false" />
+			<property name="timeBetweenEvictionRunsMillis" value="15000" />
+			<property name="removeAbandoned" value="true" />
+			<property name="removeAbandonedTimeout" value="1800" />
+			<property name="validationQuery" value="select 1"/>
+		</bean>
+	</beans>
+	<beans profile="production">
+		<jee:jndi-lookup id="dataSource-dc" jndi-name="java:comp/env/jdbc/tomato-toms"/>
+		<jee:jndi-lookup id="dataSource-pms" jndi-name="java:comp/env/jdbc/tomato-pms"/>
+	</beans>
+
+</beans>

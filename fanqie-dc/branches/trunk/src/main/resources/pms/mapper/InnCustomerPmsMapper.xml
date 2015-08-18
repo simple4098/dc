@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.dao.IInnCustomerPmsDao">
+   <resultMap id="mapId" type="com.fanqie.core.domain.InnCustomer">
+        <result column="id" property="id"/>
+        <result column="inn_id" property="innId"/>
+        <result column="num" property="num"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
+        <result column="create_date" property="createdDate"/>
+   </resultMap>
+    <select id="findInnCustomer" parameterType="java.util.Map" resultMap="mapId">
+         SELECT count(ti.id) as num,ti.id as inn_id, o.address,o.created_at as create_date,
+         split_part(o.address,' ',1) as province,split_part(o.address,' ',3) as city from tomato_inn_customers o
+         LEFT  JOIN tomato_inn ti ON ti.id = o.inn_id
+         where o.created_at BETWEEN '${startDate}' AND '${endDate}'
+         GROUP BY ti.id, o.address,o.created_at
+    </select>
+
+</mapper>
