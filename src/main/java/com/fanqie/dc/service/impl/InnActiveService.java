@@ -58,23 +58,29 @@ public class InnActiveService implements IInnActiveService {
         if (!CollectionUtils.isEmpty(dates)){
             if (!CollectionUtils.isEmpty(list)){
                 List<Integer>  valueList =null;
+                String[] checkInNumList;
+                String[] operateNumList;
+                String[] orderNumList;
+                String checkInNum ;
+                String orderNum;
+                String operateNum;
                 for (InnActiveDto activeDto:list){
                     valueList = new ArrayList<Integer>();
                     String createDates = activeDto.getCreateDates();
                     String[] dateCreate = createDates.split(",");
                     List<String> dateCreateList = Arrays.asList(dateCreate);
-                    String[] checkInNumList = activeDto.getCheckInNumList().split(",");
-                    String[] operateNumList = activeDto.getOperateNumList().split(",");
-                    String[] orderNumList = activeDto.getOrderNumList().split(",");
+                    checkInNumList = activeDto.getCheckInNumList().split(",");
+                    operateNumList = activeDto.getOperateNumList().split(",");
+                    orderNumList = activeDto.getOrderNumList().split(",");
                     //for (Date date:dates){
                     for (int i=0;i<dates.size();i++){
                         Date date = dates.get(i);
                         String d = DateUtil.formatDateToString(date, "yyyy-MM-dd");
                         if (dateCreate.length>i && dateCreateList.contains(d)){
                             int y = dateCreateList.indexOf(d);
-                            String checkInNum = checkInNumList[y];
-                            String orderNum = orderNumList[y];
-                            String operateNum = operateNumList[y];
+                             checkInNum = checkInNumList[y];
+                             orderNum = orderNumList[y];
+                             operateNum = operateNumList[y];
                             if (Integer.valueOf(checkInNum)>0){
                                 valueList.add(Param.RU_ZHU);
                                 continue;
