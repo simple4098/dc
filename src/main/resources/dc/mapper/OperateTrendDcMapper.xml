@@ -29,6 +29,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </foreach>
         </if>
     </insert>
+    <insert id="saveOperate" parameterType="com.fanqie.core.domain.OperateTrend">
+        insert into operate_trend(id,inn_id,inn_name,mobile,create_date,total_income,total_room_num,real_live_num,empty_room_num,avg_price,live_percent,inn_code)
+        values
+        ( '${uuid}',#{innId},#{innName},'${mobile}',#{createdDate},#{totalIncome},#{totalRoomNum},#{realLiveNum},#{emptyRoomNum},#{avgPrice},#{livePercent},#{innCode})
+    </insert>
 
     <select id="obtOpeDetail" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapId">
      SELECT MAX(o.total_income) total_income,
