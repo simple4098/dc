@@ -7,7 +7,7 @@ import com.fanqie.core.dto.InnCustomerDto;
 import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.support.util.CustomerUtil;
-import com.fanqie.util.Constants;
+import com.fanqie.util.TomsConstants;
 import com.fanqie.util.DcUtil;
 import com.fanqie.util.Pagination;
 import com.fanqie.util.StringUtil;
@@ -66,7 +66,7 @@ public class InnCustomerService implements IInnCustomerService {
         int totalNum = customerDto.getTotalNum();
         for (InnCustomer innCustomer:list){
             if (StringUtils.isEmpty(innCustomer.getCity())){
-                innCustomer.setCity(StringUtil.getString(Constants.OTHER_CITY));
+                innCustomer.setCity(StringUtil.getString(TomsConstants.OTHER_CITY));
             }
             innCustomer.setPercent(DcUtil.multiply(DcUtil.divide(innCustomer.getNum(),totalNum),new BigDecimal(100)));
         }
