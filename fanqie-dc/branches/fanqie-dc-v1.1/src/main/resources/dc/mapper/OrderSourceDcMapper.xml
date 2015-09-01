@@ -31,6 +31,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </foreach>
         </if>
     </insert>
+    <insert id="saveOrder" parameterType="com.fanqie.core.domain.OrderSource" >
+        insert into order_source(id,inn_id,from_name,live_num,income,order_num,from_id,create_date)
+        values
+        ( '${uuid}','${innId}',#{fromName},#{liveNum},#{income},#{orderNum},#{fromId},#{createdDate})
+    </insert>
 
     <select id="findDcOrderSource" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapId">
         SELECT sum(o.income) income , sum(o.order_num) order_num,o.from_name,sum(o.live_num) live_num

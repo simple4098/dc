@@ -35,7 +35,10 @@ public class OrderSourceService implements IOrderSourceService {
 
     @Override
     public void saveOrderSource(List<OrderSource> list) {
-        orderSourceDcDao.saveOrderSource(list);
+        for (OrderSource o:list){
+            orderSourceDcDao.saveOrderSource(o);
+        }
+
     }
 
     @Override

@@ -26,9 +26,6 @@ public class OrderSourceDcDao extends BaseDcDaoImpl<OrderSource> implements IOrd
 
     @Override
     public void saveOrderSource(List<OrderSource> list) {
-       /* Map<String,Object> param = new HashMap<String, Object>();
-        param.put("list",list);
-        param.put("date",date);*/
         templateDc.insert(NA.concat("saveOrderSource"),list);
     }
 
@@ -40,5 +37,10 @@ public class OrderSourceDcDao extends BaseDcDaoImpl<OrderSource> implements IOrd
     @Override
     public OrderSourceDto findDcOrderSourceNum(ParamDto paramDto) {
         return templateDc.selectOne(NA.concat("findOrderSourceNum"),paramDto);
+    }
+
+    @Override
+    public void saveOrderSource(OrderSource orderSource) {
+        templateDc.insert(NA.concat("saveOrder"),orderSource);
     }
 }

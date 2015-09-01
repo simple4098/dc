@@ -9,6 +9,8 @@ import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.util.DateUtil;
 import com.fanqie.util.DcUtil;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ import java.util.*;
  */
 @Service
 public class OperateTrendService implements IOperateTrendService{
+    private static Logger logger = LoggerFactory.getLogger(OperateTrendService.class);
     @Autowired
     private IOperateTrendPmsDao operateTrendPmsDao;
     @Autowired
@@ -37,14 +40,18 @@ public class OperateTrendService implements IOperateTrendService{
     @Override
     public void saveOperateTrend(List<OperateTrend> list) {
         if (!CollectionUtils.isEmpty(list)){
+            long start = System.currentTimeMillis();
             for (OperateTrend o:list){
                 if (o.getRealLiveNum()!=0){
                     o.setAvgPrice(o.getTotalIncome().divide(new BigDecimal(o.getRealLiveNum()), BigDecimal.ROUND_CEILING));
                 }
                 o.setLivePercent(DcUtil.divide(o.getRealLiveNum(), o.getTotalRoomNum()));
                 o.setEmptyRoomNum(o.getTotalRoomNum()-o.getRealLiveNum());
+                operateTrendDcDao.saveOperateTrend(o);
             }
-            operateTrendDcDao.saveOperateTrend(list);
+            long end = System.currentTimeMillis();
+            logger.info("总共花费:" + (end - start));
+            //operateTrendDcDao.saveOperateTrend(list);
         }
     }
 

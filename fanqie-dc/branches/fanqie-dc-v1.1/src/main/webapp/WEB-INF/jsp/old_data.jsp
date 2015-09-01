@@ -1,16 +1,14 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-<%
-    String path = request.getContextPath();
-    String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path;
-%>
 <html>
 <head>
     <title>手动执行</title>
+    <link rel="stylesheet" href="<c:url value='/css/normalize.css'/>">
     <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet"/>
-    <link rel="stylesheet" href="<c:url value='/css/font-awesome.min.css'/>"/>
-    <link rel="stylesheet" href="<c:url value='/css/ace.min.css'/>"/>
+    <link href="<c:url value='/css/font-awesome.min.css'/>" rel="stylesheet"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/jquery-ui-1.10.3.full.min.css'/>">
+    <link rel="stylesheet" href="<c:url value='/css/ace.min.css'/>">
 </head>
 <body>
  <div style="height: 100px">
@@ -32,12 +30,12 @@
      <script src="<c:url value='/js/jquery-2.0.3.min.js'/>"></script>
      <script src="<c:url value='/js/jquery-ui-1.10.3.full.min.js'/>"></script>
      <script src="<c:url value='/js/dateSelecter_room_price.js'/>"></script>
+     <script src="<c:url value='/js/tomato.min.js'/>"></script>
      <script type="text/javascript">
          $("#butId").on("click",function(){
              var from_date = $("#from_datepicker").val();
              var to_date = $("#to_datepicker").val();
              var value = $("#type").val();
-             var reg = new RegExp("^[+-]?[0-9]+(.[0-9]{1,3})?$");
              if(from_date.length==0){
                  alert("开始时间不能为空!");
                  return false;
