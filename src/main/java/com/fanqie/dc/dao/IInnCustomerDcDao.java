@@ -1,8 +1,7 @@
 package com.fanqie.dc.dao;
 
-import com.fanqie.dc.dao.base.IBaseDcDao;
-import com.fanqie.dc.dao.base.IBasePmsDao;
 import com.fanqie.core.domain.InnCustomer;
+import com.fanqie.dc.dao.base.IBaseDao;
 
 import java.util.List;
 
@@ -13,7 +12,7 @@ import java.util.List;
  * @data : 2015/5/14
  * @version: v1.0.0
  */
-public interface IInnCustomerDcDao extends IBaseDcDao<InnCustomer> {
+public interface IInnCustomerDcDao extends IBaseDao<InnCustomer> {
 
     void saveInnCustomer(List<InnCustomer> list);
 

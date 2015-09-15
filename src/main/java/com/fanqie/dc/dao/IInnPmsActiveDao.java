@@ -1,7 +1,7 @@
 package com.fanqie.dc.dao;
 
-import com.fanqie.dc.dao.base.IBasePmsDao;
 import com.fanqie.core.domain.InnActive;
+import com.fanqie.dc.dao.base.IBaseDao;
 
 import java.util.List;
 
@@ -12,6 +12,6 @@ import java.util.List;
  * @data : 2015/5/12
  * @version: v1.0.0
  */
-public interface IInnPmsActiveDao extends IBasePmsDao<InnActive> {
+public interface IInnPmsActiveDao extends IBaseDao<InnActive> {
     List<InnActive> findDayInnActive(String startDate,String endDate);
 }

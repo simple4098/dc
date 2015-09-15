@@ -1,14 +1,13 @@
 package com.fanqie.dc.dao.impl;
 
-import com.fanqie.dc.dao.IOperateTrendPmsDao;
-import com.fanqie.dc.dao.base.BasePmsDaoImpl;
 import com.fanqie.core.domain.OperateTrend;
+import com.fanqie.dc.dao.IOperateTrendPmsDao;
+import com.fanqie.dc.dao.base.BaseDaoImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
 
 /**
  * DESC :
@@ -18,14 +17,14 @@ import java.util.Objects;
  * @version: v1.0.0
  */
 @Repository
-public class OperateTrendPmsDao extends BasePmsDaoImpl<OperateTrend> implements IOperateTrendPmsDao {
+public class OperateTrendPmsDao extends BaseDaoImpl<OperateTrend> implements IOperateTrendPmsDao {
     private static  final  String NA = "com.fanqie.dc.dao.IOperateTrendPmsDao.";
 
     @Override
     public List<OperateTrend> findOperateDataByDate(String from,String to) {
-        Map<String,Object> param = new HashMap<String, Object>();
+        Map<String,Object> param = new HashMap<>();
         param.put("from",from);
         param.put("to",to);
-        return this.templatePms.selectList(NA.concat("findOperateDataByDate"),param);
+        return this.template.selectList(NA.concat("findOperateDataByDate"),param);
     }
 }

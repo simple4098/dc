@@ -1,8 +1,8 @@
 package com.fanqie.dc.dao.impl;
 
-import com.fanqie.dc.dao.IInnCustomerPmsDao;
-import com.fanqie.dc.dao.base.BasePmsDaoImpl;
 import com.fanqie.core.domain.InnCustomer;
+import com.fanqie.dc.dao.IInnCustomerPmsDao;
+import com.fanqie.dc.dao.base.BaseDaoImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -16,7 +16,7 @@ import java.util.Map;
  * @version: v1.0.0
  */
 @Repository
-public class InnCustomerPmsDao extends BasePmsDaoImpl<InnCustomer> implements IInnCustomerPmsDao {
+public class InnCustomerPmsDao extends BaseDaoImpl<InnCustomer> implements IInnCustomerPmsDao {
     private static  final String NA = "com.fanqie.dc.dao.IInnCustomerPmsDao.";
 
     @Override
@@ -24,6 +24,6 @@ public class InnCustomerPmsDao extends BasePmsDaoImpl<InnCustomer> implements II
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("startDate",from);
         param.put("endDate",to);
-        return templatePms.selectList(NA.concat("findInnCustomer"),param);
+        return template.selectList(NA.concat("findInnCustomer"),param);
     }
 }

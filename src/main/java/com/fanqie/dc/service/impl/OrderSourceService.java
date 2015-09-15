@@ -1,16 +1,16 @@
 package com.fanqie.dc.service.impl;
 
-import com.fanqie.dc.dao.IOrderSourceDcDao;
-import com.fanqie.dc.dao.IOrderSourcePmsDao;
 import com.fanqie.core.domain.OrderSource;
 import com.fanqie.core.dto.OrderSourceDto;
 import com.fanqie.core.dto.ParamDto;
+import com.fanqie.dc.dao.IOrderSourceDcDao;
+import com.fanqie.dc.dao.IOrderSourcePmsDao;
+import com.fanqie.dc.dao.dynamic.DataSource;
 import com.fanqie.dc.service.IOrderSourceService;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -28,6 +28,7 @@ public class OrderSourceService implements IOrderSourceService {
     @Autowired
     private IOrderSourceDcDao orderSourceDcDao;
 
+    @DataSource(name = DataSource.PMS)
     @Override
     public List<OrderSource> findOrderSource(String from, String to) {
         return orderSourcePmsDao.findOrderSource(from,to);

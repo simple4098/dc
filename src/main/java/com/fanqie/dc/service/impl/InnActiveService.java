@@ -6,6 +6,7 @@ import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.common.Param;
 import com.fanqie.dc.dao.IInnDcActiveDao;
 import com.fanqie.dc.dao.IInnPmsActiveDao;
+import com.fanqie.dc.dao.dynamic.DataSource;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.util.DateUtil;
 import com.fanqie.util.Pagination;
@@ -28,6 +29,7 @@ public class InnActiveService implements IInnActiveService {
     @Autowired
     private IInnDcActiveDao innDcActiveDao;
 
+    @DataSource(name = DataSource.PMS)
     @Override
     public List<InnActive> findDayInnActive(String startDate, String endDate) {
         return innPmsActiveDao.findDayInnActive(startDate,endDate);

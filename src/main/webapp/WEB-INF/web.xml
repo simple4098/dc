@@ -15,6 +15,11 @@
         <param-value>classpath*:/spring*.xml</param-value>
     </context-param>
 
+    <!--<context-param>
+        <param-name>spring.profiles.dev</param-name>
+        <param-value>dev</param-value>
+    </context-param>-->
+
    <!-- <context-param>
         <param-name>spring.profiles.default</param-name>
         <param-value>production</param-value>
@@ -46,7 +51,7 @@
         <filter-name>CharacterEncodingFilter</filter-name>
         <url-pattern>/*</url-pattern>
     </filter-mapping>
-    <!--第三方访问链接过滤-->
+    <!--第三方访问链接过滤
     <filter>
         <filter-name>tomsSecurityFilter</filter-name>
         <filter-class>com.fanqie.dc.filter.TomsSecurityFilter</filter-class>
@@ -54,7 +59,7 @@
     <filter-mapping>
         <filter-name>tomsSecurityFilter</filter-name>
         <url-pattern>/api/toms/*</url-pattern>
-    </filter-mapping>
+    </filter-mapping>-->
 
     <servlet>
         <servlet-name>DispatcherServlet</servlet-name>

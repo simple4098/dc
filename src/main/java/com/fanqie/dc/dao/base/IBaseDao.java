@@ -12,7 +12,7 @@ import java.util.Map;
  * @data : 2015/5/11
  * @version: v1.0.0
  */
-public interface IBaseDcDao<T> {
+public interface IBaseDao<T> {
     public Integer save(T o);
 
     public Integer update(T o);

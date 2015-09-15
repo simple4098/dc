@@ -13,25 +13,25 @@ import java.util.Map;
 /**
  * @param <T>
  */
-public class BaseDcDaoImpl<T> implements IBaseDcDao<T> {
+public class BaseDaoImpl<T> implements IBaseDao<T> {
 
 	@Autowired
-	protected SqlSessionTemplate templateDc;
+	protected SqlSessionTemplate template;
 
 
 
 
 	@SuppressWarnings("unchecked")
 	public T get(T o) {
-		return (T) templateDc.selectOne(getNameSpace(o) + ".query", o);
+		return (T) template.selectOne(getNameSpace(o) + ".query", o);
 	}
 
 	public Long getCount(T o) {
-		return templateDc.selectOne(getNameSpace(o) + ".count", o);
+		return template.selectOne(getNameSpace(o) + ".count", o);
 	}
 
 	public Integer deleteByIds(T o) {
-		return templateDc.delete(getNameSpace(o) + ".deleteByIds", o);
+		return template.delete(getNameSpace(o) + ".deleteByIds", o);
 	}
 
 
@@ -45,9 +45,9 @@ public class BaseDcDaoImpl<T> implements IBaseDcDao<T> {
 		List<T> list = null;
 		handlePage(o, page, queryName);
 		if (page.isPaging()) {
-			list = templateDc.selectList(queryName, o, getRowBounds(page));
+			list = template.selectList(queryName, o, getRowBounds(page));
 		} else {
-			list = templateDc.selectList(queryName, o);
+			list = template.selectList(queryName, o);
 		}
 		Map<String, Object> map = getResultMap(list, page);
 		return map;
@@ -61,7 +61,7 @@ public class BaseDcDaoImpl<T> implements IBaseDcDao<T> {
 		// 查询行数
 		Integer rowsCount = null;
 		try {
-			rowsCount = templateDc.selectOne(queryName + "Count", o);
+			rowsCount = template.selectOne(queryName + "Count", o);
 		} catch (Exception e) {
 			e.printStackTrace();
 			throw new RuntimeException("handlePage错误,参数："+o.toString());
@@ -97,7 +97,7 @@ public class BaseDcDaoImpl<T> implements IBaseDcDao<T> {
 	public Integer save(T o) {
 		Integer result = 0;
 		try {
-			result = templateDc.insert(getNameSpace(o) + ".insert", o);
+			result = template.insert(getNameSpace(o) + ".insert", o);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -107,7 +107,7 @@ public class BaseDcDaoImpl<T> implements IBaseDcDao<T> {
 	public Integer update(T o) {
 		Integer result = 0;
 		try {
-			result = templateDc.update(getNameSpace(o) + ".update", o);
+			result = template.update(getNameSpace(o) + ".update", o);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -117,7 +117,7 @@ public class BaseDcDaoImpl<T> implements IBaseDcDao<T> {
 	public Integer delete(T o) {
 		Integer result = 0;
 		try {
-			result = templateDc.delete(getNameSpace(o) + ".delete", o);
+			result = template.delete(getNameSpace(o) + ".delete", o);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -127,7 +127,7 @@ public class BaseDcDaoImpl<T> implements IBaseDcDao<T> {
 	public List<T> queryAll(T o) {
 		List<T> list = null;
 		try {
-			list = templateDc.selectList(getNameSpace(o) + ".query", o);
+			list = template.selectList(getNameSpace(o) + ".query", o);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -135,7 +135,7 @@ public class BaseDcDaoImpl<T> implements IBaseDcDao<T> {
 	}
 
 	public List<T> queryList(T o, String sql, String queryName) {
-		List<T> list = templateDc.selectList(getNameSpace(o) + "." + queryName,
+		List<T> list = template.selectList(getNameSpace(o) + "." + queryName,
 				sql);
 		return list;
 	}

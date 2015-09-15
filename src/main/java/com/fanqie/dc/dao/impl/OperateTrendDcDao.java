@@ -1,10 +1,9 @@
 package com.fanqie.dc.dao.impl;
 
-import com.fanqie.dc.dao.IOperateTrendDcDao;
-import com.fanqie.dc.dao.base.BaseDcDaoImpl;
 import com.fanqie.core.domain.OperateTrend;
-import com.fanqie.core.dto.OperateTrendDto;
 import com.fanqie.core.dto.ParamDto;
+import com.fanqie.dc.dao.IOperateTrendDcDao;
+import com.fanqie.dc.dao.base.BaseDaoImpl;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -19,7 +18,7 @@ import java.util.Map;
  * @version: v1.0.0
  */
 @Repository
-public class OperateTrendDcDao extends BaseDcDaoImpl<OperateTrend> implements IOperateTrendDcDao {
+public class OperateTrendDcDao extends BaseDaoImpl<OperateTrend> implements IOperateTrendDcDao {
     private static  final  String NA = "com.fanqie.dc.dao.IOperateTrendDcDao.";
 
 
@@ -27,16 +26,16 @@ public class OperateTrendDcDao extends BaseDcDaoImpl<OperateTrend> implements IO
     public void saveOperateTrend(List<OperateTrend> list) {
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("list",list);
-        this.templateDc.insert(NA.concat("saveOperateTrend"),param);
+        this.template.insert(NA.concat("saveOperateTrend"),param);
     }
 
     @Override
     public OperateTrend obtGeneralOperateTrend(ParamDto paramDto) {
-        return (OperateTrend)templateDc.selectOne(NA.concat("obtGeneralOperateTrend"),paramDto);
+        return (OperateTrend)template.selectOne(NA.concat("obtGeneralOperateTrend"),paramDto);
     }
 
     @Override
     public List<OperateTrend> obtOpeDetail(ParamDto paramDto) {
-        return templateDc.selectList(NA.concat("obtOpeDetail"),paramDto);
+        return template.selectList(NA.concat("obtOpeDetail"),paramDto);
     }
 }
