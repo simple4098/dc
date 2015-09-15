@@ -2,7 +2,7 @@ package com.fanqie.dc.dao;
 
 import com.fanqie.core.domain.OperateTrend;
 import com.fanqie.core.dto.ParamDto;
-import com.fanqie.dc.dao.base.IBaseDcDao;
+import com.fanqie.dc.dao.base.IBaseDao;
 
 import java.util.List;
 
@@ -12,7 +12,7 @@ import java.util.List;
  * @data : 2015/5/13
  * @version: v1.0.0
  */
-public interface IOperateTrendDcDao extends IBaseDcDao<OperateTrend> {
+public interface IOperateTrendDcDao extends IBaseDao<OperateTrend> {
     /**
      * 保存运营数据
      * @param list

@@ -1,10 +1,10 @@
 package com.fanqie.dc.service.impl;
 
+import com.fanqie.core.domain.OperateTrend;
+import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.dao.IOperateTrendDcDao;
 import com.fanqie.dc.dao.IOperateTrendPmsDao;
-import com.fanqie.core.domain.OperateTrend;
-import com.fanqie.core.dto.OperateTrendDto;
-import com.fanqie.core.dto.ParamDto;
+import com.fanqie.dc.dao.dynamic.DataSource;
 import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.util.DateUtil;
 import com.fanqie.util.DcUtil;
@@ -13,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * DESC :
@@ -29,6 +32,7 @@ public class OperateTrendService implements IOperateTrendService{
     @Autowired
     private IOperateTrendDcDao operateTrendDcDao;
 
+    @DataSource(name = DataSource.PMS)
     @Override
     public List<OperateTrend> findOperateTrendService(String from,String to) {
         return operateTrendPmsDao.findOperateDataByDate(from, to);

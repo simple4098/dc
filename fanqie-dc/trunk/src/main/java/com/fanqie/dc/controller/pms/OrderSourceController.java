@@ -1,13 +1,11 @@
 package com.fanqie.dc.controller.pms;
 
 
-import com.fanqie.core.domain.OperateTrend;
-import com.fanqie.dc.common.Param;
 import com.fanqie.core.domain.OrderSource;
+import com.fanqie.dc.common.Param;
 import com.fanqie.dc.service.IOrderSourceService;
 import com.fanqie.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
-import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -40,6 +37,7 @@ public class OrderSourceController {
         logger.info("====订单来源 start =====");
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("result", Param.SUCCESS);
+        orderSourceService.findOrderSource(from, to);
         Runnable runnable = new Runnable() {
             @Override
             public void run() {

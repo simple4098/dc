@@ -1,6 +1,7 @@
 package com.fanqie.dc.service.impl;
 
 import com.fanqie.dc.dao.IInnCustomerPmsDao;
+import com.fanqie.dc.dao.dynamic.DataSource;
 import com.fanqie.dc.dao.impl.InnCustomerDcDao;
 import com.fanqie.core.domain.InnCustomer;
 import com.fanqie.core.dto.InnCustomerDto;
@@ -33,6 +34,8 @@ public class InnCustomerService implements IInnCustomerService {
     private IInnCustomerPmsDao innCustomerPmsDao;
     @Autowired
     private InnCustomerDcDao innCustomerDcDao;
+
+    @DataSource(name = DataSource.PMS)
     @Override
     public List<InnCustomer> findInnCustomerByDate(String from, String to) {
         return innCustomerPmsDao.findInnCustomer(from,to);

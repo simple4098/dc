@@ -1,12 +1,9 @@
 package com.fanqie.dc.dao.impl;
 
-import com.fanqie.dc.dao.IInnDcActiveDao;
-import com.fanqie.dc.dao.IInnPmsActiveDao;
-import com.fanqie.dc.dao.base.BaseDcDaoImpl;
-import com.fanqie.dc.dao.base.BasePmsDaoImpl;
 import com.fanqie.core.domain.InnActive;
-import com.fanqie.core.dto.InnActiveDto;
 import com.fanqie.core.dto.ParamDto;
+import com.fanqie.dc.dao.IInnDcActiveDao;
+import com.fanqie.dc.dao.base.BaseDaoImpl;
 import com.fanqie.util.Pagination;
 import org.springframework.stereotype.Repository;
 
@@ -22,7 +19,7 @@ import java.util.Map;
  * @version: v1.0.0
  */
 @Repository
-public class InnDcActiveDao extends BaseDcDaoImpl<InnActive> implements IInnDcActiveDao {
+public class InnDcActiveDao extends BaseDaoImpl<InnActive> implements IInnDcActiveDao {
      private final static String NA = "com.fanqie.dc.domain.InnActive.";
 
     @Override
@@ -30,14 +27,14 @@ public class InnDcActiveDao extends BaseDcDaoImpl<InnActive> implements IInnDcAc
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("list",list);
         param.put("now",now);
-        templateDc.insert(NA.concat("saveInnActiveList"),param);
+        template.insert(NA.concat("saveInnActiveList"), param);
     }
     @Override
     public void saveInnActive(InnActive active,Date now) {
         Map<String,Object> param = new HashMap<String, Object>();
         param.put("o",active);
         param.put("now",now);
-        templateDc.insert(NA.concat("saveInnActive"),param);
+        template.insert(NA.concat("saveInnActive"),param);
     }
 
     @Override

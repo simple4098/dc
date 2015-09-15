@@ -1,11 +1,10 @@
 package com.fanqie.dc.dao;
 
-import com.fanqie.dc.dao.base.IBaseDcDao;
 import com.fanqie.core.domain.OrderSource;
 import com.fanqie.core.dto.OrderSourceDto;
 import com.fanqie.core.dto.ParamDto;
+import com.fanqie.dc.dao.base.IBaseDao;
 
-import java.util.Date;
 import java.util.List;
 /**
  * DESC :
@@ -13,7 +12,7 @@ import java.util.List;
  * @data : 2015/5/15
  * @version: v1.0.0
  */
-public interface IOrderSourceDcDao extends IBaseDcDao<OrderSource> {
+public interface IOrderSourceDcDao extends IBaseDao<OrderSource> {
 
 
    void  saveOrderSource(List<OrderSource> list);
