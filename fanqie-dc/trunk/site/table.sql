@@ -1,9 +1,4 @@
---------------------------------------------------------------------------------
-------------------------------CRM-V4.0-´úÏú°æ------------------------------------
---------------------------------------------------------------------------------
-------------¶©µ¥Í³¼Æ---------------------------
-
----¿ÍÕ»´úÏúÇşµÀÔÂ¶©µ¥Í³¼Æ±í
+---å®¢æ ˆä»£é”€æ¸ é“æœˆè®¢å•ç»Ÿè®¡è¡¨
 drop SEQUENCE  if exists tomato_crm_distribution_order_seq;
 create SEQUENCE tomato_crm_distribution_order_seq start 100;
 drop table if exists tomato_crm_distribution_order;
@@ -22,13 +17,29 @@ create TABLE tomato_crm_distribution_order
   constraint PK_TOMATO_CRM_DISTRIBUTION_ORDER_ primary key (id)
 
 );
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."id" IS '±àºÅ';
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."crm_inn_id" IS 'crm¿ÍÕ»id';
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."pms_inn_id" IS 'pms¿ÍÕ»id';
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_in_order_num" IS '¶©µ¥Èë×¡Êı';
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_in_order_price" IS '¶©µ¥Èë×¡×Ü½ğ¶î';
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_out_order_num" IS '¶©µ¥ÀëµêÊı';
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_out_order_price" IS '¶©µ¥Àëµê×Ü½ğ¶î';
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."month_time" IS 'µ±ÔÂÊ±¼ä';
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."created_at" IS '´´½¨Ê±¼ä';
-COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."updated_at" IS '¸üĞÂÊ±¼ä';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."id" IS 'ç¼–å·';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."crm_inn_id" IS 'crmå®¢æ ˆid';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."pms_inn_id" IS 'pmså®¢æ ˆid';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_in_order_num" IS 'è®¢å•å…¥ä½æ•°';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_in_order_price" IS 'è®¢å•å…¥ä½æ€»é‡‘é¢';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_out_order_num" IS 'è®¢å•ç¦»åº—æ•°';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_out_order_price" IS 'è®¢å•ç¦»åº—æ€»é‡‘é¢';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."month_time" IS 'å½“æœˆæ—¶é—´';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."created_at" IS 'åˆ›å»ºæ—¶é—´';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."updated_at" IS 'æ›´æ–°æ—¶é—´';
+
+
+
+--------------------------------------------------------------------------------
+------------------------------CRM-V4.0-ä»£é”€ç‰ˆ------------------------------------
+--------------------------------------------------------------------------------
+
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_in_order_num" IS 'å½“æœˆå…¥ä½çš„è®¢å•æ•°é‡';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_in_order_price" IS 'å½“æœˆå…¥ä½è®¢å•çš„æ€»é‡‘é¢';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_out_order_num" IS 'å½“æœˆç¦»åº—çš„è®¢å•æ•°é‡';
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_out_order_price" IS 'å½“æœˆç¦»åº—çš„è®¢å•æ€»é‡‘é¢';
+
+alter table tomato_crm_distribution_order add COLUMN check_in_nights_num integer;
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_in_nights_num" IS 'å½“æœˆå…¥ä½è®¢å•é—´å¤œæ•°';
+alter table tomato_crm_distribution_order add COLUMN check_out_nights_num integer;
+COMMENT ON COLUMN "public"."tomato_crm_distribution_order"."check_out_nights_num" IS 'å½“æœˆç¦»åº—è®¢å•é—´å¤œæ•°';
