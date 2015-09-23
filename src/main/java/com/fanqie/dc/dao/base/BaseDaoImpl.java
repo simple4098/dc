@@ -104,7 +104,19 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 		return result;
 	}
 
-	public Integer update(T o) {
+    @Override
+    public Integer saveAll(Map map, String ns) {
+        Integer result = 0;
+        try {
+            result = template.insert(ns + ".insertAll", map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("批量保存错误");
+        }
+        return result;
+    }
+
+    public Integer update(T o) {
 		Integer result = 0;
 		try {
 			result = template.update(getNameSpace(o) + ".update", o);
@@ -114,7 +126,19 @@ public class BaseDaoImpl<T> implements IBaseDao<T> {
 		return result;
 	}
 
-	public Integer delete(T o) {
+    @Override
+    public Integer updateAll(Map map,String ns) {
+        Integer result = 0;
+        try {
+            result = template.update(ns + ".updateAll", map);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new RuntimeException("批量更新错误");
+        }
+        return result;
+    }
+
+    public Integer delete(T o) {
 		Integer result = 0;
 		try {
 			result = template.delete(getNameSpace(o) + ".delete", o);

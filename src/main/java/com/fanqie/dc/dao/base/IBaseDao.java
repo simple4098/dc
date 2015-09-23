@@ -15,11 +15,16 @@ import java.util.Map;
 public interface IBaseDao<T> {
     public Integer save(T o);
 
+    Integer saveAll(Map map,String ns);
+
     public Integer update(T o);
+
+    Integer updateAll(Map map,String ns);
 
     public Integer delete(T o);
 
     public List<T> queryAll(T o);
+
     public T get(T o);
 
     public Long getCount(T o);
