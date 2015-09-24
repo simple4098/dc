@@ -17,7 +17,7 @@ import java.util.Map;
  */
 @Repository
 public class InnPmsActiveDao extends BaseDaoImpl<InnActive> implements IInnPmsActiveDao {
-     private final static String NA = "com.fanqie.dc.domain.InnActive.";
+     private final static String NA = "com.fanqie.dc.dao.IInnPmsActiveDao.";
     @Override
     public List<InnActive> findDayInnActive(String startDate, String endDate) {
         Map<String,Object> param = new HashMap<String, Object>();

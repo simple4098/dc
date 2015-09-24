@@ -38,4 +38,9 @@ public class OperateTrendDcDao extends BaseDaoImpl<OperateTrend> implements IOpe
     public List<OperateTrend> obtOpeDetail(ParamDto paramDto) {
         return template.selectList(NA.concat("obtOpeDetail"),paramDto);
     }
+
+    @Override
+    public void saveOperateTrend(OperateTrend operateTrend) {
+        this.template.insert(NA.concat("saveOperate"),operateTrend);
+    }
 }

@@ -17,15 +17,12 @@ import java.util.List;
  * @version: v1.0.0
  */
 @Repository
-public class OrderSourceDcDao extends BaseDaoImpl<OrderSource> implements IOrderSourceDcDao{
+public class OrderSourceDcDao extends BaseDaoImpl<OrderSource> implements IOrderSourceDcDao {
     private static final  String NA ="com.fanqie.dc.dao.IOrderSourceDcDao.";
 
 
     @Override
     public void saveOrderSource(List<OrderSource> list) {
-       /* Map<String,Object> param = new HashMap<String, Object>();
-        param.put("list",list);
-        param.put("date",date);*/
         template.insert(NA.concat("saveOrderSource"),list);
     }
 
@@ -37,5 +34,10 @@ public class OrderSourceDcDao extends BaseDaoImpl<OrderSource> implements IOrder
     @Override
     public OrderSourceDto findDcOrderSourceNum(ParamDto paramDto) {
         return template.selectOne(NA.concat("findOrderSourceNum"),paramDto);
+    }
+
+    @Override
+    public void saveOrderSource(OrderSource orderSource) {
+        template.insert(NA.concat("saveOrder"),orderSource);
     }
 }

@@ -36,7 +36,9 @@ public class OrderSourceService implements IOrderSourceService {
 
     @Override
     public void saveOrderSource(List<OrderSource> list) {
-        orderSourceDcDao.saveOrderSource(list);
+        for (OrderSource o:list){
+            orderSourceDcDao.saveOrderSource(o);
+        }
     }
 
     @Override
@@ -47,7 +49,7 @@ public class OrderSourceService implements IOrderSourceService {
         List<OrderSource> list = orderSourceDcDao.findDcOrderSource(paramDto);
         for (OrderSource orderSource:list){
             if (orderSource!=null && StringUtils.isEmpty(orderSource.getFromName())){
-                 orderSource.setFromName("未选择");
+                orderSource.setFromName("未选择");
             }
         }
         return list;

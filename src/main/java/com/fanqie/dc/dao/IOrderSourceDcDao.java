@@ -20,4 +20,6 @@ public interface IOrderSourceDcDao extends IBaseDao<OrderSource> {
    List<OrderSource> findDcOrderSource(ParamDto paramDto);
 
    OrderSourceDto findDcOrderSourceNum(ParamDto paramDto);
+
+   void saveOrderSource(OrderSource o);
 }

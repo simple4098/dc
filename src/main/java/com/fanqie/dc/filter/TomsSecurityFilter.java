@@ -1,7 +1,7 @@
 package com.fanqie.dc.filter;
 
 
-import com.fanqie.util.Constants;
+import com.fanqie.util.TomsConstants;
 import com.fanqie.util.DateUtil;
 import com.fanqie.util.DcUtil;
 import com.fanqie.util.JacksonUtil;
@@ -58,21 +58,21 @@ public class TomsSecurityFilter implements Filter  {
 			long start =System.currentTimeMillis()-(200000* DateUtil.MILLION_SECONDS_OF_MINUTE);
 			long end = System.currentTimeMillis()+(20000000*DateUtil.MILLION_SECONDS_OF_MINUTE);
 			if(time<=start || time>=end){ //请求超时
-				requestMap.put(Constants.MESSAGE, "请求超时");
-				requestMap.put(Constants.STATUS,Constants.STATUS412);
+				requestMap.put(TomsConstants.MESSAGE, "请求超时");
+				requestMap.put(TomsConstants.STATUS,TomsConstants.STATUS412);
 		    	sign =false;
 			}else{
 				String key = DcUtil.obtMd5(qBean.getCompanyId()+time+qBean.getUserId());
 				if(!key.equals(qBean.getSignature())){
-					requestMap.put(Constants.MESSAGE, "无权访问");
-					requestMap.put(Constants.STATUS, Constants.STATUS403);
+					requestMap.put(TomsConstants.MESSAGE, "无权访问");
+					requestMap.put(TomsConstants.STATUS, TomsConstants.STATUS403);
 					sign =false;
 				}
 			}
 			//秘钥是不对
 	    }else{
-			requestMap.put(Constants.MESSAGE, "参数异常");
-			requestMap.put(Constants.STATUS, Constants.STATUS403);
+			requestMap.put(TomsConstants.MESSAGE, "参数异常");
+			requestMap.put(TomsConstants.STATUS, TomsConstants.STATUS403);
 	    	sign = false;
 	    }
 		return sign;

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fanqie.dc.service.IOrderSourceDcDao">
+<mapper namespace="com.fanqie.dc.dao.IOrderSourceDcDao">
    <resultMap id="mapId" type="com.fanqie.core.domain.OrderSource">
        <result column="id" property="id"/>
        <result column="inn_id" property="innId"/>
@@ -30,6 +30,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 ( '${v.uuid}','${v.innId}',#{v.fromName},#{v.liveNum},#{v.income},#{v.orderNum},#{v.fromId},#{v.createdDate})
             </foreach>
         </if>
+    </insert>
+    <insert id="saveOrder" parameterType="com.fanqie.core.domain.OrderSource" >
+        insert into order_source(id,inn_id,from_name,live_num,income,order_num,from_id,create_date)
+        values
+        ( '${uuid}','${innId}',#{fromName},#{liveNum},#{income},#{orderNum},#{fromId},#{createdDate})
     </insert>
 
     <select id="findDcOrderSource" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapId">
