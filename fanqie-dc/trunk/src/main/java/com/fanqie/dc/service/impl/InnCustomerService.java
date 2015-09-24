@@ -8,12 +8,14 @@ import com.fanqie.core.dto.InnCustomerDto;
 import com.fanqie.core.dto.ParamDto;
 import com.fanqie.dc.service.IInnCustomerService;
 import com.fanqie.dc.support.util.CustomerUtil;
-import com.fanqie.util.Constants;
+import com.fanqie.util.TomsConstants;
 import com.fanqie.util.DcUtil;
 import com.fanqie.util.Pagination;
 import com.fanqie.util.StringUtil;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,6 +32,7 @@ import java.util.Map;
  */
 @Service
 public class InnCustomerService implements IInnCustomerService {
+    private static Logger logger = LoggerFactory.getLogger(InnCustomerService.class);
     @Autowired
     private IInnCustomerPmsDao innCustomerPmsDao;
     @Autowired
@@ -44,10 +47,13 @@ public class InnCustomerService implements IInnCustomerService {
     @Override
     public void saveInnCustomer(List<InnCustomer> list) {
         if (!CollectionUtils.isEmpty(list)){
+            long start = System.currentTimeMillis();
             for (InnCustomer customer:list){
                 CustomerUtil.innCustomerCityAndProvince(customer);
                 innCustomerDcDao.saveInnCustomer(customer);
             }
+            long end = System.currentTimeMillis();
+            logger.info("saveInnCustomer time:"+(end-start));
             //innCustomerDcDao.saveInnCustomer(list);
         }
 
@@ -63,7 +69,7 @@ public class InnCustomerService implements IInnCustomerService {
         int totalNum = customerDto.getTotalNum();
         for (InnCustomer innCustomer:list){
             if (StringUtils.isEmpty(innCustomer.getCity())){
-                innCustomer.setCity(StringUtil.getString(Constants.OTHER_CITY));
+                innCustomer.setCity(StringUtil.getString(TomsConstants.OTHER_CITY));
             }
             innCustomer.setPercent(DcUtil.multiply(DcUtil.divide(innCustomer.getNum(),totalNum),new BigDecimal(100)));
         }

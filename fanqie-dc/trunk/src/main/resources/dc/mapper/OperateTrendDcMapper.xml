@@ -2,7 +2,7 @@
 <!DOCTYPE mapper
 PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.fanqie.dc.service.IOperateTrendDcDao">
+<mapper namespace="com.fanqie.dc.dao.IOperateTrendDcDao">
    <resultMap id="mapId" type="com.fanqie.core.domain.OperateTrend">
         <result column="id" property="id"/>
         <result column="inn_id" property="innId"/>
@@ -28,6 +28,11 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 ( '${v.uuid}',#{v.innId},#{v.innName},'${v.mobile}',#{v.createdDate},#{v.totalIncome},#{v.totalRoomNum},#{v.realLiveNum},#{v.emptyRoomNum},#{v.avgPrice},#{v.livePercent},#{v.innCode})
             </foreach>
         </if>
+    </insert>
+    <insert id="saveOperate" parameterType="com.fanqie.core.domain.OperateTrend">
+        insert into operate_trend(id,inn_id,inn_name,mobile,create_date,total_income,total_room_num,real_live_num,empty_room_num,avg_price,live_percent,inn_code)
+        values
+        ( '${uuid}',#{innId},#{innName},'${mobile}',#{createdDate},#{totalIncome},#{totalRoomNum},#{realLiveNum},#{emptyRoomNum},#{avgPrice},#{livePercent},#{innCode})
     </insert>
 
     <select id="obtOpeDetail" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapId">

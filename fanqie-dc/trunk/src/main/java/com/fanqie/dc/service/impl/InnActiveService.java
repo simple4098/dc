@@ -11,6 +11,8 @@ import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.util.DateUtil;
 import com.fanqie.util.Pagination;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +26,7 @@ import java.util.*;
  */
 @Service
 public class InnActiveService implements IInnActiveService {
+    private static Logger logger = LoggerFactory.getLogger(InnActiveService.class);
     @Autowired
     private IInnPmsActiveDao innPmsActiveDao;
     @Autowired
@@ -38,12 +41,14 @@ public class InnActiveService implements IInnActiveService {
     @Override
     public void saveInnActive(List<InnActive> innActive,String from) {
         if (!CollectionUtils.isEmpty(innActive)){
-           // Date now = DateUtil.addDay(new Date(), -1);
+            long start = System.currentTimeMillis();
             Date date = DateUtil.parseDate(from);
-            /*for (InnActive active:innActive){
+            for (InnActive active:innActive){
                 innDcActiveDao.saveInnActive(active,date);
-            }*/
-            innDcActiveDao.saveInnActive(innActive,date);
+            }
+            long end = System.currentTimeMillis();
+            logger.info("saveInnActive time :"+(end-start));
+            //innDcActiveDao.saveInnActive(innActive,date);
         }
 
     }
@@ -80,9 +85,9 @@ public class InnActiveService implements IInnActiveService {
                         String d = DateUtil.formatDateToString(date, "yyyy-MM-dd");
                         if (dateCreate.length>i && dateCreateList.contains(d)){
                             int y = dateCreateList.indexOf(d);
-                             checkInNum = checkInNumList[y];
-                             orderNum = orderNumList[y];
-                             operateNum = operateNumList[y];
+                            checkInNum = checkInNumList[y];
+                            orderNum = orderNumList[y];
+                            operateNum = operateNumList[y];
                             if (Integer.valueOf(checkInNum)>0){
                                 valueList.add(Param.RU_ZHU);
                                 continue;
