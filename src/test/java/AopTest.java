@@ -1,6 +1,7 @@
 import com.fanqie.dc.aop.AopTestCom;
 import com.fanqie.dc.service.IInnActiveService;
 import com.fanqie.dc.service.IOrderSourceService;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,16 +21,19 @@ public class AopTest extends AbstractJUnit4SpringContextTests {
     @Autowired
     private IInnActiveService service2;
 	@Test
+    @Ignore
 	public void test(){
         aaa.test();
     }
 
     @Test
+    @Ignore
     public void test2(){
         service.findOrderSource("", "");
     }
 
     @Test
+    @Ignore
     public void test3(){
         service2.findDayInnActive("","");
     }
