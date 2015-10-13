@@ -29,7 +29,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             <foreach collection="orderStatList" item="orderStat" separator=",">
                 (#{orderStat.crmInnId,jdbcType=NUMERIC},#{orderStat.pmsInnId,jdbcType=NUMERIC},
                 #{orderStat.checkInOrderNum,jdbcType=NUMERIC},#{orderStat.checkInOrderPrice,jdbcType=NUMERIC},#{orderStat.checkInNightsNum,jdbcType=NUMERIC},
-                #{orderStat.checkOutOrderNum,jdbcType=NUMERIC},#{orderStat.checkOutOrderPrice,jdbcType=NUMERIC},#{orderStat.checkOutOrderPrice,jdbcType=NUMERIC},
+                #{orderStat.checkOutOrderNum,jdbcType=NUMERIC},#{orderStat.checkOutOrderPrice,jdbcType=NUMERIC},#{orderStat.checkOutNightsNum,jdbcType=NUMERIC},
                 #{monthTime,jdbcType=TIMESTAMP},now(),#{orderStat.updatedAt,jdbcType=TIMESTAMP})
             </foreach>
         </if>
