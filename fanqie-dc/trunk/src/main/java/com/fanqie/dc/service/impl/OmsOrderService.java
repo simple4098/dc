@@ -4,7 +4,6 @@ import com.fanqie.dc.bean.order.OrderStat;
 import com.fanqie.dc.bean.order.OrderStatBo;
 import com.fanqie.dc.dao.IOmsOrderDao;
 import com.fanqie.dc.dao.dynamic.DataSource;
-import com.fanqie.dc.exception.MonthTimeException;
 import com.fanqie.dc.service.IOmsOrderService;
 import com.fanqie.dc.support.util.CommonUtil;
 import com.fanqie.dc.support.util.JodaTimeUtil;
@@ -40,8 +39,8 @@ public class OmsOrderService implements IOmsOrderService {
 
     @DataSource(name = DataSource.CRM)
     @Override
-    public Map<String,Object> updateToOms(List<OrderStat> list, OrderStatBo bo) {
-        Map<String,Object> result = new HashMap<>();
+    public Map<String, Object> updateToOms(List<OrderStat> list, OrderStatBo bo) {
+        Map<String, Object> result = new HashMap<>();
         //需要更新的订单
         List<OrderStat> updateOrders = new ArrayList<>();
         //需要保存的订单
@@ -50,15 +49,14 @@ public class OmsOrderService implements IOmsOrderService {
         Map<Integer, Boolean> existPmsInnIdMap = new HashMap<>();
         List<Integer> existPmsInnId;
         try {
-            existPmsInnId = getExistPmsInnIds(getInnIds(list),bo.getFrom(),bo.getTo());
+            existPmsInnId = getExistPmsInnIds(getInnIds(list), bo.getFrom(), bo.getTo());
         } catch (Exception e) {
-            e.printStackTrace();
             logger.debug("=========updateToOms========方法错误==========");
-            logger.debug("参数：list:"+ JacksonUtil.obj2json(list)+" bo:"+JacksonUtil.obj2json(bo),e);
+            logger.debug("参数：list:" + JacksonUtil.obj2json(list) + " bo:" + JacksonUtil.obj2json(bo), e);
             CommonUtil.setErrorInfo(result, e.getMessage());
             return result;
         }
-        if(existPmsInnId != null){
+        if (existPmsInnId != null) {
             existPmsInnIdMap = getInnIdsMap(existPmsInnId);
         }
         for (OrderStat os : list) {
@@ -69,21 +67,22 @@ public class OmsOrderService implements IOmsOrderService {
                 saveOrders.add(os);
             }
         }
-        saveAndUpdate(updateOrders, saveOrders,JodaTimeUtil.getFirstDayOfMontht(bo.getFrom()));
+        saveAndUpdate(updateOrders, saveOrders, JodaTimeUtil.getFirstDayOfMontht(bo.getFrom()));
         CommonUtil.setSuccessInfo(result);
         return result;
     }
 
-    private void saveAndUpdate(List<OrderStat> updateOrders, List<OrderStat> saveOrders,Timestamp monthTime) {
-        Map<String,Object> saveMap = new HashMap<>();
-        Map<String,Object> updateMap = new HashMap<>();
-        if(updateOrders.size() > 0){
+    private void saveAndUpdate(List<OrderStat> updateOrders, List<OrderStat> saveOrders, Timestamp monthTime) {
+        Map<String, Object> saveMap = new HashMap<>();
+        Map<String, Object> updateMap = new HashMap<>();
+        if (updateOrders.size() > 0) {
             updateMap.put("orderStatList", updateOrders);
+            updateMap.put("monthTime", monthTime);
             dao.updateAll(updateMap, dao.CRM_NS);
         }
-        if(saveOrders.size() > 0){
+        if (saveOrders.size() > 0) {
             saveMap.put("orderStatList", saveOrders);
-            saveMap.put("monthTime",monthTime);
+            saveMap.put("monthTime", monthTime);
             dao.saveAll(saveMap, dao.CRM_NS);
         }
     }
@@ -111,12 +110,6 @@ public class OmsOrderService implements IOmsOrderService {
     }
 
     public List<Integer> getExistPmsInnIds(List<Integer> innIds, String from, String to) throws Exception {
-        List<Integer> existPmsInnId;
-        if (JodaTimeUtil.judgeOfOneMonth(from, to)) {
-            existPmsInnId = dao.getExistPmsInnId(innIds, JodaTimeUtil.getFirstDayOfMonth(from), JodaTimeUtil.addDay(JodaTimeUtil.getLastDayOfMonth(to), 1));
-        } else {
-            throw new MonthTimeException();
-        }
-        return existPmsInnId;
+        return dao.getExistPmsInnId(innIds, from, to);
     }
 }

@@ -38,7 +38,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     <update id="updateAll" parameterType="java.util.Map">
         <foreach collection="orderStatList" item="orderStat" separator=";">
             <include refid="updateAll_sql"></include>
-            where pms_inn_id = #{orderStat.pmsInnId}
+            where pms_inn_id = #{orderStat.pmsInnId} and month_time = #{monthTime}
         </foreach>
     </update>
 
@@ -68,9 +68,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
             </if>
             <if test="orderStat.checkOutNightsNum != null">
                 check_out_nights_num = #{orderStat.checkOutNightsNum},
-            </if>
-            <if test="orderStat.monthTime != null">
-                month_time = #{orderStat.monthTime},
             </if>
                 updated_at = now(),
         </set>
