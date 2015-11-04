@@ -157,6 +157,18 @@
 
 
 	<beans profile="production">
+        <!-- 配置多数据源映射关系-->
+        <bean id="dynamicDataSource" class="com.fanqie.dc.dao.dynamic.DynamicDataSource">
+            <property name="targetDataSources">
+                <map key-type="java.lang.String">
+                    <entry key="${dataSource.dc}" value-ref="dataSource-dc"></entry>
+                    <entry key="${dataSource.pms}" value-ref="dataSource-pms"></entry>
+                    <entry key="${dataSource.oms}" value-ref="dataSource-oms"></entry>
+                    <entry key="${dataSource.crm}" value-ref="dataSource-crm"></entry>
+                </map>
+            </property>
+            <property name="defaultTargetDataSource" ref="dataSource-dc"></property>
+        </bean>
 		<jee:jndi-lookup id="dataSource-dc" jndi-name="java:comp/env/jdbc/tomato-toms"/>
 		<jee:jndi-lookup id="dataSource-pms" jndi-name="java:comp/env/jdbc/tomato-pms"/>
         <jee:jndi-lookup id="dataSource-oms" jndi-name="java:comp/env/jdbc/tomato-oms"/>
