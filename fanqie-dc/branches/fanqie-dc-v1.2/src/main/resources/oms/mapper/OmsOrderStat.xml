@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.bean.order.OrderStat.oms">
+
+    <select id="getOrderStat" parameterType="com.fanqie.dc.bean.order.OrderStatBo" resultType="com.fanqie.dc.bean.order.OrderStat">
+        select
+            foo.pmsInnId as pmsInnId,
+            sum(foo.checkInOrderNum) as checkInOrderNum,
+            sum(foo.checkInOrderPrice) as checkInOrderPrice,
+            sum(foo.checkOutOrderNum) as checkOutOrderNum,
+            sum(foo.checkOutOrderPrice) as checkOutOrderPrice,
+            sum(foo.checkOutNightsNum) as checkOutNightsNum
+        from (
+            SELECT
+                o.inn_id AS pmsInnId,
+                COUNT (o. ID) AS checkInOrderNum,
+                SUM (o.total_amount) AS checkInOrderPrice,
+                0 as checkOutOrderNum,
+                0 as checkOutNightsNum,
+                0 as checkOutOrderPrice
+            FROM
+              tomato_channel_main_order o
+            WHERE
+                o.order_time  &gt;= '${from} 00:00:00'
+                AND o.order_time &lt; '${to} 00:00:00'
+                AND o.status = '1'
+                AND o.channel_id IN (
+                    SELECT i.ota_id FROM tomato_oms_ota_info i
+                    WHERE i.pid = 102 AND i.pid != i.ota_id
+                )
+          GROUP BY o.inn_id
+
+          union all
+
+        select
+            inn_id as pmsInnId,
+            0 AS checkInOrderNum,
+            0 AS checkInOrderPrice,
+            count(inn_id) as checkOutOrderNum,
+            sum(checkOutNightsNum) as checkOutNightsNum,
+            sum(checkOutOrderPrice) as checkOutOrderPrice
+        from
+        (
+            SELECT
+                sum(date_part('day',o.check_out_at::timestamp -  o.check_in_at)::int * o.room_type_nums) as checkOutNightsNum,
+                o2.total_amount as checkOutOrderPrice,
+                o2.inn_id
+            FROM
+              tomato_channel_order o
+            INNER JOIN tomato_channel_main_order o2 ON o2. ID = o.main_id
+            where
+                o2.status = '1'
+                AND o2.channel_id IN (
+                    SELECT i.ota_id FROM tomato_oms_ota_info i
+                    WHERE i.pid = 102 AND i.pid != i.ota_id
+                )
+            GROUP BY o2."id",o2.inn_id
+            HAVING
+              MAX (o.check_out_at) &gt;= '${from} 00:00:00' and MAX (o.check_out_at) &lt; '${to} 00:00:00'
+        ) as foo
+        group by inn_id
+
+
+
+        ) as foo
+        group by pmsInnId
+    </select>
+
+</mapper>

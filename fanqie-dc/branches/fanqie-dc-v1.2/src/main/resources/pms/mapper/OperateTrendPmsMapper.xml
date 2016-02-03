@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.dao.IOperateTrendPmsDao">
+   <resultMap id="mapId" type="com.fanqie.core.domain.OperateTrend">
+        <result column="id" property="id"/>
+        <result column="inn_id" property="innId"/>
+        <result column="name" property="innName"/>
+        <result column="mobile" property="mobile"/>
+        <result column="totalRoomNum" property="totalRoomNum"/>
+        <result column="liveRoomNum" property="realLiveNum"/>
+        <result column="priceSum" property="totalIncome"/>
+        <result column="cdate" property="createdDate"/>
+        <result column="user_code" property="innCode"/>
+   </resultMap>
+
+    <select id="findOperateDataByDate" parameterType="java.util.Map" resultMap="mapId">
+      SELECT info.id as inn_id,info.name,info.contact as mobile,tid.user_code , allRoom.totalRoomNum,p_.liveRoomNum,p_.priceSum,p_.cdate from tomato_inn  info
+    LEFT JOIN tomato_inn_admin tid ON tid.inn_id = info.id AND tid.status=2 and tid ISNULL
+    LEFT JOIN (
+      SELECT count(o.id) AS totalRoomNum,inn_id as innId from tomato_inn_room o where o.status=1 GROUP BY o.inn_id
+    ) allRoom ON allRoom.innId = info.id
+    LEFT JOIN tomato_inn_main_order  imo ON imo.inn_id = info.id
+    LEFT JOIN (
+        SELECT count(o.id) as liveRoomNum,sum(o.price) as priceSum, o.inn_id ,o.cdate from tomato_inn_sub_order_price o
+        LEFT JOIN tomato_inn_sub_order so ON so.id = o.sub_id where  <![CDATA[  so.status<5 ]]>
+        GROUP BY o.inn_id ,o.cdate
+    ) p_  ON p_.inn_id = info.id
+     where imo.order_status>0 and p_.liveRoomNum NOTNULL and p_.priceSum NOTNULL
+     <if test="to!=null">
+         and p_.cdate BETWEEN '${from}' AND '${to}'
+     </if>
+        <if test="to==null">
+            and p_.cdate='${from}'
+     </if>
+    GROUP BY info.id, allRoom.totalRoomNum,p_.liveRoomNum,p_.priceSum,p_.cdate,info.name,info.contact,tid.user_code;
+    </select>
+
+
+
+
+</mapper>

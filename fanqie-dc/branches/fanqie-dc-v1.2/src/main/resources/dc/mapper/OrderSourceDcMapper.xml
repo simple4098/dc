@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.dao.IOrderSourceDcDao">
+   <resultMap id="mapId" type="com.fanqie.core.domain.OrderSource">
+       <result column="id" property="id"/>
+       <result column="inn_id" property="innId"/>
+       <result column="live_num" property="liveNum"/>
+       <result column="from_name" property="fromName"/>
+       <result column="from_id" property="fromId"/>
+       <result column="income" property="income"/>
+       <result column="create_date" property="createdDate"/>
+       <result column="order_num" property="orderNum"/>
+   </resultMap>
+
+    <resultMap id="mapDtoId" type="com.fanqie.core.dto.OrderSourceDto">
+       <result column="live_num" property="liveNum"/>
+       <result column="income" property="income"/>
+       <result column="order_num" property="orderNum"/>
+       <result column="total_room_num" property="totalRoomNum"/>
+       <result column="empty_room_num" property="emptyRoomNum"/>
+   </resultMap>
+
+    <insert id="saveOrderSource" parameterType="java.util.Map" >
+        insert into order_source(id,inn_id,from_name,live_num,income,order_num,from_id,create_date)
+        values
+        <if test="list.size() > 0">
+            <foreach collection="list" item="v" separator=","  >
+                ( '${v.uuid}','${v.innId}',#{v.fromName},#{v.liveNum},#{v.income},#{v.orderNum},#{v.fromId},#{v.createdDate})
+            </foreach>
+        </if>
+    </insert>
+    <insert id="saveOrder" parameterType="com.fanqie.core.domain.OrderSource" >
+        insert into order_source(id,inn_id,from_name,live_num,income,order_num,from_id,create_date)
+        values
+        ( '${uuid}','${innId}',#{fromName},#{liveNum},#{income},#{orderNum},#{fromId},#{createdDate})
+    </insert>
+
+    <select id="findDcOrderSource" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapId">
+        SELECT sum(o.income) income , sum(o.order_num) order_num,o.from_name,sum(o.live_num) live_num
+        from order_source o where o.inn_id=${innId}
+        and o.create_date   BETWEEN  '${startDate}' AND '${endDate}' GROUP BY o.from_id ,o.from_name;
+    </select>
+
+    <select id="findOrderSourceNum" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapDtoId">
+        SELECT sum(o.income) as income, sum(o.live_num) as live_num , sum(o.order_num) as order_num ,opt.empty_room_num,opt.total_room_num
+        from order_source o
+        LEFT JOIN
+        ( SELECT o.empty_room_num,o.total_room_num,o.inn_id from operate_trend o where inn_id=#{innId} ORDER BY o.create_date desc LIMIT 1 ) opt ON opt.inn_id = o.inn_id
+        where o.inn_id=#{innId} and o.create_date BETWEEN  '${startDate}' AND '${endDate}'
+        GROUP  BY o.inn_id ,opt.empty_room_num,opt.total_room_num
+    </select>
+
+</mapper>

@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.dao.IInnPmsActiveDao">
+   <resultMap id="pmsMapId" type="com.fanqie.core.domain.InnActive">
+        <result column="id" property="id"/>
+        <result column="inn_id" property="innId"/>
+        <result column="inn_name" property="innName"/>
+        <result column="mobile" property="mobile"/>
+        <result column="status" property="status"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="check_in_num" property="checkInNum"/>
+        <result column="check_out_num" property="checkOutNum"/>
+        <result column="msg_num" property="msgNum"/>
+        <result column="operate_num" property="operateNum"/>
+        <result column="create_date" property="createDate"/>
+   </resultMap>
+
+    <select id="findDayInnActive" parameterType="java.util.Map" resultMap="pmsMapId">
+    SELECT
+	SUM (T .orders) AS order_num,
+	SUM (T .checkIns) AS check_in_num,
+	SUM (T .checkOuts) AS check_out_num,
+	SUM (T .msgNum) AS msg_num,
+	SUM (T .opNum) AS operate_num,
+	inn_id,
+	inn. NAME AS inn_name,
+	inn.contact AS mobile
+FROM
+	(
+		SELECT
+			COUNT (DISTINCT o.id) AS orders,
+			0 AS checkIns,
+			0 AS checkOuts,
+			0 AS msgNum,
+			0 AS opNum,
+			o.inn_id AS inn_id
+		 from tomato_inn_sub_order o
+     where  o.status=2 and o.check_in_at BETWEEN '${startDate}'  AND  '${endDate}'
+     GROUP BY o.inn_id
+		UNION ALL
+			SELECT
+				0 AS orders,
+				COUNT ( o.ID) AS checkIns ,
+				0 AS checkOuts,
+				0 AS msgNum,
+				0 AS opNum,
+				o.inn_id AS inn_id
+			from tomato_inn_sub_order o
+      where  o.status=3 and o.check_in_at BETWEEN '${startDate}'  AND  '${endDate}'
+      GROUP BY o.inn_id
+			UNION ALL
+				SELECT
+					0 AS orders,
+					0 AS checkIns,
+					COUNT (DISTINCT o.id) AS checkOuts,
+					0 AS msgNum,
+					0 AS opNum,
+					o.inn_id AS inn_id
+				from tomato_inn_sub_order o
+        where  o.status=4 and o.check_in_at BETWEEN '${startDate}'  AND  '${endDate}'
+        GROUP BY o.inn_id
+
+					UNION ALL
+						SELECT
+							0 AS orders,
+							0 AS checkIns,
+							0 AS checkOuts,
+							SUM (l.send_num) AS msgNum,
+							0 AS opNum,
+							l.inn_id AS inn_id
+						FROM
+							tomato_msg_log l
+						WHERE
+							l.send_time BETWEEN '${startDate}'  AND  '${endDate}'
+						GROUP BY
+							inn_id
+						UNION ALL
+							SELECT
+								0 AS orders,
+								0 AS checkIns,
+								0 AS checkOuts,
+								0 AS msgNum,
+								COUNT (l. ID) AS opNum,
+								l.inn_id AS inn_id
+							FROM
+								tomato_inn_log l
+							WHERE
+								l.operate_time BETWEEN '${startDate}'  AND  '${endDate}'
+							GROUP BY
+								inn_id
+                ) T
+            LEFT JOIN tomato_inn inn ON inn. ID = T .inn_id
+            GROUP BY
+                inn_id,
+                inn. NAME,
+                inn.contact;
+    </select>
+
+
+
+</mapper>
