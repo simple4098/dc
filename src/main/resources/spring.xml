@@ -107,7 +107,7 @@
             <property name="username" value="${dev.dc.username}"/>
             <property name="password" value="${dev.dc.password}"/>
 		</bean>
-        <bean id="dataSource-oms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+		<!--  <bean id="dataSource-oms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
             <property name="url" value="${dev.oms.url}"/>
             <property name="username" value="${dev.oms.username}"/>
             <property name="password" value="${dev.oms.password}"/>
@@ -116,6 +116,16 @@
             <property name="url" value="${dev.crm.url}"/>
             <property name="username" value="${dev.crm.username}"/>
             <property name="password" value="${dev.crm.password}"/>
+        </bean> -->
+        <bean id="dataSource-oms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${dev.oms.url1}"/>
+            <property name="username" value="${dev.oms.username1}"/>
+            <property name="password" value="${dev.oms.password1}"/>
+        </bean>
+        <bean id="dataSource-crm" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${dev.crm.url1}"/>
+            <property name="username" value="${dev.crm.username1}"/>
+            <property name="password" value="${dev.crm.password1}"/>
         </bean>
 	</beans>
 
