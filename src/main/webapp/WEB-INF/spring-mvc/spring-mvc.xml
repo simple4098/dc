@@ -17,6 +17,8 @@
 	<bean class="org.springframework.format.support.FormattingConversionServiceFactoryBean" id="conversionService"/>
 	<mvc:annotation-driven/>
 	<mvc:default-servlet-handler/>
+	<mvc:view-controller path="/" view-name="index"/>
+	<mvc:view-controller path="/index" view-name="index"/>
 	<!-- ViewResolver -->
 	<bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
 		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView"/>

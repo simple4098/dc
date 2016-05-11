@@ -13,6 +13,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/index")
 public class IndexController {
 
+
+    @RequestMapping("")
+    public String index(){
+        return "index";
+    }
+
     @RequestMapping("/timer")
     public String timer(){
         return "old_data";
