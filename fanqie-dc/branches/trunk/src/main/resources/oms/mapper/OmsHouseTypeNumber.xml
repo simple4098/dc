@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.bean.HouseTypeNumber.oms">
+
+    <select id="queryNumber" resultType="com.fanqie.dc.bean.HouseTypeNumber">
+		SELECT
+			o.inn_id as pmsInnId,
+			COUNT (r.account_id) as houseTypeNumber 
+		FROM
+			tomato_oms_ota_roomtype r
+			INNER JOIN tomato_oms_open_account o 
+				ON r.account_id = o."id"
+				AND o.ota_id = 102
+				AND o.strategy_type = 2
+		WHERE
+			r.account_id IN (
+				SELECT
+					DISTINCT A .account_id
+				FROM
+					tomato_oms_proxy_account A
+			)
+			AND r.status = 1
+		GROUP BY
+			o.inn_id
+    </select>
+</mapper>

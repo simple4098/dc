@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.domain.InnActive">
+   <resultMap id="mapId" type="com.fanqie.core.domain.InnActive">
+        <result column="id" property="id"/>
+        <result column="innId" property="inn_id"/>
+        <result column="innName" property="inn_name"/>
+        <result column="status" property="status"/>
+        <result column="order_num" property="orderNum"/>
+        <result column="check_in_num" property="checkInNum"/>
+        <result column="check_out_num" property="checkOutMum"/>
+        <result column="msg_num" property="msgNum"/>
+        <result column="operate_num" property="operateNum"/>
+        <result column="create_date" property="createDate"/>
+   </resultMap>
+
+    <resultMap id="innActiveId" type="com.fanqie.core.dto.InnActiveDto">
+        <result column="innId" property="inn_id"/>
+        <result column="inn_name" property="innName"/>
+        <result column="order_nums" property="orderNumList"/>
+        <result column="check_in_nums" property="checkInNumList"/>
+        <result column="check_out_nums" property="checkOutNumList"/>
+        <result column="operate_nums" property="operateNumList"/>
+        <result column="create_dates" property="createDates"/>
+        <result column="mobile" property="mobile"/>
+    </resultMap>
+
+    <insert id="saveInnActiveList" parameterType="java.util.Map">
+        insert into inn_active(id,inn_id,inn_name,mobile,create_date,order_num,check_in_num,check_out_num,msg_num,operate_num)
+        values
+        <if test="list.size() > 0">
+            <foreach collection="list" item="v" separator=","  >
+                ( '${v.uuid}','${v.innId}',#{v.innName},'${v.mobile}',#{now},#{v.orderNum},#{v.checkInNum},#{v.checkOutNum},#{v.msgNum},#{v.operateNum})
+            </foreach>
+        </if>
+    </insert>
+    <insert id="saveInnActive" parameterType="com.fanqie.core.domain.InnActive">
+        insert into inn_active(id,inn_id,inn_name,mobile,create_date,order_num,check_in_num,check_out_num,msg_num,operate_num)
+        values ( '${o.uuid}','${o.innId}',#{o.innName},'${o.mobile}',#{now},#{o.orderNum},#{o.checkInNum},#{o.checkOutNum},#{o.msgNum},#{o.operateNum})
+    </insert>
+
+    <select id="findDcInnActive" parameterType="com.fanqie.core.dto.ParamDto" resultMap="innActiveId" >
+        SELECT 	oo.inn_id,
+        oo.inn_name,
+        string_agg ( CAST (oo.create_date AS VARCHAR), ',' ) AS create_dates,
+        string_agg ( CAST (oo.order_num AS VARCHAR), ',' ) AS order_nums,
+        string_agg ( CAST (oo.check_in_num AS VARCHAR), ',' ) AS check_in_nums,
+        string_agg ( CAST (oo.check_out_num AS VARCHAR), ',' ) AS check_out_nums,
+        string_agg ( CAST (oo.operate_num AS VARCHAR), ','  ) AS operate_nums,
+        max(oo.mobile) mobile
+        from (
+          SELECT o.inn_id, o.inn_name, o.create_date, o.order_num, o.check_in_num,
+          o.check_out_num, o.operate_num, bi.mobile mobile
+          from inn_active o
+          LEFT JOIN bang_inn bi ON bi.inn_id = o.inn_id
+          WHERE bi.deleted = 0 and bi.company_id='${companyId}' and o.create_date BETWEEN '${startDate}' AND '${endDate}'
+          <if test="innIds != null and innId == null">
+            and o.inn_id in
+            <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+          </if>
+          <if test="innId != null">
+            and o.inn_id = #{innId}
+          </if>
+        <if test="tagId!=null and tagId!=''">
+            AND bi.inn_label_id ='${tagId}'
+        </if>
+          ORDER BY o.inn_id, o.create_date ASC
+        ) oo  GROUP BY oo.inn_id, oo.inn_name ;
+    </select>
+
+    <select id="findDcInnActiveCount" resultType="java.lang.Integer" parameterType="com.fanqie.core.dto.ParamDto" >
+        SELECT count(oo.inn_id)  from (
+        SELECT o.inn_id
+        from inn_active o
+        LEFT JOIN bang_inn bi ON bi.inn_id = o.inn_id
+        WHERE bi.deleted = 0 and bi.company_id='${companyId}' and o.create_date BETWEEN '${startDate}' AND '${endDate}'
+        <if test="innIds != null and innId == null">
+            and o.inn_id in
+            <foreach collection="innIds" index="index" item="item" open="(" close=")" separator=",">
+                #{item}
+            </foreach>
+        </if>
+        <if test="innId != null">
+            and o.inn_id = #{innId}
+        </if>
+        <if test="tagId!=null and tagId!=''">
+            AND bi.inn_label_id ='${tagId}'
+        </if>
+        GROUP BY o.inn_id,o.inn_name ORDER BY o.inn_id
+        ) oo
+    </select>
+
+
+</mapper>

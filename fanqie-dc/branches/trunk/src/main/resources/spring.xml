@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	   xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	   xmlns:context="http://www.springframework.org/schema/context"
+	   xmlns:p="http://www.springframework.org/schema/p" xmlns:aop="http://www.springframework.org/schema/aop"
+	   xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jee="http://www.springframework.org/schema/jee"
+	   xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	   http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+       http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd
+       http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd http://www.springframework.org/schema/jee http://www.springframework.org/schema/jee/spring-jee.xsd">
+
+	<!-- 自动扫描组件，这里要把controler下面的 controller去除，
+	他们是在spring3-servlet.xml中配置的，如果不去除会影响事务管理的。   -->
+	<context:component-scan base-package="com.fanqie.dc" use-default-filters="true">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+	</context:component-scan>
+	<context:annotation-config/>
+
+    <!-- 加载资源文件 -->
+    <context:property-placeholder location="classpath:config.properties" />
+
+    <bean id="mybatisSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dynamicDataSource" />
+        <property name="configLocation" value="classpath:mybatisConfig.xml" />
+        <property name="mapperLocations">
+            <list>
+                <value>classpath*:dc/mapper/*.xml</value>
+                <value>classpath*:pms/mapper/*.xml</value>
+                <value>classpath*:oms/mapper/*.xml</value>
+                <value>classpath*:crm/mapper/*.xml</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="sessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
+        <constructor-arg index="0" ref="mybatisSessionFactory"/>
+    </bean>
+
+    <bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource" ref="dynamicDataSource" />
+    </bean>
+
+    <tx:advice id="txAdvice" transaction-manager="txManager">
+        <tx:attributes>
+            <tx:method name="find*" read-only="true"/>
+            <tx:method name="load*" read-only="true"/>
+            <tx:method name="obt*" read-only="true"/>
+            <tx:method name="*" rollback-for="CustomException"/>
+        </tx:attributes>
+    </tx:advice>
+
+    <bean id="dynamicDataSourceAop" class="com.fanqie.dc.aop.DynamicDataSourceAop"></bean>
+    <!--<bean id="abcTest" class="com.fanqie.dc.aop.Test"></bean>-->
+
+    <aop:aspectj-autoproxy/>
+
+	<aop:config>
+		<aop:pointcut id="fooServiceMethods" expression="execution(* com.fanqie.dc.service.impl.*.*(..))"/>
+        <aop:advisor advice-ref="txAdvice" pointcut-ref="fooServiceMethods" order="2"/>
+        <aop:aspect id="dynamicDataSourceAspect" ref="dynamicDataSourceAop" order="1">
+            <aop:before method="beforeAdvice" pointcut-ref="fooServiceMethods"></aop:before>
+            <aop:after method="afterAdvice" pointcut-ref="fooServiceMethods"></aop:after>
+        </aop:aspect>
+	</aop:config>
+
+    <!--<aop:config>-->
+        <!--<aop:pointcut id="test" expression="execution(* com.fanqie.dc.service.impl.*.*(..))"></aop:pointcut>-->
+        <!--<aop:aspect id="abcTestAspect" ref="abcTest">-->
+            <!--<aop:before method="test" pointcut-ref="test"></aop:before>-->
+            <!--<aop:after method="test" pointcut-ref="test"></aop:after>-->
+        <!--</aop:aspect>-->
+    <!--</aop:config>-->
+
+    <!-- 数据源配置 父类模板Bean-->
+    <bean id="dataSource-template" class="com.alibaba.druid.pool.DruidDataSource" abstract="true">
+        <property name="driverClassName" value="${dataSource.driverClassName}"/>
+        <property name="maxWait" value="${dataSource.maxWait}" />
+        <property name="initialSize" value="${dataSource.initialSize}" />
+        <property name="maxActive" value="${dataSource.maxActive}" />
+        <property name="testWhileIdle" value="${dataSource.testWhileIdle}" />
+        <property name="timeBetweenEvictionRunsMillis" value="${dataSource.timeBetweenEvictionRunsMillis}" />
+        <property name="removeAbandoned" value="${dataSource.removeAbandoned}" />
+        <property name="removeAbandonedTimeout" value="${dataSource.removeAbandonedTimeout}" />
+        <property name="validationQuery" value="${dataSource.validationQuery}"/>
+    </bean>
+
+	<!--加入数据源配置-->
+	<beans profile="dev">
+        <!-- 配置多数据源映射关系-->
+        <bean id="dynamicDataSource" class="com.fanqie.dc.dao.dynamic.DynamicDataSource">
+            <property name="targetDataSources">
+                <map key-type="java.lang.String">
+                    <entry key="${dataSource.dc}" value-ref="dataSource-dc"></entry>
+                    <entry key="${dataSource.pms}" value-ref="dataSource-pms"></entry>
+                    <entry key="${dataSource.oms}" value-ref="dataSource-oms"></entry>
+                    <entry key="${dataSource.crm}" value-ref="dataSource-crm"></entry>
+                </map>
+            </property>
+            <property name="defaultTargetDataSource" ref="dataSource-dc"></property>
+        </bean>
+		<bean id="dataSource-pms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${dev.pms.url}"/>
+            <property name="username" value="${dev.pms.username}"/>
+            <property name="password" value="${dev.pms.password}"/>
+		</bean>
+		<bean id="dataSource-dc" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${dev.dc.url}"/>
+            <property name="username" value="${dev.dc.username}"/>
+            <property name="password" value="${dev.dc.password}"/>
+		</bean>
+		<!--  <bean id="dataSource-oms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${dev.oms.url}"/>
+            <property name="username" value="${dev.oms.username}"/>
+            <property name="password" value="${dev.oms.password}"/>
+        </bean>
+        <bean id="dataSource-crm" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${dev.crm.url}"/>
+            <property name="username" value="${dev.crm.username}"/>
+            <property name="password" value="${dev.crm.password}"/>
+        </bean> -->
+        <bean id="dataSource-oms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${dev.oms.url}"/>
+            <property name="username" value="${dev.oms.username}"/>
+            <property name="password" value="${dev.oms.password}"/>
+        </bean>
+        <bean id="dataSource-crm" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${dev.crm.url}"/>
+            <property name="username" value="${dev.crm.username}"/>
+            <property name="password" value="${dev.crm.password}"/>
+        </bean>
+	</beans>
+
+
+	<beans profile="staging">
+        <!-- 配置多数据源映射关系-->
+        <bean id="dynamicDataSource" class="com.fanqie.dc.dao.dynamic.DynamicDataSource">
+            <property name="targetDataSources">
+                <map key-type="java.lang.String">
+                    <entry key="${dataSource.dc}" value-ref="dataSource-dc"></entry>
+                    <entry key="${dataSource.pms}" value-ref="dataSource-pms"></entry>
+                    <entry key="${dataSource.oms}" value-ref="dataSource-oms"></entry>
+                    <entry key="${dataSource.crm}" value-ref="dataSource-crm"></entry>
+                </map>
+            </property>
+            <property name="defaultTargetDataSource" ref="dataSource-dc"></property>
+        </bean>
+        <bean id="dataSource-pms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${staging.pms.url}"/>
+            <property name="username" value="${staging.pms.username}"/>
+            <property name="password" value="${staging.pms.password}"/>
+        </bean>
+        <bean id="dataSource-dc" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${staging.dc.url}"/>
+            <property name="username" value="${staging.dc.username}"/>
+            <property name="password" value="${staging.dc.password}"/>
+        </bean>
+        <bean id="dataSource-oms" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${staging.oms.url}"/>
+            <property name="username" value="${staging.oms.username}"/>
+            <property name="password" value="${staging.oms.password}"/>
+        </bean>
+        <bean id="dataSource-crm" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${staging.crm.url}"/>
+            <property name="username" value="${staging.crm.username}"/>
+            <property name="password" value="${staging.crm.password}"/>
+        </bean>
+	</beans>
+
+
+	<beans profile="production">
+        <!-- 配置多数据源映射关系-->
+        <bean id="dynamicDataSource" class="com.fanqie.dc.dao.dynamic.DynamicDataSource">
+            <property name="targetDataSources">
+                <map key-type="java.lang.String">
+                    <entry key="${dataSource.dc}" value-ref="dataSource-dc"></entry>
+                    <entry key="${dataSource.pms}" value-ref="dataSource-pms"></entry>
+                    <entry key="${dataSource.oms}" value-ref="dataSource-oms"></entry>
+                    <entry key="${dataSource.crm}" value-ref="dataSource-crm"></entry>
+                </map>
+            </property>
+            <property name="defaultTargetDataSource" ref="dataSource-dc"></property>
+        </bean>
+		<jee:jndi-lookup id="dataSource-dc" jndi-name="java:comp/env/jdbc/tomato-toms"/>
+		<jee:jndi-lookup id="dataSource-pms" jndi-name="java:comp/env/jdbc/tomato-pms"/>
+        <jee:jndi-lookup id="dataSource-oms" jndi-name="java:comp/env/jdbc/tomato-oms"/>
+		<jee:jndi-lookup id="dataSource-crm" jndi-name="java:comp/env/jdbc/tomato-crm"/>
+	</beans>
+
+</beans>
