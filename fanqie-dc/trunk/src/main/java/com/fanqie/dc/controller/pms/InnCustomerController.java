@@ -1,12 +1,9 @@
 package com.fanqie.dc.controller.pms;
 
 
-import com.fanqie.core.domain.InnActive;
-import com.fanqie.dc.common.Param;
 import com.fanqie.core.domain.InnCustomer;
-import com.fanqie.core.domain.OperateTrend;
+import com.fanqie.dc.common.Param;
 import com.fanqie.dc.service.IInnCustomerService;
-import com.fanqie.dc.service.IOperateTrendService;
 import com.fanqie.util.DateUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;

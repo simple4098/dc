@@ -1,10 +1,8 @@
 package com.fanqie.dc.controller.oms;
 
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.fanqie.dc.bean.HouseTypeNumber;
+import com.fanqie.dc.service.IOmsHouseTypeService;
+import com.fanqie.dc.support.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.fanqie.dc.bean.HouseTypeNumber;
-import com.fanqie.dc.service.IOmsHouseTypeService;
-import com.fanqie.dc.support.util.CommonUtil;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * DESC : oms客栈可卖房型数量统计

@@ -1,11 +1,9 @@
 package com.fanqie.dc.dao;
 
-import java.util.List;
-
 import com.fanqie.dc.bean.HouseTypeNumber;
-import com.fanqie.dc.bean.order.OrderStat;
-import com.fanqie.dc.bean.order.OrderStatBo;
 import com.fanqie.dc.dao.base.IBaseDao;
+
+import java.util.List;
 
 public interface IOmsHouseTypeNumberDao extends IBaseDao<HouseTypeNumber> {
 	
