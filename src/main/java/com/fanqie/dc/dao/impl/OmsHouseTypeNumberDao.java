@@ -1,16 +1,11 @@
 package com.fanqie.dc.dao.impl;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.springframework.stereotype.Repository;
-
 import com.fanqie.dc.bean.HouseTypeNumber;
-import com.fanqie.dc.bean.order.OrderStat;
 import com.fanqie.dc.dao.IOmsHouseTypeNumberDao;
 import com.fanqie.dc.dao.base.BaseDaoImpl;
-import com.fanqie.util.Pagination;
+import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class OmsHouseTypeNumberDao extends BaseDaoImpl<HouseTypeNumber> implements IOmsHouseTypeNumberDao {

@@ -1,9 +1,9 @@
 package com.fanqie.dc.service;
 
+import com.fanqie.dc.bean.HouseTypeNumber;
+
 import java.util.List;
 import java.util.Map;
-
-import com.fanqie.dc.bean.HouseTypeNumber;
 
 public interface IOmsHouseTypeService {
 
