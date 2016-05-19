@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.bean.order.XyzOrderStat.crm">
+
+    <select id="getExistPmsInnId" parameterType="java.util.Map" resultType="java.lang.Integer">
+        SELECT
+
+          o.pms_inn_id as pmsInnId
+        FROM
+          tomato_crm_xyz_order o
+        WHERE 1=1
+          AND o.month_time &gt;= '${from} 00:00:00'
+          AND o.month_time &lt; '${to} 00:00:00'
+          <if test="innIds != null and innIds.size() > 0 ">
+              and o.pms_inn_id IN
+              <foreach collection="innIds" item="innId" open="(" close=")" separator=",">
+                  #{innId}
+              </foreach>
+          </if>
+    </select>
+
+    <insert id="insertAll" parameterType="java.util.Map">
+        insert into tomato_crm_xyz_order(crm_inn_id,pms_inn_id,check_in_order_num,check_in_order_price,check_in_nights_num,
+        check_out_order_num,check_out_order_price,check_out_nights_num,month_time,created_at,updated_at)
+        values
+        <if test="orderStatList.size() > 0">
+            <foreach collection="orderStatList" item="orderStat" separator=",">
+                (#{orderStat.crmInnId,jdbcType=NUMERIC},#{orderStat.pmsInnId,jdbcType=NUMERIC},
+                #{orderStat.checkInOrderNum,jdbcType=NUMERIC},#{orderStat.checkInOrderPrice,jdbcType=NUMERIC},#{orderStat.checkInNightsNum,jdbcType=NUMERIC},
+                #{orderStat.checkOutOrderNum,jdbcType=NUMERIC},#{orderStat.checkOutOrderPrice,jdbcType=NUMERIC},#{orderStat.checkOutNightsNum,jdbcType=NUMERIC},
+                #{monthTime,jdbcType=TIMESTAMP},now(),#{orderStat.updatedAt,jdbcType=TIMESTAMP})
+            </foreach>
+        </if>
+    </insert>
+
+    <update id="updateAll" parameterType="java.util.Map">
+        <foreach collection="orderStatList" item="orderStat" separator=";">
+            <include refid="updateAll_sql"></include>
+            where pms_inn_id = #{orderStat.pmsInnId} and month_time = #{monthTime}
+        </foreach>
+    </update>
+
+    <sql id="updateAll_sql">
+        UPDATE tomato_crm_xyz_order
+        <set>
+            <if test="orderStat.crmInnId != null">
+                crm_inn_id = #{orderStat.crmInnId},
+            </if>
+            <if test="orderStat.pmsInnId != null">
+                pms_inn_id = #{orderStat.pmsInnId},
+            </if>
+            <if test="orderStat.checkInOrderNum != null">
+                check_in_order_num = #{orderStat.checkInOrderNum},
+            </if>
+            <if test="orderStat.checkInOrderPrice != null">
+                check_in_order_price = #{orderStat.checkInOrderPrice},
+            </if>
+            <if test="orderStat.checkInNightsNum != null">
+                check_in_nights_num = #{orderStat.checkInNightsNum},
+            </if>
+            <if test="orderStat.checkOutOrderNum != null">
+                check_out_order_num = #{orderStat.checkOutOrderNum},
+            </if>
+            <if test="orderStat.checkOutOrderPrice != null">
+                check_out_order_price = #{orderStat.checkOutOrderPrice},
+            </if>
+            <if test="orderStat.checkOutNightsNum != null">
+                check_out_nights_num = #{orderStat.checkOutNightsNum},
+            </if>
+                updated_at = now(),
+        </set>
+    </sql>
+
+</mapper>

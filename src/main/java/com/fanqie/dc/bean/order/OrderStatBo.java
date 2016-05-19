@@ -8,6 +8,16 @@ package com.fanqie.dc.bean.order;
 public class OrderStatBo {
     private String from;
     private String to;
+    private Integer otaId;
+
+
+    public Integer getOtaId() {
+        return otaId;
+    }
+
+    public void setOtaId(Integer otaId) {
+        this.otaId = otaId;
+    }
 
     public String getFrom() {
         return from;
