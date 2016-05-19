@@ -5,6 +5,7 @@ import com.fanqie.dc.bean.order.OrderStat;
 import com.fanqie.dc.bean.order.OrderStatBo;
 import com.fanqie.dc.exception.MonthTimeException;
 import com.fanqie.dc.service.IOmsOrderService;
+import com.fanqie.dc.service.IXyzOrderService;
 import com.fanqie.dc.support.util.CommonUtil;
 import com.fanqie.dc.support.util.JodaTimeUtil;
 import org.slf4j.Logger;
@@ -32,6 +33,8 @@ public class OrderStatController {
 
     @Autowired
     private IOmsOrderService service;
+    @Autowired
+    private IXyzOrderService xyzOrderService;
 
     @RequestMapping("/orderStat")
     @ResponseBody
@@ -39,6 +42,7 @@ public class OrderStatController {
         logger.info("====订单统计 OrderStat=====");
         Map<String,Object> result = new HashMap<>();
         List<OrderStat> orderStats;
+        List<OrderStat> xyzOrderStats;
         try{
             if(bo.getFrom() == null || bo.getTo() == null){//初始化bo
                 bo = new OrderStatBo();
@@ -51,8 +55,14 @@ public class OrderStatController {
                 }
                 bo.setTo(JodaTimeUtil.addDay(JodaTimeUtil.getLastDayOfMonth(bo.getFrom()), 1));
             }
+            //处理代销订单
+            bo.setOtaId(102);
             orderStats = service.getOrderStat(bo);
             result = service.updateToOms(orderStats, bo);
+            //处理信用住订单
+            bo.setOtaId(106);
+            xyzOrderStats = service.getOrderStat(bo);
+            xyzOrderService.updateToOms(xyzOrderStats,bo);
         }catch (Exception e){
             e.printStackTrace();
             logger.debug("订单统计失败",e);
