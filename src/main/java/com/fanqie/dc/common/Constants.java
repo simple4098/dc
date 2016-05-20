@@ -27,8 +27,13 @@ public class Constants {
 	public final static String RESPONSE_FIELD_FLAG = "flag";
 	/** 返回结果 */
 	public final static String SUCCESS = "success";
+	public final static String spiderSUCCESS = "1000";
 	public final static String FAILURE = "fail";
 	public final static String ORDER_REPEAT = "ORDER_REPEAT";
 	public final static String ERROR_TIP_MSG = "请稍后再试";
+	public final static String OMS_MESPRICE_TYPE = "PRICE_AUDIT";
+	public final static String COMPARE_PRICE_PRICE_AUDIT = "COMPARE_PRICE_PRICE_AUDIT";
+	public final static String OMS_PROJECT= "oms";
+	//public final static int  spiderDay= 3;
 
 }
