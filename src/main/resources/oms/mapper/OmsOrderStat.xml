@@ -57,7 +57,10 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 o2.status = '1'
                 AND o2.channel_id IN (
                     SELECT i.ota_id FROM tomato_oms_ota_info i
-                    WHERE i.pid = #{otaId} AND i.pid != i.ota_id
+                    WHERE i.pid = #{otaId}
+                    <if test="otaId == 102">
+                        AND i.pid != i.ota_id
+                    </if>
                 )
             GROUP BY o2."id",o2.inn_id
             HAVING
