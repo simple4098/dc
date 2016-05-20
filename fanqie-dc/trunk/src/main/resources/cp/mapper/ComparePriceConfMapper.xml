@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.dao.IComparePriceConfDao">
+
+    <resultMap id="mapId" type="com.fanqie.dc.bean.cp.ComparePriceConf">
+        <result column="id" property="id"/>
+        <result column="ota_id" property="otaId"/>
+        <result column="ota_code" property="otaCode"/>
+        <result column="percentage" property="percentage"/>
+        <result column="account" property="account"/>
+        <result column="password" property="password"/>
+        <result column="compare_default" property="compareDefault"/>
+        <result column="spider_day" property="spiderDay"/>
+    </resultMap>
+
+
+    <insert id="saveComparePriceConf" parameterType="com.fanqie.core.domain.InnActive">
+        insert into compare_price_conf(id,ota_id,ota_code,percentage,account,password,compare_default,created_date,update_date,spider_day)
+        values ( #{uuid},#{otaId},#{otaCode},#{percentage},#{account},#{password},#{compareDefault},now(),now(),#{spiderDay})
+    </insert>
+
+    <select id="selectComparePriceConf" resultMap="mapId">
+        SELECT  * from compare_price_conf where compare_default=true
+    </select>
+
+
+</mapper>

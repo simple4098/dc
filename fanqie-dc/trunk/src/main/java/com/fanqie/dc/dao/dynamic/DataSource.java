@@ -21,5 +21,6 @@ public @interface DataSource {
     public  static final String OMS = "oms";
 
     public static final  String CRM = "crm";
+    public static final  String CP = "cp";
 
 }
