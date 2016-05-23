@@ -47,7 +47,7 @@ public class EventResolver {
             try {
                 comparePriceService.updateComparePrice(omsComparePriceInnRoom,comparePriceConf);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("比价异常",e);
             }
         }
 
