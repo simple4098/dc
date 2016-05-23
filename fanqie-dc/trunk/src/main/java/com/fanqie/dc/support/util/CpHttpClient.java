@@ -70,14 +70,8 @@ public class CpHttpClient {
     public static String httpPost(String url,SpiderJson data) throws Exception {
         HttpClient httpClient = obtHttpClient();
         HttpPost httpPost = new HttpPost(url);
-        //httpPost.setHeader("User-Agent", "Mozilla/5.0 (Windows NT 6.1; rv:7.0.1) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/21.0.1180.79 Firefox/7.0.1 Safari/537.1");
-        //httpPost.setHeader("Accept","text/html,application/json,application/xml;q=0.9,image/webp,*/*;q=0.8");
-        //httpPost.setHeader("Accept-Language", "zh-CN,zh;q=0.8,en-US;q=0.6,en;q=0.4");
-        //httpPost.setHeader("Accept-Charset", "GB2312,UTF-8;q=0.7,*;q=0.7");
         httpPost.setHeader("Content-Type", "application/json;charset=UTF-8");
-        //List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>();
         String json = JacksonUtil.obj2json(data);
-        //nameValuePairs.add(new BasicNameValuePair("data", json));
         httpPost.setEntity(new StringEntity(json,ContentType.APPLICATION_JSON));
         HttpResponse response = httpClient.execute(httpPost);
         HttpEntity entity = response.getEntity();

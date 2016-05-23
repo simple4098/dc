@@ -5,6 +5,7 @@ import com.fanqie.dc.bean.cp.ComparePriceConf;
 import com.fanqie.dc.bean.cp.OmsComparePriceInnRoom;
 import com.fanqie.dc.dto.CrmBangDto;
 import com.fanqie.dc.dto.SpiderData;
+import com.fanqie.dc.enumeration.ComparePriceEnum;
 import com.fanqie.dc.service.IComparePriceConfService;
 import com.fanqie.dc.support.helper.InnRoomHelper;
 import com.fanqie.util.JacksonUtil;
@@ -60,6 +61,13 @@ public class CompareTest {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testComparePrice(){
+        OmsComparePriceInnRoom omsComparePriceInnRoom = new OmsComparePriceInnRoom();
+        omsComparePriceInnRoom.setRecordCode("2016032518460514589027654388");
+        InnRoomHelper.updateRecordCode(omsComparePriceInnRoom, ComparePriceEnum.PROBLEM);
     }
 
 
