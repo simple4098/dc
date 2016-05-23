@@ -2,9 +2,9 @@ package com.fanqie.dc.controller.cp;
 
 import com.fanqie.dc.bean.cp.ComparePriceData;
 import com.fanqie.dc.common.Constants;
+import com.fanqie.dc.common.JsonModel;
 import com.fanqie.dc.dto.CrmComparePriceDto;
 import com.fanqie.dc.service.IComparePriceService;
-import com.fanqie.util.JsonModel;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
