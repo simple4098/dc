@@ -74,6 +74,11 @@ public class InnRoomHelper {
             }
         }
         return null;
+       /* List<CrmBangDto> list = new ArrayList<>();
+        CrmBangDto crmBangDto = new CrmBangDto();
+        crmBangDto.setChannelRoomTypeId("573cd69e80fe083e8cf2f697");
+        list.add(crmBangDto);
+        return  list;*/
     }
 
     public static List<SpiderData> obtSpider(OmsComparePriceInnRoom omsComparePriceInnRoom,String channelRoomTypeId) throws Exception {
@@ -123,7 +128,7 @@ public class InnRoomHelper {
     }
 
     public static void updateRecordCode(OmsComparePriceInnRoom omsComparePriceInnRoom, ComparePriceEnum problem) {
-        String spiderUrl = UrlUtil.updateRecordCode(omsComparePriceInnRoom, problem);
+        /*String spiderUrl = UrlUtil.updateRecordCode(omsComparePriceInnRoom, problem);
         try{
             String roomTypeGets = HttpClientUtil.httpGets(spiderUrl, null);
             JSONObject jsonObject = JSONObject.fromObject(roomTypeGets);
@@ -134,7 +139,7 @@ public class InnRoomHelper {
             }
         }catch (Exception e){
             log.error("更新改价记录异常",e);
-        }
+        }*/
 
     }
 }

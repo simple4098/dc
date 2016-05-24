@@ -23,8 +23,8 @@ public class ComparePriceDataDao extends BaseDaoImpl<ComparePriceData> implement
 
     private String NA = "com.fanqie.dc.dao.IComparePriceDataDao.";
     @Override
-    public int saveComparePrice(ComparePriceDataDto list) {
-        return template.update(NA.concat("saveComparePrice"),list);
+    public int saveComparePrice(ComparePriceDataDto param) {
+        return template.update(NA.concat("saveComparePrice"),param);
     }
 
     @Override

@@ -8,13 +8,11 @@ import com.fanqie.dc.bean.cp.OmsComparePriceInnRoom;
 import com.fanqie.dc.common.Constants;
 import com.fanqie.dc.service.IComparePriceConfService;
 import com.fanqie.dc.service.IComparePriceService;
-import com.fanqie.util.JacksonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.io.IOException;
 
 /**
  * DESC :
