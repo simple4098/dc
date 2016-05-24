@@ -62,6 +62,7 @@ public class InnRoomHelper {
 
     public static List<CrmBangDto> obtCrmBang(Integer innId, Integer roomTypeId, String otaCode) throws Exception{
         String crmUrl = UrlUtil.obtCrmBangUrl(innId,roomTypeId,otaCode);
+        log.info("获取crm绑定关系url:"+crmUrl);
         String roomTypeGets = HttpClientUtil.httpGets(crmUrl, null);
         JSONObject jsonObject = JSONObject.fromObject(roomTypeGets);
         if (TomsConstants.SUCCESS.equals(jsonObject.get("status").toString())) {

@@ -141,6 +141,7 @@
             <property name="checkRoom" value="http://oms.local.fanqiele.com/api/check_room_avail"></property>
             <property name="roomStatus" value="http://oms.local.fanqiele.com/api/queryRoomStatus"></property>
             <property name="crmBangUrl" value="http://crm.local.afanqie.com/compare/price/getData"></property>
+          <!--  <property name="crmBangUrl" value="http://192.168.1.193:8084/compare/price/getData"></property>-->
             <property name="spiderUrl" value="http://192.168.1.111:5000/spi/get_hotel_prize_list"></property>
             <property name="updateOmsPriceRecord" value="http://oms.local.fanqiele.com/price/update_price_record_status_compare"></property>
         </bean>
