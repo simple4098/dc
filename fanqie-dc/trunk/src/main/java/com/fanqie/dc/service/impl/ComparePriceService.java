@@ -77,8 +77,9 @@ public class ComparePriceService implements IComparePriceService {
                 }
             }
             //通知crm 客栈房型改价。
-            MQUtil.send(new NotifyDto(Constants.COMPARE_PRICE_PRICE_AUDIT, JacksonUtil.obj2json(omsComparePriceInnRoom)));
-            logger.info("=================改价监听end=====================");
+            String notifyValue = JacksonUtil.obj2json(omsComparePriceInnRoom);
+            MQUtil.send(new NotifyDto(Constants.COMPARE_PRICE_PRICE_AUDIT, notifyValue));
+            logger.info("=================改价监听end=====================通知json"+notifyValue);
         }
     }
 
