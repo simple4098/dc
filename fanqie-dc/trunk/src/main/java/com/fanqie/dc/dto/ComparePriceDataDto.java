@@ -15,13 +15,14 @@ public class ComparePriceDataDto {
 
     private Integer innId;
 
-    private Date startDate;
+    private String startDate;
 
-    private Date endDate;
+    private String endDate;
 
-    private List<ComparePriceData> list;
+    private List<ComparePriceData> comparePriceDataList;
 
-    private String innCode;
+    private String otaCode;
+
 
     public Integer getInnId() {
         return innId;
@@ -31,35 +32,35 @@ public class ComparePriceDataDto {
         this.innId = innId;
     }
 
-    public Date getStartDate() {
+    public String getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(String startDate) {
         this.startDate = startDate;
     }
 
-    public Date getEndDate() {
+    public String getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Date endDate) {
+    public void setEndDate(String endDate) {
         this.endDate = endDate;
     }
 
-    public List<ComparePriceData> getList() {
-        return list;
+    public List<ComparePriceData> getComparePriceDataList() {
+        return comparePriceDataList;
     }
 
-    public void setList(List<ComparePriceData> list) {
-        this.list = list;
+    public void setComparePriceDataList(List<ComparePriceData> comparePriceDataList) {
+        this.comparePriceDataList = comparePriceDataList;
     }
 
-    public void setInnCode(String innCode) {
-        this.innCode = innCode;
+    public String getOtaCode() {
+        return otaCode;
     }
 
-    public String getInnCode() {
-        return innCode;
+    public void setOtaCode(String otaCode) {
+        this.otaCode = otaCode;
     }
 }

@@ -34,16 +34,24 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <update id="deletedComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
-        update compare_price_date set deleted=1 where inn_id=#{innId} and ota_code='${innCode}' and selling_date BETWEEN '${startDate}' and '${endDate}')
+        update compare_price_date set deleted=1 where inn_id=#{innId} and ota_code='${otaCode}' and selling_date BETWEEN '${startDate}' and '${endDate}'
     </update>
 
-    <insert id="saveComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
-        INSERT INTO compare_price_date(id,inn_id,inn_name,room_type_name,oms_room_type_id,selling_date,selling_price,ota_selling_price,oat_inn_id,oat_inn_name,
-        ota_room_type_id,ota_code,created_date,updated_date,deleted,price_enum)
+    <!--<insert id="saveComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
+        INSERT INTO compare_price_date(id,inn_id,inn_name,room_type_name,oms_room_type_id,selling_date,selling_price,ota_code,created_date,updated_date,deleted)
         VALUES
-        <foreach collection="list" item="acc" separator=",">
-            (#{acc.uuid},#{acc.innId}, #{acc.innName},#{acc.roomTypeName},#{acc.omsRoomTypeId},#{acc.sellingDate},#{acc.sellingPrice},#{acc.otaSellingPrice},
-            #{acc.oatInnId},#{acc.oatInnName},#{acc.otaRoomTypeId},#{acc.otaCode},now(),now(),0,#{acc.priceEnum.name()})
+        <foreach collection="list"  index="index" item="item" separator=",">
+            (#{item.uuid},#{item.innId}, #{item.innName},#{item.roomTypeName},#{item.omsRoomTypeId},#{item.sellingDate},#{item.sellingPrice},
+         #{item.otaCode},now(),now(),0)
+        </foreach>
+    </insert>-->
+    <insert id="saveComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
+        INSERT INTO compare_price_date(id,inn_id,inn_name,room_type_name,oms_room_type_id,selling_date,selling_price,ota_selling_price,ota_inn_id,
+        ota_room_type_id,ota_code,created_date,updated_date,deleted)
+        VALUES
+        <foreach collection="comparePriceDataList"  item="item" separator=",">
+            (#{item.uuid},#{item.innId}, #{item.innName},#{item.roomTypeName},#{item.omsRoomTypeId},#{item.sellingDate},#{item.sellingPrice},#{item.otaSellingPrice},
+            #{item.otaInnId},#{item.otaRoomTypeId},#{item.otaCode},now(),now(),0)
         </foreach>
     </insert>
 

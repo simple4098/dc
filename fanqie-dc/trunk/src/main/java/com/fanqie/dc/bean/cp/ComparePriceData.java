@@ -28,9 +28,9 @@ public class ComparePriceData extends Domain{
     //渠道价格
     private Double otaSellingPrice;
     //渠道客栈id
-    private String oatInnId;
+    private String otaInnId;
     //渠道客栈名
-    private String oatInnName;
+    private String otaInnName;
     //渠道房型id
     private String otaRoomTypeId;
     //渠道id
@@ -52,7 +52,7 @@ public class ComparePriceData extends Domain{
         this.sellingDate = sellingDate;
         this.sellingPrice = sellingPrice;
         this.otaSellingPrice = otaSellingPrice;
-        this.oatInnName = oatInnName;
+        this.otaInnName = oatInnName;
         this.otaRoomTypeId = otaRoomTypeId;
         this.otaCode = otaCode;
     }
@@ -66,12 +66,12 @@ public class ComparePriceData extends Domain{
         this.priceEnum = priceEnum;
     }
 
-    public String getOatInnName() {
-        return oatInnName;
+    public String getOtaInnName() {
+        return otaInnName;
     }
 
-    public void setOatInnName(String oatInnName) {
-        this.oatInnName = oatInnName;
+    public void setOtaInnName(String otaInnName) {
+        this.otaInnName = otaInnName;
     }
 
     public Integer getInnId() {
@@ -130,12 +130,11 @@ public class ComparePriceData extends Domain{
         this.otaSellingPrice = otaSellingPrice;
     }
 
-    public String getOatInnId() {
-        return oatInnId;
+    public String getOtaInnId() {
+        return otaInnId;
     }
-
-    public void setOatInnId(String oatInnId) {
-        this.oatInnId = oatInnId;
+    public void setOtaInnId(String otaInnId) {
+        this.otaInnId = otaInnId;
     }
 
     public String getOtaRoomTypeId() {

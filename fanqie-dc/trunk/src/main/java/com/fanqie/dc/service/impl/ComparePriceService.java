@@ -1,5 +1,7 @@
 package com.fanqie.dc.service.impl;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.TypeReference;
 import com.fanqie.dc.bean.cp.ComparePriceConf;
 import com.fanqie.dc.bean.cp.ComparePriceData;
 import com.fanqie.dc.bean.cp.OmsComparePriceInnRoom;
@@ -58,15 +60,19 @@ public class ComparePriceService implements IComparePriceService {
                         omsComparePriceInnRoom.getInnId(), omsOtaRoomType.getId(), CommonApi.checkRoom, comparePriceConf.getSpiderDay());
                 List<RoomDetail> roomDetail = InnRoomHelper.getRoomDetail(room_type);
                 logger.info("房态信息:"+JacksonUtil.obj2json(roomDetail));
-                //crm绑定关系
-                List<CrmBangDto> crmBangDto = InnRoomHelper.obtCrmBang(omsComparePriceInnRoom.getInnId(), omsOtaRoomType.getRoomTypeId(), comparePriceConf.getOtaCode());
-                if (!CollectionUtils.isEmpty(crmBangDto)){
-                    for (CrmBangDto crmBang:crmBangDto){
-                        //获取spider 去哪儿房价数据
-                        List<SpiderData> spiderData = InnRoomHelper.obtSpider(omsComparePriceInnRoom,crmBang.getChannelRoomTypeId());
-                        //比价
-                        List<ComparePriceData> list = ComparePriceUtil.comparePrice(roomDetail,spiderData,omsOtaRoomType,omsComparePriceInnRoom, comparePriceConf);
-                        updateOrSaveComparePrice(list);
+                logger.info("room_type url :" + room_type);
+                if (!CollectionUtils.isEmpty(roomDetail)){
+                    //crm绑定关系
+                    List<CrmBangDto> crmBangDto = InnRoomHelper.obtCrmBang(omsComparePriceInnRoom.getInnId(), omsOtaRoomType.getRoomTypeId(), comparePriceConf.getOtaCode());
+                    logger.info("获取crm 绑定关系:"+JacksonUtil.obj2json(crmBangDto));
+                    if (!CollectionUtils.isEmpty(crmBangDto)){
+                        for (CrmBangDto crmBang:crmBangDto){
+                            //获取spider 去哪儿房价数据
+                            List<SpiderData> spiderData = InnRoomHelper.obtSpider(omsComparePriceInnRoom,crmBang.getChannelRoomTypeId());
+                            //比价
+                            List<ComparePriceData> list = ComparePriceUtil.comparePrice(roomDetail,spiderData,omsOtaRoomType,omsComparePriceInnRoom, comparePriceConf);
+                            updateOrSaveComparePrice(list);
+                        }
                     }
                 }
             }

@@ -10,6 +10,7 @@ import com.fanqie.dc.dto.SpiderData;
 import com.fanqie.dc.enumeration.ComparePriceEnum;
 import com.fanqie.dc.support.helper.InnRoomHelper;
 import com.fanqie.util.DateUtil;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.util.CollectionUtils;
 
 import java.math.BigDecimal;
@@ -51,11 +52,11 @@ public class ComparePriceUtil {
     public static void comparePriceSpider(List<SpiderData> spiderData,RoomDetail detail,  ComparePriceData comparePriceData,BigDecimal divide ){
         for (SpiderData spider:spiderData){
             if (detail.getRoomDate().equals(spider.getPriceDate())){
+                comparePriceData.setOtaSellingPrice(spider.getPrice().doubleValue());
+                comparePriceData.setOtaRoomTypeId(spider.getRoomTypeId());
+                comparePriceData.setOtaInnId(spider.getHouseId());
                 //true 番茄价格 比 去哪儿 大；true 去哪儿价格比我们高（divide）15%
                 if (compareTo(detail.getRoomPrice(),spider.getPrice()) || compareTo(detail.getRoomPrice(),spider.getPrice(),divide)){
-                    comparePriceData.setOtaSellingPrice(spider.getPrice().doubleValue());
-                    comparePriceData.setOtaRoomTypeId(spider.getRoomTypeId());
-                    comparePriceData.setOatInnName(spider.getHouseName());
                     comparePriceData.setPriceEnum(ComparePriceEnum.PROBLEM);
                 }
             }
@@ -103,13 +104,18 @@ public class ComparePriceUtil {
 
     public static ComparePriceDataDto encapsulation(List<ComparePriceData> list) {
         ComparePriceDataDto comparePriceDataDto = new ComparePriceDataDto();
-        comparePriceDataDto.setList(list);
+        for (ComparePriceData comparePriceData:list){
+            if (comparePriceData.getPriceEnum()==null){
+                comparePriceData.setPriceEnum(ComparePriceEnum.RESOLVED);
+            }
+        }
+        comparePriceDataDto.setComparePriceDataList(list);
         ComparePriceData start = list.get(0);
         ComparePriceData end = list.get(list.size()-1);
-        comparePriceDataDto.setStartDate(start.getSellingDate());
-        comparePriceDataDto.setEndDate(end.getSellingDate());
+        comparePriceDataDto.setStartDate(DateUtil.format(start.getSellingDate(), DateUtil.DATE_CENTER_FROM));
+        comparePriceDataDto.setEndDate(DateUtil.format(end.getSellingDate(), DateUtil.DATE_CENTER_FROM));
         comparePriceDataDto.setInnId(start.getInnId());
-        comparePriceDataDto.setInnCode(start.getOtaCode());
+        comparePriceDataDto.setOtaCode(start.getOtaCode());
         return comparePriceDataDto;
     }
 

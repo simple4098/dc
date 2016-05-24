@@ -1,6 +1,8 @@
 
 package com.test;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.fanqie.dc.bean.cp.ComparePriceConf;
 import com.fanqie.dc.bean.cp.OmsComparePriceInnRoom;
 import com.fanqie.dc.dto.CrmBangDto;
@@ -8,6 +10,7 @@ import com.fanqie.dc.dto.SpiderData;
 import com.fanqie.dc.enumeration.ComparePriceEnum;
 import com.fanqie.dc.service.IComparePriceConfService;
 import com.fanqie.dc.support.helper.InnRoomHelper;
+import com.fanqie.dc.support.resolver.EventResolver;
 import com.fanqie.util.JacksonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -36,6 +39,8 @@ public class CompareTest {
 
     @Resource
     private IComparePriceConfService comparePriceConfService;
+    @Resource
+    private EventResolver eventResolver;
 
     @Test
     public void  testBangCrm(){
@@ -52,7 +57,7 @@ public class CompareTest {
     @Test
     public void testCp(){
         OmsComparePriceInnRoom omsComparePriceInnRoom = new OmsComparePriceInnRoom();
-        omsComparePriceInnRoom.setSpecialStartDate("2016-05-19");
+        omsComparePriceInnRoom.setSpecialStartDate("2016-05-23");
         omsComparePriceInnRoom.setSpecialEndDate("2016-05-29");
         //获取spider 去哪儿房价数据
         try {
@@ -68,6 +73,13 @@ public class CompareTest {
         OmsComparePriceInnRoom omsComparePriceInnRoom = new OmsComparePriceInnRoom();
         omsComparePriceInnRoom.setRecordCode("2016032518460514589027654388");
         InnRoomHelper.updateRecordCode(omsComparePriceInnRoom, ComparePriceEnum.PROBLEM);
+    }
+
+    @Test
+    public void  testPush(){
+        String json = "{\"projectName\":\"oms\",\"bizType\":\"PRICE_AUDIT\",\"content\":{\"innId\":\"49463\",\"accountId\":33557,\"recordCode\":\"2016052018034014637386200411\",\"priceStatus\":\"CHECKED\",\"priceTime\":\"2016-05-20 10:03:41\",\"context\":\"温馨大床房温馨大床房温馨大床房温馨大床房,改价了!时间范围(2016-05-20~2016-05-20)\",\"innName\":\"番茄mumu测试客栈\",\"otaId\":102,\"otaName\":\"代销平台\",\"userCode\":\"DX\",\"specialStartDate\":\"2016-05-24\",\"specialEndDate\":\"2016-05-30\",\"tomatoOmsOtaRoomtypeList\":[{\"primaryKeys\":null,\"id\":115765,\"accountId\":null,\"roomTypeId\":78435,\"sellingPrice\":null,\"initialPrice\":null,\"createAt\":null,\"status\":null,\"roomTypeName\":\"温馨大床房温馨大床房温馨大床房温馨大床房\",\"wgRoomTypeId\":null,\"wgProductIds\":null,\"wgOrderType\":null,\"maxRoomNums\":null}]}}";
+        JSONObject jsonObject = JSON.parseObject(json);
+        eventResolver.pushEvent(jsonObject);
     }
 
 
