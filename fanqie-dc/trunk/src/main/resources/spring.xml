@@ -87,7 +87,7 @@
 	<!--加入数据源配置-->
 	<beans profile="dev">
         <bean id="msgConsumer" class="com.fanqie.dc.listener.MsgConsumer">
-            <constructor-arg name="systemName" value="TOMS_DEV_price_dev"></constructor-arg>
+            <constructor-arg name="systemName" value="TOMS_DEV_price_test_z@"></constructor-arg>
         </bean>
         <!-- 配置多数据源映射关系-->
         <bean id="dynamicDataSource" class="com.fanqie.dc.dao.dynamic.DynamicDataSource">
