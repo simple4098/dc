@@ -24,4 +24,14 @@ public class ComparePriceConfDao extends BaseDaoImpl<ComparePriceConf> implement
     public ComparePriceConf selectComparePriceConf() {
         return template.selectOne(NA.concat("selectComparePriceConf"));
     }
+
+    @Override
+    public ComparePriceConf selectComparePriceConfById(String id) {
+        return template.selectOne(NA.concat("selectComparePriceConfById"),id);
+    }
+
+    @Override
+    public void configUpdate(ComparePriceConf comparePriceConf) {
+        template.update(NA+"configUpdate",comparePriceConf);
+    }
 }
