@@ -14,4 +14,8 @@ public interface IComparePriceConfDao extends IBaseDao<ComparePriceConf> {
     int saveComparePriceConf(ComparePriceConf comparePriceConf);
 
     ComparePriceConf selectComparePriceConf();
+
+    ComparePriceConf selectComparePriceConfById(String id);
+
+    void configUpdate(ComparePriceConf comparePriceConf);
 }

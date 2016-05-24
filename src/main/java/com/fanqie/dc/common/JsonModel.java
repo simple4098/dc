@@ -17,6 +17,14 @@ public class JsonModel {
     private Object obj;
     private String message;
 
+    public JsonModel() {
+    }
+
+    public JsonModel(int status, String message) {
+        this.status = status;
+        this.message = message;
+    }
+
     public int getStatus() {
         return status;
     }

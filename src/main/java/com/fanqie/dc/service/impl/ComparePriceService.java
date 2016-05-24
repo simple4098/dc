@@ -138,8 +138,6 @@ public class ComparePriceService implements IComparePriceService {
         ComparePriceData comparePriceData = comparePriceDataDao.selectInnInfo(priceData);
         List<CrmComparePriceDataDto> list = comparePriceDataDao.selectComparePrice(priceData);
         CrmComparePriceDto priceDto = new CrmComparePriceDto();
-        //TODO 联系电话
-        priceDto.setContact("1528101706");
         priceDto.setInnName(comparePriceData.getInnName());
         priceDto.setCreatedTime(DateUtil.format(comparePriceData.getCreatedDate(),DateUtil.FORMAT_DATE_STR_SECOND));
         priceDto.setPriceDtoList(list);

@@ -25,5 +25,14 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         SELECT  * from compare_price_conf where compare_default=true
     </select>
 
+    <select id="selectComparePriceConfById" resultMap="mapId">
+        SELECT  * from compare_price_conf where id=#{value}
+    </select>
+
+    <update id="configUpdate" parameterType="com.fanqie.dc.bean.cp.ComparePriceConf">
+        update  compare_price_conf set ota_code='${otaCode}',ota_id=#{otaId},percentage=#{percentage},account=#{account},
+        password=#{password} ,spider_day=#{spiderDay}  where id=#{id}
+    </update>
+
 
 </mapper>

@@ -30,4 +30,16 @@ public class ComparePriceConfService implements IComparePriceConfService {
     public ComparePriceConf selectComparePriceConf() {
         return comparePriceConfDao.selectComparePriceConf();
     }
+
+    @DataSource(name = DataSource.CP)
+    @Override
+    public ComparePriceConf selectComparePriceConfById(String id) {
+        return comparePriceConfDao.selectComparePriceConfById(id);
+    }
+    
+    @DataSource(name = DataSource.CP)
+    @Override
+    public void configUpdate(ComparePriceConf comparePriceConf)throws  Exception{
+        comparePriceConfDao.configUpdate(comparePriceConf);
+    }
 }
