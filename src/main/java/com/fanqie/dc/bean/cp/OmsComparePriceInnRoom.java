@@ -21,6 +21,7 @@ public class OmsComparePriceInnRoom {
     private String specialStartDate;
     private String specialEndDate;
     private ComparePriceEnum priceEnum;
+    private String  priceTime;
     private List<OmsOtaRoomType> tomatoOmsOtaRoomtypeList;
 
     public OmsComparePriceInnRoom(String specialStartDate, String specialEndDate) {
@@ -29,6 +30,14 @@ public class OmsComparePriceInnRoom {
     }
 
     public OmsComparePriceInnRoom() {
+    }
+
+    public String getPriceTime() {
+        return priceTime;
+    }
+
+    public void setPriceTime(String priceTime) {
+        this.priceTime = priceTime;
     }
 
     public ComparePriceEnum getPriceEnum() {
