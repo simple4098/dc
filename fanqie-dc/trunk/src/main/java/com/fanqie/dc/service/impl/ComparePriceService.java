@@ -108,7 +108,7 @@ public class ComparePriceService implements IComparePriceService {
                 String endDate = DateUtil.formatDateToString(DateUtil.addDay(new Date(),comparePriceConf.getSpiderDay()),DateUtil.DATE_CENTER_FROM);
                 OmsComparePriceInnRoom omsComparePriceInnRoom = new OmsComparePriceInnRoom();
                 omsComparePriceInnRoom.setSpecialStartDate(startDate);
-                omsComparePriceInnRoom.setSpecialStartDate(endDate);
+                omsComparePriceInnRoom.setSpecialEndDate(endDate);
                 OmsOtaRoomType omsOtaRoomType = null;
                 for (CrmBangDto crmBang:crmBangDto){
                     omsComparePriceInnRoom.setInnId(crmBang.getInnId());
