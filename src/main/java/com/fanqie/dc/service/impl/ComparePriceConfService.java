@@ -4,6 +4,10 @@ import com.fanqie.dc.bean.cp.ComparePriceConf;
 import com.fanqie.dc.dao.IComparePriceConfDao;
 import com.fanqie.dc.dao.dynamic.DataSource;
 import com.fanqie.dc.service.IComparePriceConfService;
+import com.fanqie.util.JacksonUtil;
+import net.rubyeye.xmemcached.MemcachedClient;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -17,8 +21,12 @@ import javax.annotation.Resource;
  */
 @Service
 public class ComparePriceConfService implements IComparePriceConfService {
+    private static final Logger log = LoggerFactory.getLogger(ComparePriceConfService.class);
     @Resource
     private IComparePriceConfDao comparePriceConfDao;
+
+    @Resource
+    private MemcachedClient memcachedClient;
 
     @DataSource(name = DataSource.CP)
     @Override
@@ -40,6 +48,14 @@ public class ComparePriceConfService implements IComparePriceConfService {
     @DataSource(name = DataSource.CP)
     @Override
     public void configUpdate(ComparePriceConf comparePriceConf)throws  Exception{
-        comparePriceConfDao.configUpdate(comparePriceConf);
+        try{
+            //保存配置信息
+            comparePriceConfDao.configUpdate(comparePriceConf);
+            //保存成功后 存到 memcache里面
+            memcachedClient.setWithNoReply(comparePriceConf.getOtaCode(), 30*24 * 60 * 60, JacksonUtil.obj2json(comparePriceConf));
+        }catch (Exception e){
+            log.error("报错配置信息异常",e);
+        }
+
     }
 }
