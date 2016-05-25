@@ -24,22 +24,22 @@ public class ComparePriceDataDao extends BaseDaoImpl<ComparePriceData> implement
     private String NA = "com.fanqie.dc.dao.IComparePriceDataDao.";
     @Override
     public int saveComparePrice(ComparePriceDataDto param) {
-        return template.update(NA.concat("saveComparePrice"),param);
+        return template.update(NA+"saveComparePrice",param);
     }
 
     @Override
     public int deletedComparePrice(ComparePriceDataDto comparePriceData) {
-        return template.update(NA.concat("deletedComparePrice"),comparePriceData);
+        return template.update(NA+"deletedComparePrice",comparePriceData);
     }
 
     @Override
     public List<CrmComparePriceDataDto> selectComparePrice(ComparePriceData priceData) {
-        return template.selectList(NA.concat("selectComparePrice"),priceData);
+        return template.selectList(NA+"selectComparePrice",priceData);
     }
 
     @Override
     public ComparePriceData selectInnInfo(ComparePriceData comparePriceData) {
 
-        return template.selectOne(NA.concat("selectInnInfo"), comparePriceData);
+        return template.selectOne(NA+"selectInnInfo", comparePriceData);
     }
 }

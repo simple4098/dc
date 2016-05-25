@@ -17,7 +17,7 @@ public class ComparePriceConfDao extends BaseDaoImpl<ComparePriceConf> implement
     private String NA = "com.fanqie.dc.dao.IComparePriceConfDao.";
     @Override
     public int saveComparePriceConf(ComparePriceConf comparePriceConf) {
-        return this.template.insert(NA.concat("saveComparePriceConf"),comparePriceConf);
+        return this.template.insert(NA+"saveComparePriceConf",comparePriceConf);
     }
 
     @Override
@@ -27,7 +27,7 @@ public class ComparePriceConfDao extends BaseDaoImpl<ComparePriceConf> implement
 
     @Override
     public ComparePriceConf selectComparePriceConfById(String id) {
-        return template.selectOne(NA.concat("selectComparePriceConfById"),id);
+        return template.selectOne(NA+"selectComparePriceConfById",id);
     }
 
     @Override
