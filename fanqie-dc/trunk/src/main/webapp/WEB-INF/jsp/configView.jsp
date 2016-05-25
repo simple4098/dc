@@ -4,6 +4,9 @@
 <html>
 <head>
     <title>配置信息</title>
+    <link href="<c:url value='/css/bootstrap.min.css'/>" rel="stylesheet"/>
+    <link rel="stylesheet" href="<c:url value='/css/font-awesome.min.css'/>"/>
+    <link rel="stylesheet" type="text/css" href="<c:url value='/css/ace.min.css'/>">
     <script src='/js/jquery-2.0.3.min.js'></script>
 </head>
 <body>
@@ -14,13 +17,7 @@
     <div class="row">
         <div class="col-xs-12">
 
-            <td>OTA_ID</td>
-            <td>OTA_CODE</td>
-            <td>百分比</td>
-            <td>account</td>
-            <td>password</td>
-            <td>是否默认</td>
-            <td>爬虫天数</td>
+
             <form id="form-id-companyId" class="form-horizontal" >
                 <input type="hidden" name="id" value="${data.id}"/>
                 <div class="space-4"></div>
@@ -94,10 +91,8 @@
                 <div class="space-4"></div>
                 <div class="clearfix form-actions">
                     <div class="col-md-offset-3 col-md-9">
-                        &nbsp; &nbsp; &nbsp;
-                        &nbsp; &nbsp; &nbsp;
                         <button class="btn btn-info" type="submit">
-                            <i class="icon-ok bigger-110"></i> 确认
+                             确认
                         </button>
                     </div>
                 </div>
