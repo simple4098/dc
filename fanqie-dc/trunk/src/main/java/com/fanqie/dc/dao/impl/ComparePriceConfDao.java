@@ -31,7 +31,7 @@ public class ComparePriceConfDao extends BaseDaoImpl<ComparePriceConf> implement
     }
 
     @Override
-    public void configUpdate(ComparePriceConf comparePriceConf) {
+    public void configUpdate(ComparePriceConf comparePriceConf) throws Exception{
         template.update(NA+"configUpdate",comparePriceConf);
     }
 }

@@ -34,5 +34,5 @@ public interface IComparePriceConfDao extends IBaseDao<ComparePriceConf> {
      * 更新比价配置
      * @param comparePriceConf
      */
-    void configUpdate(ComparePriceConf comparePriceConf);
+    void configUpdate(ComparePriceConf comparePriceConf)throws Exception;
 }
