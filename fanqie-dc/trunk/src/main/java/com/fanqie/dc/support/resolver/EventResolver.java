@@ -51,6 +51,7 @@ public class EventResolver {
             ComparePriceConf comparePriceConf = null;
             try {
                  String conf  = memcachedClient.get(defaultOta);
+                 log.info("===========获取 memcachedClient ============"+conf);
                  comparePriceConf = JacksonUtil.json2obj(conf,ComparePriceConf.class);
                 if (comparePriceConf==null){
                     comparePriceConf = comparePriceConfService.selectComparePriceConf();
