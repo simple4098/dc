@@ -136,11 +136,14 @@ public class ComparePriceService implements IComparePriceService {
     @Override
     public CrmComparePriceDto findComparePrice(ComparePriceData priceData)throws Exception{
         ComparePriceData comparePriceData = comparePriceDataDao.selectInnInfo(priceData);
-        List<CrmComparePriceDataDto> list = comparePriceDataDao.selectComparePrice(priceData);
-        CrmComparePriceDto priceDto = new CrmComparePriceDto();
-        priceDto.setInnName(comparePriceData.getInnName());
-        priceDto.setCreatedTime(DateUtil.format(comparePriceData.getCreatedDate(),DateUtil.FORMAT_DATE_STR_SECOND));
-        priceDto.setPriceDtoList(list);
-        return priceDto;
+        if (comparePriceData!=null){
+            List<CrmComparePriceDataDto> list = comparePriceDataDao.selectComparePrice(priceData);
+            CrmComparePriceDto priceDto = new CrmComparePriceDto();
+            priceDto.setInnName(comparePriceData.getInnName());
+            priceDto.setCreatedTime(DateUtil.format(comparePriceData.getCreatedDate(),DateUtil.FORMAT_DATE_STR_SECOND));
+            priceDto.setPriceDtoList(list);
+            return priceDto;
+        }
+       return null;
     }
 }
