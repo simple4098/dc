@@ -184,6 +184,12 @@
             <property name="username" value="${staging.crm.username}"/>
             <property name="password" value="${staging.crm.password}"/>
         </bean>
+        <bean id="dataSource-cp" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close" parent="dataSource-template">
+            <property name="url" value="${staging.cp.url}"/>
+            <property name="username" value="${staging.cp.username}"/>
+            <property name="password" value="${staging.cp.password}"/>
+        </bean>
+
         <bean class="com.fanqie.dc.common.CommonApi">
             <property name="checkRoom" value="http://openapi.fanqiele.com/api/check_room_avail"></property>
             <property name="roomStatus" value="http://openapi.fanqiele.com/api/queryRoomStatus"></property>
