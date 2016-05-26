@@ -4,6 +4,7 @@ import com.fanqie.dc.bean.cp.ComparePriceConf;
 import com.fanqie.dc.bean.cp.ComparePriceData;
 import com.fanqie.dc.bean.cp.OmsComparePriceInnRoom;
 import com.fanqie.dc.bean.cp.OmsOtaRoomType;
+import com.fanqie.dc.common.Constants;
 import com.fanqie.dc.dto.ComparePriceDataDto;
 import com.fanqie.dc.dto.RoomDetail;
 import com.fanqie.dc.dto.SpiderData;
@@ -31,10 +32,10 @@ public class ComparePriceUtil {
     public static List<ComparePriceData> comparePrice(List<RoomDetail> roomDetail, List<SpiderData> spiderData,
                                                       OmsOtaRoomType omsOtaRoomType,OmsComparePriceInnRoom omsComparePriceInnRoom,
                                                       ComparePriceConf comparePriceConf) {
-        BigDecimal divide = divide(new BigDecimal(comparePriceConf.getPercentage()), 100);
+        BigDecimal divide = divide(new BigDecimal(comparePriceConf.getPercentage()), Constants.PERCENTAGE);
         List<ComparePriceData> list = new ArrayList<>();
-        //todo
-        if (!CollectionUtils.isEmpty(spiderData)){
+
+        if (!CollectionUtils.isEmpty(roomDetail)){
             ComparePriceData comparePriceData = null;
             for (RoomDetail detail:roomDetail){
                 Date parseDate = DateUtil.parseDate(detail.getRoomDate());
@@ -50,14 +51,16 @@ public class ComparePriceUtil {
 
 
     public static void comparePriceSpider(List<SpiderData> spiderData,RoomDetail detail,  ComparePriceData comparePriceData,BigDecimal divide ){
-        for (SpiderData spider:spiderData){
-            if (detail.getRoomDate().equals(spider.getPriceDate())){
-                comparePriceData.setOtaSellingPrice(spider.getPrice().doubleValue());
-                comparePriceData.setOtaRoomTypeId(spider.getRoomTypeId());
-                comparePriceData.setOtaInnId(spider.getHouseId());
-                //true 番茄价格 比 去哪儿 大；true 去哪儿价格比我们高（divide）15%
-                if (compareTo(detail.getRoomPrice(),spider.getPrice()) || compareTo(detail.getRoomPrice(),spider.getPrice(),divide)){
-                    comparePriceData.setPriceEnum(ComparePriceEnum.PROBLEM);
+        if (!CollectionUtils.isEmpty(spiderData)) {
+            for (SpiderData spider : spiderData) {
+                if (detail.getRoomDate().equals(spider.getPriceDate())) {
+                    comparePriceData.setOtaSellingPrice(spider.getPrice().doubleValue());
+                    comparePriceData.setOtaRoomTypeId(spider.getRoomTypeId());
+                    comparePriceData.setOtaInnId(spider.getHouseId());
+                    //true 番茄价格 比 去哪儿 大；true 去哪儿价格比我们高（divide）15%
+                    if (compareTo(detail.getRoomPrice(), spider.getPrice()) || compareTo(detail.getRoomPrice(), spider.getPrice(), divide)) {
+                        comparePriceData.setPriceEnum(ComparePriceEnum.PROBLEM);
+                    }
                 }
             }
         }

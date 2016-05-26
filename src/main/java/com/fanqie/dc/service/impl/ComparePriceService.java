@@ -57,7 +57,7 @@ public class ComparePriceService implements IComparePriceService {
             for (OmsOtaRoomType omsOtaRoomType:roomTypeList){
                 //获取oms 房态
                 String room_type = DcUtil.omsRoomTypeUrl(comparePriceConf.getAccount(), comparePriceConf.getPassword(), comparePriceConf.getOtaId(),
-                        omsComparePriceInnRoom.getInnId(), omsOtaRoomType.getId(), CommonApi.checkRoom, comparePriceConf.getSpiderDay());
+                        omsComparePriceInnRoom.getInnId(), omsOtaRoomType.getId(), CommonApi.checkRoom,omsComparePriceInnRoom.getSpecialStartDate(),omsComparePriceInnRoom.getSpecialEndDate());
                 List<RoomDetail> roomDetail = InnRoomHelper.getRoomDetail(room_type);
                 logger.info("房态信息:"+JacksonUtil.obj2json(roomDetail));
                 logger.info("room_type url :" + room_type);
@@ -73,6 +73,9 @@ public class ComparePriceService implements IComparePriceService {
                             List<ComparePriceData> list = ComparePriceUtil.comparePrice(roomDetail,spiderData,omsOtaRoomType,omsComparePriceInnRoom, comparePriceConf);
                             updateOrSaveComparePrice(list);
                         }
+                    }else {
+                        List<ComparePriceData> list = ComparePriceUtil.comparePrice(roomDetail,null,omsOtaRoomType,omsComparePriceInnRoom, comparePriceConf);
+                        updateOrSaveComparePrice(list);
                     }
                 }
             }
@@ -137,7 +140,10 @@ public class ComparePriceService implements IComparePriceService {
     public CrmComparePriceDto findComparePrice(ComparePriceData priceData)throws Exception{
         ComparePriceData comparePriceData = comparePriceDataDao.selectInnInfo(priceData);
         if (comparePriceData!=null){
-            List<CrmComparePriceDataDto> list = comparePriceDataDao.selectComparePrice(priceData);
+            String startDate = DateUtil.fromDate(0);
+            String endDate = DateUtil.fromDate(30);
+            ComparePriceDataDto comparePriceDataDto = new ComparePriceDataDto(comparePriceData.getInnId(),comparePriceData.getOtaCode(),startDate,endDate);
+            List<CrmComparePriceDataDto> list = comparePriceDataDao.selectComparePrice(comparePriceDataDto);
             CrmComparePriceDto priceDto = new CrmComparePriceDto();
             priceDto.setInnName(comparePriceData.getInnName());
             priceDto.setCreatedTime(DateUtil.format(comparePriceData.getCreatedDate(),DateUtil.FORMAT_DATE_STR_SECOND));

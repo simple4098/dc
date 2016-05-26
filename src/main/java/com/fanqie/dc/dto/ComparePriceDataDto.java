@@ -24,6 +24,16 @@ public class ComparePriceDataDto {
     private String otaCode;
 
 
+    public ComparePriceDataDto(Integer innId, String otaCode, String startDate, String endDate) {
+        this.innId = innId;
+        this.otaCode = otaCode;
+        this.startDate = startDate;
+        this.endDate = endDate;
+    }
+
+    public ComparePriceDataDto() {
+    }
+
     public Integer getInnId() {
         return innId;
     }

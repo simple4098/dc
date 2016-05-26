@@ -47,16 +47,17 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>-->
     <insert id="saveComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
         INSERT INTO compare_price_date(id,inn_id,inn_name,room_type_name,oms_room_type_id,selling_date,selling_price,ota_selling_price,ota_inn_id,
-        ota_room_type_id,ota_code,created_date,updated_date,deleted)
+        ota_room_type_id,ota_code,created_date,updated_date,deleted,price_enum)
         VALUES
         <foreach collection="comparePriceDataList"  item="item" separator=",">
             (#{item.uuid},#{item.innId}, #{item.innName},#{item.roomTypeName},#{item.omsRoomTypeId},#{item.sellingDate},#{item.sellingPrice},#{item.otaSellingPrice},
-            #{item.otaInnId},#{item.otaRoomTypeId},#{item.otaCode},now(),now(),0)
+            #{item.otaInnId},#{item.otaRoomTypeId},#{item.otaCode},now(),now(),0,#{item.priceEnumValue})
         </foreach>
     </insert>
 
-    <select id="selectComparePrice" parameterType="com.fanqie.dc.bean.cp.ComparePriceData" resultMap="mapCrmId">
-        select * from compare_price_date where deleted=0 and inn_id=#{innId} and ota_code=#{otaCode}
+    <select id="selectComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto" resultMap="mapCrmId">
+        select * from compare_price_date where deleted=0 and inn_id=#{innId} and ota_code=#{otaCode} AND selling_date BETWEEN '2016-05-26' and '2016-05-27'
+        order by selling_date
     </select>
 
     <select id="selectInnInfo" parameterType="com.fanqie.dc.bean.cp.ComparePriceData" resultMap="mapId">

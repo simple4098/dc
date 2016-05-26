@@ -18,5 +18,6 @@ public class Constants {
 	public final static String OMS_MESPRICE_TYPE = "PRICE_AUDIT";
 	public final static String COMPARE_PRICE_PRICE_AUDIT = "COMPARE_PRICE_PRICE_AUDIT";
 	public final static String OMS_PROJECT= "oms";
+	public final static Integer PERCENTAGE= 100;
 
 }

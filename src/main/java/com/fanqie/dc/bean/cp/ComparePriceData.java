@@ -37,6 +37,7 @@ public class ComparePriceData extends Domain{
     private String otaCode;
 
     private ComparePriceEnum priceEnum;
+    private String priceEnumValue;
 
     public ComparePriceData() {
     }
@@ -57,12 +58,22 @@ public class ComparePriceData extends Domain{
         this.otaCode = otaCode;
     }
 
+    public String getPriceEnumValue() {
+        return priceEnumValue;
+    }
+
+    public void setPriceEnumValue(String priceEnumValue) {
+        this.priceEnumValue = priceEnumValue;
+    }
 
     public ComparePriceEnum getPriceEnum() {
         return priceEnum;
     }
 
     public void setPriceEnum(ComparePriceEnum priceEnum) {
+        if (priceEnum!=null){
+            setPriceEnumValue(priceEnum.name());
+        }
         this.priceEnum = priceEnum;
     }
 

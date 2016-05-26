@@ -119,17 +119,13 @@ public class InnRoomHelper {
                     spList.add(spiderData);
                 }
                 return spList;
-                /*String data = jsonObject.getJSONArray("result").toString();
-                if (!StringUtils.isEmpty(data)){
-                    return  JacksonUtil.json2list(jsonObject.getJSONArray("data").toString(), SpiderData.class);
-                }*/
             }
         }
         return null;
     }
 
     public static void updateRecordCode(OmsComparePriceInnRoom omsComparePriceInnRoom, ComparePriceEnum problem) {
-        /*String spiderUrl = UrlUtil.updateRecordCode(omsComparePriceInnRoom, problem);
+        String spiderUrl = UrlUtil.updateRecordCode(omsComparePriceInnRoom, problem);
         try{
             String roomTypeGets = HttpClientUtil.httpGets(spiderUrl, null);
             JSONObject jsonObject = JSONObject.fromObject(roomTypeGets);
@@ -140,7 +136,7 @@ public class InnRoomHelper {
             }
         }catch (Exception e){
             log.error("更新改价记录异常",e);
-        }*/
+        }
 
     }
 }
