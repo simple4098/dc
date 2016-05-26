@@ -33,7 +33,7 @@ public class ComparePriceDataDao extends BaseDaoImpl<ComparePriceData> implement
     }
 
     @Override
-    public List<CrmComparePriceDataDto> selectComparePrice(ComparePriceData priceData) {
+    public List<CrmComparePriceDataDto> selectComparePrice(ComparePriceDataDto priceData) {
         return template.selectList(NA+"selectComparePrice",priceData);
     }
 

@@ -6,17 +6,14 @@ import com.alibaba.fastjson.TypeReference;
 import com.fanqie.dc.bean.cp.ComparePriceConf;
 import com.fanqie.dc.bean.cp.OmsComparePriceInnRoom;
 import com.fanqie.dc.common.Constants;
-import com.fanqie.dc.service.IComparePriceConfService;
 import com.fanqie.dc.service.IComparePriceService;
+import com.fanqie.dc.service.IMemcachedCacheManager;
 import com.fanqie.util.JacksonUtil;
-import net.rubyeye.xmemcached.MemcachedClient;
-import net.rubyeye.xmemcached.exception.MemcachedException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeoutException;
 
 /**
  * DESC :
@@ -31,9 +28,7 @@ public class EventResolver {
     @Resource
     private IComparePriceService comparePriceService;
     @Resource
-    private IComparePriceConfService comparePriceConfService;
-    @Resource
-    private MemcachedClient memcachedClient;
+    private IMemcachedCacheManager memcachedCacheManager;
 
 
     public void pushEvent(JSONObject jsonObject){
@@ -43,22 +38,11 @@ public class EventResolver {
         String sys =  jsonObject.getString("projectName");
         if (Constants.OMS_MESPRICE_TYPE.equals(bizType) && Constants.OMS_PROJECT.equals(sys)){
             log.info("=====监听到改价消息==================参数："+content);
-
             OmsComparePriceInnRoom omsComparePriceInnRoom = JSON.parseObject(content, new TypeReference<OmsComparePriceInnRoom>() {
             });
             //todo 1:查询比价系统的配置信息放在缓存中， 2：客栈id omsRoomTypeId 查询crm 绑定关系  3 根据绑定关系查询 渠道房价信息 4 进行比价
-            String defaultOta = Constants.DEFAULT_OTA;
-            ComparePriceConf comparePriceConf = null;
-            try {
-                 String conf  = memcachedClient.get(defaultOta);
-                 log.info("===========获取 memcachedClient ============"+conf);
-                 comparePriceConf = JacksonUtil.json2obj(conf,ComparePriceConf.class);
-                if (comparePriceConf==null){
-                    comparePriceConf = comparePriceConfService.selectComparePriceConf();
-                }
-            } catch (Exception e) {
-                 comparePriceConf = comparePriceConfService.selectComparePriceConf();
-            }
+            ComparePriceConf comparePriceConf   = memcachedCacheManager.getCache(Constants.DEFAULT_OTA);
+            log.info("===========获取 memcachedClient ============"+JacksonUtil.obj2json(comparePriceConf));
             try {
                 comparePriceService.updateComparePrice(omsComparePriceInnRoom,comparePriceConf);
             } catch (Exception e) {
