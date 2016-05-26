@@ -56,7 +56,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </insert>
 
     <select id="selectComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto" resultMap="mapCrmId">
-        select * from compare_price_date where deleted=0 and inn_id=#{innId} and ota_code=#{otaCode} AND selling_date BETWEEN '2016-05-26' and '2016-05-27'
+        select * from compare_price_date where deleted=0 and inn_id=#{innId} and ota_code=#{otaCode} AND selling_date BETWEEN '${startDate}' and '${endDate}'
         order by selling_date
     </select>
 
