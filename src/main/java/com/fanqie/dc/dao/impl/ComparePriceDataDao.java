@@ -38,6 +38,11 @@ public class ComparePriceDataDao extends BaseDaoImpl<ComparePriceData> implement
     }
 
     @Override
+    public List<ComparePriceData> selectComparePriceType(ComparePriceDataDto comparePriceDataDto) {
+        return template.selectList(NA+"selectComparePriceType",comparePriceDataDto);
+    }
+
+    @Override
     public ComparePriceData selectInnInfo(ComparePriceData comparePriceData) {
 
         return template.selectOne(NA+"selectInnInfo", comparePriceData);

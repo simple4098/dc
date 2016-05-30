@@ -19,6 +19,8 @@ public class ComparePriceDataDto {
 
     private String endDate;
 
+    private String omsRoomTypeId;
+
     private List<ComparePriceData> comparePriceDataList;
 
     private String otaCode;
@@ -32,6 +34,14 @@ public class ComparePriceDataDto {
     }
 
     public ComparePriceDataDto() {
+    }
+
+    public String getOmsRoomTypeId() {
+        return omsRoomTypeId;
+    }
+
+    public void setOmsRoomTypeId(String omsRoomTypeId) {
+        this.omsRoomTypeId = omsRoomTypeId;
     }
 
     public Integer getInnId() {

@@ -11,6 +11,7 @@ import com.fanqie.dc.enumeration.ComparePriceEnum;
 import com.fanqie.dc.service.IComparePriceConfService;
 import com.fanqie.dc.support.helper.InnRoomHelper;
 import com.fanqie.dc.support.resolver.EventResolver;
+import com.fanqie.util.DateUtil;
 import com.fanqie.util.JacksonUtil;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -57,8 +58,8 @@ public class CompareTest {
     @Test
     public void testCp(){
         OmsComparePriceInnRoom omsComparePriceInnRoom = new OmsComparePriceInnRoom();
-        omsComparePriceInnRoom.setSpecialStartDate("2016-05-23");
-        omsComparePriceInnRoom.setSpecialEndDate("2016-05-29");
+        omsComparePriceInnRoom.setSpecialStartDate("2016-05-25");
+        omsComparePriceInnRoom.setSpecialEndDate("2016-06-05");
         //获取spider 去哪儿房价数据
         try {
             List<SpiderData> spiderData = InnRoomHelper.obtSpider(omsComparePriceInnRoom,"573cd69e80fe083e8cf2f697");
@@ -82,6 +83,12 @@ public class CompareTest {
         eventResolver.pushEvent(jsonObject);
     }
 
+    @Test
+    public void testDateUtil(){
+        String startDate = DateUtil.fromDate(0);
+        String endDate = DateUtil.fromDate(30);
+        System.out.println(startDate+endDate);
+    }
 
 
 

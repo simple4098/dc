@@ -36,6 +36,12 @@ public interface IComparePriceDataDao extends IBaseDao<ComparePriceData> {
     List<CrmComparePriceDataDto> selectComparePrice(ComparePriceDataDto comparePriceDataDto);
 
     /**
+     * 根据房型分组查询，该客栈下有多少房型
+     * @param comparePriceDataDto
+     */
+    List<ComparePriceData> selectComparePriceType(ComparePriceDataDto comparePriceDataDto);
+
+    /**
      * 查询比价信息的客栈 名称  时间
      * @param comparePriceData innId 客栈id
      * @param comparePriceData otaId 渠道信息

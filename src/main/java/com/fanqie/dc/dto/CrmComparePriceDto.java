@@ -15,7 +15,17 @@ public class CrmComparePriceDto {
     private String innName;
     private String contact;
     private String createdTime;
-    private List<CrmComparePriceDataDto> priceDtoList;
+
+
+    private List<CrmComparePriceData> roomTypeList;
+
+    public List<CrmComparePriceData> getRoomTypeList() {
+        return roomTypeList;
+    }
+
+    public void setRoomTypeList(List<CrmComparePriceData> roomTypeList) {
+        this.roomTypeList = roomTypeList;
+    }
 
     public String getCreatedTime() {
         return createdTime;
@@ -41,11 +51,5 @@ public class CrmComparePriceDto {
         this.contact = contact;
     }
 
-    public List<CrmComparePriceDataDto> getPriceDtoList() {
-        return priceDtoList;
-    }
 
-    public void setPriceDtoList(List<CrmComparePriceDataDto> priceDtoList) {
-        this.priceDtoList = priceDtoList;
-    }
 }
