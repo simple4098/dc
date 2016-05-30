@@ -141,13 +141,26 @@ public class ComparePriceService implements IComparePriceService {
         ComparePriceData comparePriceData = comparePriceDataDao.selectInnInfo(priceData);
         if (comparePriceData!=null){
             String startDate = DateUtil.fromDate(0);
-            String endDate = DateUtil.fromDate(30);
+            String endDate = DateUtil.fromDate(60);
+            List<CrmComparePriceData> crmComparePriceDataList = new ArrayList<>();
+            List<CrmComparePriceDataDto> list = null;
+            CrmComparePriceData crmComparePriceData = null;
+            String roomTypeName = null;
             ComparePriceDataDto comparePriceDataDto = new ComparePriceDataDto(comparePriceData.getInnId(),comparePriceData.getOtaCode(),startDate,endDate);
-            List<CrmComparePriceDataDto> list = comparePriceDataDao.selectComparePrice(comparePriceDataDto);
+            List<ComparePriceData> omsRooTypeList = comparePriceDataDao.selectComparePriceType(comparePriceDataDto);
+            for (ComparePriceData type:omsRooTypeList){
+                comparePriceDataDto.setOmsRoomTypeId(type.getOmsRoomTypeId());
+                list = comparePriceDataDao.selectComparePrice(comparePriceDataDto);
+                roomTypeName =list!=null?list.get(0).getRoomTypeName():"";
+                crmComparePriceData = new CrmComparePriceData();
+                crmComparePriceData.setRoomTypeName(roomTypeName);
+                crmComparePriceData.setRoomDetail(list);
+                crmComparePriceDataList.add(crmComparePriceData);
+            }
             CrmComparePriceDto priceDto = new CrmComparePriceDto();
             priceDto.setInnName(comparePriceData.getInnName());
-            priceDto.setCreatedTime(DateUtil.format(comparePriceData.getCreatedDate(),DateUtil.FORMAT_DATE_STR_SECOND));
-            priceDto.setPriceDtoList(list);
+            priceDto.setCreatedTime(DateUtil.format(comparePriceData.getCreatedDate(), DateUtil.FORMAT_DATE_STR_SECOND));
+            priceDto.setRoomTypeList(crmComparePriceDataList);
             return priceDto;
         }
        return null;
