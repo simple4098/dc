@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.dao.IOperateTrendDcDao">
+   <resultMap id="mapId" type="com.fanqie.core.domain.OperateTrend">
+        <result column="id" property="id"/>
+        <result column="inn_id" property="innId"/>
+        <result column="name" property="innName"/>
+        <result column="mobile" property="mobile"/>
+        <result column="total_room_num" property="totalRoomNum"/>
+        <result column="real_live_num" property="realLiveNum"/>
+        <result column="total_income" property="totalIncome"/>
+        <result column="empty_room_num" property="emptyRoomNum"/>
+        <result column="create_date" property="createdDate"/>
+        <result column="user_code" property="innCode"/>
+        <result column="live_percent" property="livePercent"/>
+        <result column="avg_price" property="avgPrice"/>
+   </resultMap>
+
+
+
+    <insert id="saveOperateTrend" parameterType="java.util.Map">
+        insert into operate_trend(id,inn_id,inn_name,mobile,create_date,total_income,total_room_num,real_live_num,empty_room_num,avg_price,live_percent,inn_code)
+        values
+        <if test="list.size() > 0">
+            <foreach collection="list" item="v" separator=","  >
+                ( '${v.uuid}',#{v.innId},#{v.innName},'${v.mobile}',#{v.createdDate},#{v.totalIncome},#{v.totalRoomNum},#{v.realLiveNum},#{v.emptyRoomNum},#{v.avgPrice},#{v.livePercent},#{v.innCode})
+            </foreach>
+        </if>
+    </insert>
+    <insert id="saveOperate" parameterType="com.fanqie.core.domain.OperateTrend">
+        insert into operate_trend(id,inn_id,inn_name,mobile,create_date,total_income,total_room_num,real_live_num,empty_room_num,avg_price,live_percent,inn_code)
+        values
+        ( '${uuid}',#{innId},#{innName},'${mobile}',#{createdDate},#{totalIncome},#{totalRoomNum},#{realLiveNum},#{emptyRoomNum},#{avgPrice},#{livePercent},#{innCode})
+    </insert>
+
+    <select id="obtOpeDetail" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapId">
+     SELECT MAX(o.total_income) total_income,
+     MAX(o.total_room_num) total_room_num,
+     MAX(o.real_live_num) real_live_num,
+     AVG(o.avg_price) avg_price,
+     AVG(o.live_percent) live_percent,
+     MAX(o.empty_room_num) empty_room_num,
+     o.create_date from operate_trend  o
+     LEFT JOIN bang_inn b ON b.inn_id = o.inn_id
+     LEFT JOIN user_info u ON u.id = b.user_id
+     LEFT JOIN inn_label lab ON lab.id = b.inn_label_id
+     where b.deleted = 0
+     and o.create_date BETWEEN '${startDate}' AND '${endDate}'
+        <if test="!dataPermission">
+            and b.user_id = '${userId}'
+        </if>
+        <if test="dataPermission">
+            and b.company_id='${companyId}'
+        </if>
+        <if test="tagId!=null and tagId!=''">
+            AND b.inn_label_id ='${tagId}'
+        </if>
+        <if test="innId!=null and innId!=''">
+            AND b.inn_id =#{innId}
+        </if>
+     GROUP BY o.create_date   ORDER  by o.create_date
+    </select>
+
+    <select id="obtGeneralOperateTrend" parameterType="com.fanqie.core.dto.ParamDto" resultMap="mapId">
+       SELECT SUM(oo.total_income) as total_income,SUM(oo.total_room_num) as total_room_num,
+        SUM(oo.real_live_num) as real_live_num,
+        SUM(oo.empty_room_num) as empty_room_num
+         from (
+
+        SELECT o.total_income,o.total_room_num,o.real_live_num,o.avg_price,o.live_percent,o.empty_room_num from operate_trend  o
+        LEFT JOIN bang_inn b ON b.inn_id = o.inn_id
+        LEFT JOIN user_info u ON u.id = b.user_id
+        LEFT JOIN inn_label lab ON lab.id = b.inn_label_id
+        where b.deleted = 0 and o.create_date BETWEEN '${startDate}' AND '${endDate}'
+        <if test="dataPermission==0">
+            and b.user_id = '${userId}'
+        </if>
+        <if test="dataPermission==1">
+            and b.company_id='${companyId}'
+        </if>
+        <if test="tagId!=null and tagId!=''">
+            AND b.inn_label_id ='${tagId}'
+        </if>
+        <if test="innId!=null and innId!=''">
+            AND b.inn_id =#{innId}
+        </if>
+        ) oo
+    </select>
+
+
+
+
+</mapper>

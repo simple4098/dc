@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.fanqie.dc.dao.IComparePriceDataDao">
+
+
+    <resultMap id="mapId" type="com.fanqie.dc.bean.cp.ComparePriceData">
+        <result column="id" property="id"/>
+        <result column="inn_id" property="innId"/>
+        <result column="inn_name" property="innName"/>
+        <result column="room_type_name" property="roomTypeName"/>
+        <result column="oms_room_type_id" property="omsRoomTypeId"/>
+        <result column="selling_date" property="sellingDate"/>
+        <result column="selling_price" property="sellingPrice"/>
+        <result column="ota_selling_price" property="otaSellingPrice"/>
+        <result column="oat_inn_id" property="oatInnId"/>
+        <result column="oat_inn_name" property="oatInnName"/>
+        <result column="ota_room_type_id" property="otaRoomTypeId"/>
+        <result column="ota_code" property="otaCode"/>
+        <result column="deleted" property="deleted"/>
+        <result column="created_date" property="createdDate"/>
+        <result column="updated_date" property="updatedDate"/>
+    </resultMap>
+
+    <resultMap id="mapCrmId" type="com.fanqie.dc.dto.CrmComparePriceDataDto">
+        <result column="room_type_name" property="roomTypeName"/>
+        <result column="selling_date" property="sellingDate"/>
+        <result column="selling_price" property="sellingPrice"/>
+        <result column="ota_selling_price" property="otaSellingPrice"/>
+    </resultMap>
+
+
+
+
+    <update id="deletedComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
+        update compare_price_date set deleted=1 where inn_id=#{innId} and ota_code='${otaCode}' and selling_date BETWEEN '${startDate}' and '${endDate}'
+    </update>
+
+    <!--<insert id="saveComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
+        INSERT INTO compare_price_date(id,inn_id,inn_name,room_type_name,oms_room_type_id,selling_date,selling_price,ota_code,created_date,updated_date,deleted)
+        VALUES
+        <foreach collection="list"  index="index" item="item" separator=",">
+            (#{item.uuid},#{item.innId}, #{item.innName},#{item.roomTypeName},#{item.omsRoomTypeId},#{item.sellingDate},#{item.sellingPrice},
+         #{item.otaCode},now(),now(),0)
+        </foreach>
+    </insert>-->
+    <insert id="saveComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
+        INSERT INTO compare_price_date(id,inn_id,inn_name,room_type_name,oms_room_type_id,selling_date,selling_price,ota_selling_price,ota_inn_id,
+        ota_room_type_id,ota_code,created_date,updated_date,deleted,price_enum)
+        VALUES
+        <foreach collection="comparePriceDataList"  item="item" separator=",">
+            (#{item.uuid},#{item.innId}, #{item.innName},#{item.roomTypeName},#{item.omsRoomTypeId},#{item.sellingDate},#{item.sellingPrice},#{item.otaSellingPrice},
+            #{item.otaInnId},#{item.otaRoomTypeId},#{item.otaCode},now(),now(),0,#{item.priceEnumValue})
+        </foreach>
+    </insert>
+
+    <select id="selectComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto" resultMap="mapCrmId">
+        select * from compare_price_date where deleted=0 and inn_id=#{innId} and ota_code=#{otaCode} AND selling_date BETWEEN '${startDate}' and '${endDate}'
+        order by selling_date
+    </select>
+
+    <select id="selectInnInfo" parameterType="com.fanqie.dc.bean.cp.ComparePriceData" resultMap="mapId">
+         select * from compare_price_date where deleted=0 and inn_id=#{innId} and ota_code='${otaCode}' ORDER BY created_date DESC limit 1
+    </select>
+
+</mapper>

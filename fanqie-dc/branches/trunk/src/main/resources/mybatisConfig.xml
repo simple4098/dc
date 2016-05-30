@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration     
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"     
+    "http://mybatis.org/dtd/mybatis-3-config.dtd">  
+<configuration>
+	<properties>
+		<property name="dialect" value="POSTGRESQL"/>
+	</properties>
+	<!--<plugins>
+		<plugin interceptor="com.fanqie.dc.support.interceptor.PaginationInterceptor"/>
+	</plugins>-->
+	<!--<mappers>-->
+        <!--<mapper resource="pms/mapper/InnCustomerPmsMapper.xml"></mapper>-->
+        <!--<mapper resource="dc/mapper/*.xml"></mapper>-->
+        <!--<mapper resource="oms/mapper/*.xml"></mapper>-->
+        <!--<mapper resource="crm/mapper/*.xml"></mapper>-->
+        <!--<package name="pms/mapper/*.xml"></package>-->
+    <!--</mappers>-->
+</configuration>
+
