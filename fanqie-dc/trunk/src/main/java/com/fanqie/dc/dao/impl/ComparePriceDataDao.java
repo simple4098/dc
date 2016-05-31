@@ -47,4 +47,14 @@ public class ComparePriceDataDao extends BaseDaoImpl<ComparePriceData> implement
 
         return template.selectOne(NA+"selectInnInfo", comparePriceData);
     }
+
+    @Override
+    public ComparePriceData selectComparePriceInnRoomType(ComparePriceData comparePriceData) {
+        return template.selectOne(NA+"selectComparePriceInnRoomType", comparePriceData);
+    }
+
+    @Override
+    public void updateComparePrice(ComparePriceData comparePriceData) {
+        template.update(NA+"updateComparePrice",comparePriceData);
+    }
 }
