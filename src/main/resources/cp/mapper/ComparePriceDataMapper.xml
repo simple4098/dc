@@ -24,7 +24,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </resultMap>
 
     <resultMap id="mapCrmId" type="com.fanqie.dc.dto.CrmComparePriceDataDto">
-        <result column="room_type_name" property="roomTypeName"/>
         <result column="selling_date" property="sellingDate"/>
         <result column="selling_price" property="sellingPrice"/>
         <result column="ota_selling_price" property="otaSellingPrice"/>
@@ -34,7 +33,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 
 
     <update id="deletedComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
-        update compare_price_date set deleted=1 where inn_id=#{innId} and ota_code='${otaCode}' and ota_room_type_id='${omsRoomTypeId}' and selling_date BETWEEN '${startDate}' and '${endDate}'
+        update compare_price_date set deleted=1 where inn_id=#{innId} and ota_code='${otaCode}' and oms_room_type_id='${omsRoomTypeId}' and selling_date BETWEEN '${startDate}' and '${endDate}'
     </update>
 
     <!--<insert id="saveComparePrice" parameterType="com.fanqie.dc.dto.ComparePriceDataDto">
@@ -61,8 +60,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     </select>
 
     <select id="selectComparePriceType" parameterType="com.fanqie.dc.dto.ComparePriceDataDto" resultMap="mapId">
-        select oms_room_type_id from compare_price_date where deleted=0 and inn_id=#{innId} and ota_code=#{otaCode} AND selling_date BETWEEN '${startDate}' and '${endDate}'
-        GROUP BY oms_room_type_id
+        select oms_room_type_id,room_type_name from compare_price_date where deleted=0 and inn_id=#{innId} and ota_code=#{otaCode} AND selling_date BETWEEN '${startDate}' and '${endDate}'
+        GROUP BY oms_room_type_id,room_type_name
     </select>
 
     <select id="selectComparePriceInnRoomType" parameterType="com.fanqie.dc.bean.cp.ComparePriceData"  resultMap="mapId">
