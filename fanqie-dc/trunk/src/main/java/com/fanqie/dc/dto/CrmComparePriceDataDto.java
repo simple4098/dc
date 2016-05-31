@@ -12,8 +12,6 @@ import java.util.Date;
  */
 public class CrmComparePriceDataDto {
 
-    //房型名称
-    private String roomTypeName;
     //销售日期
     private String sellingDate;
     //销售价格
@@ -25,13 +23,7 @@ public class CrmComparePriceDataDto {
     public CrmComparePriceDataDto() {
     }
 
-    public String getRoomTypeName() {
-        return roomTypeName;
-    }
 
-    public void setRoomTypeName(String roomTypeName) {
-        this.roomTypeName = roomTypeName;
-    }
 
     public String getSellingDate() {
         return sellingDate;

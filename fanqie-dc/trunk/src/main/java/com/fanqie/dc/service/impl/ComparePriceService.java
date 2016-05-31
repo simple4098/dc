@@ -91,14 +91,15 @@ public class ComparePriceService implements IComparePriceService {
     @Override
     public void updateOrSaveComparePrice(List<ComparePriceData> list) {
         if (!CollectionUtils.isEmpty(list)){
+            logger.info("============updateOrSaveComparePrice======================");
             ComparePriceData comparePriceData = list.get(0);
             ComparePriceDataDto comparePriceDataDto =ComparePriceUtil.encapsulation(list);
             comparePriceDataDao.deletedComparePrice(comparePriceDataDto);
-            comparePriceData = comparePriceDataDao.selectComparePriceInnRoomType(comparePriceData);
-            if (comparePriceData!=null){
+            comparePriceDataDao.saveComparePrice(comparePriceDataDto);
+            ComparePriceData comparePriceData1 = comparePriceDataDao.selectComparePriceInnRoomType(comparePriceData);
+            if (comparePriceData1!=null){
                 comparePriceDataDao.updateComparePrice(comparePriceData);
             }
-            comparePriceDataDao.saveComparePrice(comparePriceDataDto);
         }
     }
 
@@ -150,15 +151,13 @@ public class ComparePriceService implements IComparePriceService {
             List<CrmComparePriceData> crmComparePriceDataList = new ArrayList<>();
             List<CrmComparePriceDataDto> list = null;
             CrmComparePriceData crmComparePriceData = null;
-            String roomTypeName = null;
             ComparePriceDataDto comparePriceDataDto = new ComparePriceDataDto(comparePriceData.getInnId(),comparePriceData.getOtaCode(),startDate,endDate);
             List<ComparePriceData> omsRooTypeList = comparePriceDataDao.selectComparePriceType(comparePriceDataDto);
             for (ComparePriceData type:omsRooTypeList){
                 comparePriceDataDto.setOmsRoomTypeId(type.getOmsRoomTypeId());
                 list = comparePriceDataDao.selectComparePrice(comparePriceDataDto);
-                roomTypeName =list!=null?list.get(0).getRoomTypeName():"";
                 crmComparePriceData = new CrmComparePriceData();
-                crmComparePriceData.setRoomTypeName(roomTypeName);
+                crmComparePriceData.setRoomTypeName(type.getRoomTypeName());
                 crmComparePriceData.setRoomDetail(list);
                 crmComparePriceDataList.add(crmComparePriceData);
             }

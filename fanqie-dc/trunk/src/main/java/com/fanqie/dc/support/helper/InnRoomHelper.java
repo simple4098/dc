@@ -82,7 +82,7 @@ public class InnRoomHelper {
         return  list;*/
     }
 
-    public static List<SpiderData> obtSpider(OmsComparePriceInnRoom omsComparePriceInnRoom,String channelRoomTypeId) throws Exception {
+    public static List<SpiderData> obtSpider(OmsComparePriceInnRoom omsComparePriceInnRoom,String channelRoomTypeId)  {
         SpiderJson spiderJson = new SpiderJson();
         spiderJson.setBegin_date(omsComparePriceInnRoom.getSpecialStartDate());
         spiderJson.setEnd_date(omsComparePriceInnRoom.getSpecialEndDate());
@@ -92,8 +92,13 @@ public class InnRoomHelper {
         list.add(s1);
         list.add(s2);
         spiderJson.setSearch_condition(list);
-
-        String roomTypeGets = CpHttpClient.httpPost(CommonApi.spiderUrl, spiderJson);
+        String roomTypeGets = null;
+        try{
+            roomTypeGets = CpHttpClient.httpPost(CommonApi.spiderUrl, spiderJson);
+        }catch (Exception e){
+            log.error("获取去哪儿数据异常",e);
+            return null;
+        }
         JSONObject jsonObject = JSONObject.fromObject(roomTypeGets);
         if (Constants.spiderSUCCESS.equals(jsonObject.get("status").toString())) {
             List<JSONObject> o1 = (List)jsonObject.get("result");

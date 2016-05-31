@@ -36,7 +36,6 @@ public class EventResolver {
         String bizType = jsonObject.getString("bizType");
         String content = jsonObject.getString("content");
         String sys =  jsonObject.getString("projectName");
-        log.info("=====比价监听到改价消息内容=================："+jsonObject.toJSONString());
         if (Constants.OMS_MESPRICE_TYPE.equals(bizType) && Constants.OMS_PROJECT.equals(sys)){
             log.info("=====监听到改价消息==================参数："+content);
             OmsComparePriceInnRoom omsComparePriceInnRoom = JSON.parseObject(content, new TypeReference<OmsComparePriceInnRoom>() {
