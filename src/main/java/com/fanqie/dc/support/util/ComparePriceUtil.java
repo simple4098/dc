@@ -118,6 +118,7 @@ public class ComparePriceUtil {
         comparePriceDataDto.setStartDate(DateUtil.format(start.getSellingDate(), DateUtil.DATE_CENTER_FROM));
         comparePriceDataDto.setEndDate(DateUtil.format(end.getSellingDate(), DateUtil.DATE_CENTER_FROM));
         comparePriceDataDto.setInnId(start.getInnId());
+        comparePriceDataDto.setOmsRoomTypeId(start.getOmsRoomTypeId());
         comparePriceDataDto.setOtaCode(start.getOtaCode());
         return comparePriceDataDto;
     }

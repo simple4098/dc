@@ -48,5 +48,15 @@ public interface IComparePriceDataDao extends IBaseDao<ComparePriceData> {
      */
     ComparePriceData selectInnInfo(ComparePriceData comparePriceData);
 
+    /**
+     * 根据酒店、房型id 查询
+     * @param comparePriceData
+     */
+    ComparePriceData selectComparePriceInnRoomType(ComparePriceData comparePriceData);
 
+    /**
+     * 更新之前的房型名称（保证是一直的房型名称）
+     * @param comparePriceData
+     */
+    void updateComparePrice(ComparePriceData comparePriceData);
 }

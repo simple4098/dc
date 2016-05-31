@@ -91,8 +91,13 @@ public class ComparePriceService implements IComparePriceService {
     @Override
     public void updateOrSaveComparePrice(List<ComparePriceData> list) {
         if (!CollectionUtils.isEmpty(list)){
+            ComparePriceData comparePriceData = list.get(0);
             ComparePriceDataDto comparePriceDataDto =ComparePriceUtil.encapsulation(list);
             comparePriceDataDao.deletedComparePrice(comparePriceDataDto);
+            comparePriceData = comparePriceDataDao.selectComparePriceInnRoomType(comparePriceData);
+            if (comparePriceData!=null){
+                comparePriceDataDao.updateComparePrice(comparePriceData);
+            }
             comparePriceDataDao.saveComparePrice(comparePriceDataDto);
         }
     }
