@@ -21,6 +21,8 @@ import com.fanqie.dc.support.util.MQUtil;
 import com.fanqie.util.DateUtil;
 import com.fanqie.util.DcUtil;
 import com.fanqie.util.JacksonUtil;
+import com.fanqie.util.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -52,12 +54,14 @@ public class ComparePriceService implements IComparePriceService {
     public void updateComparePrice( OmsComparePriceInnRoom omsComparePriceInnRoom,ComparePriceConf comparePriceConf) throws Exception {
         logger.info("=================改价监听start=====================");
         logger.info(omsComparePriceInnRoom.getInnId().toString());
+        String specialStartDate = StringUtils.isEmpty(omsComparePriceInnRoom.getSpecialStartDate())?DateUtil.fromDate(0):omsComparePriceInnRoom.getSpecialStartDate();
+        String specialEndDate = StringUtils.isEmpty(omsComparePriceInnRoom.getSpecialEndDate())?DateUtil.fromDate(comparePriceConf.getSpiderDay()):omsComparePriceInnRoom.getSpecialEndDate();
         if (comparePriceConf!=null){
             List<OmsOtaRoomType> roomTypeList = omsComparePriceInnRoom.getTomatoOmsOtaRoomtypeList();
             for (OmsOtaRoomType omsOtaRoomType:roomTypeList){
                 //获取oms 房态
                 String room_type = DcUtil.omsRoomTypeUrl(comparePriceConf.getAccount(), comparePriceConf.getPassword(), comparePriceConf.getOtaId(),
-                        omsComparePriceInnRoom.getInnId(), omsOtaRoomType.getId(), CommonApi.checkRoom,omsComparePriceInnRoom.getSpecialStartDate(),omsComparePriceInnRoom.getSpecialEndDate());
+                        omsComparePriceInnRoom.getInnId(), omsOtaRoomType.getId(), CommonApi.checkRoom,specialStartDate,specialEndDate);
                 List<RoomDetail> roomDetail = InnRoomHelper.getRoomDetail(room_type);
                 logger.info("房态信息:"+JacksonUtil.obj2json(roomDetail));
                 logger.info("room_type url :" + room_type);

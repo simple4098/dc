@@ -42,11 +42,13 @@ public class EventResolver {
             });
             //todo 1:查询比价系统的配置信息放在缓存中， 2：客栈id omsRoomTypeId 查询crm 绑定关系  3 根据绑定关系查询 渠道房价信息 4 进行比价
             ComparePriceConf comparePriceConf   = memcachedCacheManager.getCache(Constants.DEFAULT_OTA);
-            log.info("===========获取 memcachedClient ============"+JacksonUtil.obj2json(comparePriceConf));
-            try {
-                comparePriceService.updateComparePrice(omsComparePriceInnRoom,comparePriceConf);
-            } catch (Exception e) {
-                log.error("比价异常",e);
+            if (omsComparePriceInnRoom!=null && omsComparePriceInnRoom.getOtaId().equals(comparePriceConf.getOtaId())){
+                log.info("===========获取 memcachedClient ============"+JacksonUtil.obj2json(comparePriceConf));
+                try {
+                    comparePriceService.updateComparePrice(omsComparePriceInnRoom,comparePriceConf);
+                } catch (Exception e) {
+                    log.error("比价异常",e);
+                }
             }
         }
 
