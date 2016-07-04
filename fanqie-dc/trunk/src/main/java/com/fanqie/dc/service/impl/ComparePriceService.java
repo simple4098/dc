@@ -126,6 +126,7 @@ public class ComparePriceService implements IComparePriceService {
                     omsComparePriceInnRoom.setInnId(crmBang.getInnId());
                     List<RoomDetail> roomDetail = InnRoomHelper.getRoomDetail(comparePriceConf, crmBang.getInnId(), crmBang.getOtaRoomTypeId(),comparePriceConf.getSpiderDay());
                     omsOtaRoomType = new OmsOtaRoomType(crmBang.getOtaRoomTypeId(),crmBang.getRoomTypeName());
+                    omsOtaRoomType.setRoomTypeId(crmBang.getRoomTypeId());
                     //获取spider 去哪儿房价数据
                     List<SpiderData> spiderData = InnRoomHelper.obtSpider(omsComparePriceInnRoom,crmBang.getChannelRoomTypeId());
                     //比价
