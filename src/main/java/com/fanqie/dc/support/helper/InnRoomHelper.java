@@ -130,18 +130,21 @@ public class InnRoomHelper {
     }
 
     public static void updateRecordCode(OmsComparePriceInnRoom omsComparePriceInnRoom, ComparePriceEnum problem) {
-        String spiderUrl = UrlUtil.updateRecordCode(omsComparePriceInnRoom, problem);
-        try{
-            String roomTypeGets = HttpClientUtil.httpGets(spiderUrl, null);
-            JSONObject jsonObject = JSONObject.fromObject(roomTypeGets);
-            if (TomsConstants.SUCCESS.equals(jsonObject.get("status").toString())) {
-               log.info("更新改价记录成功!!!");
-            }else {
-               log.info("更新改价记录失败!!!");
+        if (StringUtils.isNotEmpty(omsComparePriceInnRoom.getRecordCode())){
+            String spiderUrl = UrlUtil.updateRecordCode(omsComparePriceInnRoom, problem);
+            try{
+                String roomTypeGets = HttpClientUtil.httpGets(spiderUrl, null);
+                JSONObject jsonObject = JSONObject.fromObject(roomTypeGets);
+                if (TomsConstants.SUCCESS.equals(jsonObject.get("status").toString())) {
+                    log.info("更新改价记录成功!!!");
+                }else {
+                    log.info("更新改价记录失败!!!");
+                }
+            }catch (Exception e){
+                log.error("更新改价记录异常",e);
             }
-        }catch (Exception e){
-            log.error("更新改价记录异常",e);
         }
+
 
     }
 }
