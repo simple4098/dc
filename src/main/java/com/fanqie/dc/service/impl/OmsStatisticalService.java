@@ -1,11 +1,15 @@
 package com.fanqie.dc.service.impl;
 
 import com.fanqie.dc.bean.HouseTypeNumber;
+import com.fanqie.dc.bean.RoomNightNumber;
 import com.fanqie.dc.dao.IOmsHouseTypeNumberDao;
+import com.fanqie.dc.dao.IOmsOrderDao;
 import com.fanqie.dc.dao.dynamic.DataSource;
-import com.fanqie.dc.service.IOmsHouseTypeService;
+import com.fanqie.dc.service.IOmsStatisticalService;
 import com.fanqie.dc.support.util.CommonUtil;
 import com.fanqie.dc.support.util.JodaTimeUtil;
+import com.fanqie.util.DateUtil;
+
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,11 +20,13 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class OmsHouseTypeService implements IOmsHouseTypeService {
+public class OmsStatisticalService implements IOmsStatisticalService {
 	
 	@Autowired
-	IOmsHouseTypeNumberDao houseTypeNumberDao;
-	Logger logger=Logger.getLogger(OmsHouseTypeService.class);
+	private IOmsHouseTypeNumberDao houseTypeNumberDao;
+	@Autowired
+	private IOmsOrderDao omsOrderDao;
+	Logger logger=Logger.getLogger(OmsStatisticalService.class);
     
 	@DataSource(name = DataSource.OMS)
 	@Override
@@ -55,6 +61,22 @@ public class OmsHouseTypeService implements IOmsHouseTypeService {
 		}
 		CommonUtil.setSuccessInfo(result);
 		return result;
+	}
+	 
+	@DataSource(name = DataSource.OMS)
+	@Override
+	public List<RoomNightNumber> getRoomNightNumber(Date nowDate) {
+		return omsOrderDao.getRoomNightNumber(nowDate);
+	}
+
+	@DataSource(name = DataSource.CRM)
+	@Override
+	public void addRoomNightNumberToCrm(List<RoomNightNumber> list, Date nowDate) {
+		if(list.size() == 0){
+			return;
+		}
+		omsOrderDao.deleteCrmRoomNightNumberData(nowDate);
+		omsOrderDao.addRoomNightNumberToCrm(list, nowDate);
 	}
 
 }

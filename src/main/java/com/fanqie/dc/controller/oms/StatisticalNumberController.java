@@ -1,13 +1,15 @@
 package com.fanqie.dc.controller.oms;
 
 import com.fanqie.dc.bean.HouseTypeNumber;
-import com.fanqie.dc.service.IOmsHouseTypeService;
+import com.fanqie.dc.service.IOmsStatisticalService;
+import com.fanqie.dc.support.Thread.RoomNightNumberThread;
 import com.fanqie.dc.support.util.CommonUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.HashMap;
@@ -15,18 +17,18 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * DESC : oms客栈可卖房型数量统计
+ * DESC : oms客栈数据统计
  * @author : xiong
  * @data : 2016/1/22
  * @version: v1.0.0
  */
 @Controller
 @RequestMapping("/number")
-public class HouseTypeNumberController {
-	private static Logger logger = LoggerFactory.getLogger(HouseTypeNumberController.class);
+public class StatisticalNumberController {
+	private static Logger logger = LoggerFactory.getLogger(StatisticalNumberController.class);
 
 	@Autowired
-	private IOmsHouseTypeService service;
+	private IOmsStatisticalService service;
 	
 	@RequestMapping("/housetype")
     @ResponseBody
@@ -45,5 +47,16 @@ public class HouseTypeNumberController {
         }
         return result;
     }
+	
+	@RequestMapping("/roomNight")
+	@ResponseBody
+	public Object statisticalRoomNightNumber(@RequestParam(required = false) String nowDate) {
+		logger.info("====Began to statistical number of room nights=====. Parameter : nowDate = " + nowDate);
+		Map<String, Object> result = new HashMap<>();
+		RoomNightNumberThread thread = new RoomNightNumberThread(nowDate, service);
+		thread.start();
+		CommonUtil.setSuccessInfo(result);
+		return result;
+	}
 
 }

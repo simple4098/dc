@@ -72,5 +72,18 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
                 updated_at = now(),
         </set>
     </sql>
-
+	
+	<insert id="addRoomNightNumberToCrm" parameterType="java.util.Map">
+		insert into 
+			tomato_crm_room_night_number(pms_inn_id,number,create_at)
+		values
+		<foreach collection="list" item="item" separator=",">
+			(#{item.pmsInnId},#{item.roomNightNumber},#{nowDate})
+		</foreach>
+	</insert>
+	
+	<delete id="deleteCrmRoomNightNumberData" parameterType="java.util.Map">
+		delete from tomato_crm_room_night_number
+		where create_at = #{nowDate}
+	</delete>
 </mapper>
