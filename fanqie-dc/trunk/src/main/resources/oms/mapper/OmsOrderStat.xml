@@ -73,5 +73,29 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         ) as foo
         group by pmsInnId
     </select>
-
+	<select id="getRoomNightNumber" parameterType="java.util.Map" resultType="com.fanqie.dc.bean.RoomNightNumber">
+		select 
+			step1.inn_id as pmsInnId,
+			sum(step1.roomNightNumber) as roomNightNumber
+		from (
+			SELECT
+				o2.inn_id,
+        		sum(date_part('day',o.check_out_at::timestamp -  o.check_in_at)::int * o.room_type_nums) as roomNightNumber
+       		FROM
+        		tomato_channel_order o
+	        INNER JOIN tomato_channel_main_order o2 ON o2. ID = o.main_id
+	        where
+	          <!--  o2.status = '1'
+	           AND --> o2.channel_id IN (
+	               SELECT i.ota_id 
+	               FROM tomato_oms_ota_info i
+	               WHERE i.pid = 102
+	                   AND i.pid != i.ota_id
+	           )
+	        GROUP BY o2."id",o2.inn_id
+	        HAVING
+	       		MAX (o.check_out_at) = #{nowDate}
+		) step1
+		group by pmsInnId
+	</select>
 </mapper>
