@@ -66,7 +66,7 @@ public class OmsStatisticalService implements IOmsStatisticalService {
 	@DataSource(name = DataSource.OMS)
 	@Override
 	public List<RoomNightNumber> getRoomNightNumber(Date nowDate) {
-		return omsOrderDao.getRoomNightNumber(nowDate);
+		return omsOrderDao.getRoomNightNumber(DateUtil.format(nowDate));
 	}
 
 	@DataSource(name = DataSource.CRM)
