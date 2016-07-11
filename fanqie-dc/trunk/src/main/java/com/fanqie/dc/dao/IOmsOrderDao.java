@@ -35,10 +35,10 @@ public interface IOmsOrderDao extends IBaseDao<OrderStat>{
     /**
      * oms库 
      * 获取客栈某天的间夜数
-     * @param date
+     * @param nowDate
      * @return
      */
-	List<RoomNightNumber> getRoomNightNumber(Date date);
+	List<RoomNightNumber> getRoomNightNumber(String nowDate);
 
 	/**
 	 * crm库

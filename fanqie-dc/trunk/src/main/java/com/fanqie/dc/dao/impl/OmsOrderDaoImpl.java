@@ -35,7 +35,7 @@ public class OmsOrderDaoImpl extends BaseDaoImpl<OrderStat> implements IOmsOrder
     }
 
 	@Override
-	public List<RoomNightNumber> getRoomNightNumber(Date nowDate) {
+	public List<RoomNightNumber> getRoomNightNumber(String nowDate) {
 		Map<String,Object> map = new HashMap<>();
         map.put("nowDate", nowDate);
 		return template.selectList(OMS_NS + ".getRoomNightNumber", map);
